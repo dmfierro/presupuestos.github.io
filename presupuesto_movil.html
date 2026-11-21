@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Presupuestos">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#16395a">
+<meta name="format-detection" content="telephone=no">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAACfElEQVR42u3dsU1DQRBF0e8v9+GcBuiCRqiAQijKDbgeIjILCdDuzr45Nyayjt4sAsTl9vZxSM86fQSCQ3AIDsEhOASH4BAcgkNwSHAIDsEhOASH4BAcgkNwCA7pu6uP4G893u8/f8HL56vlIMNZ0W8KmA04zAYcZMBRREbGTYFDcDgocFSQEXNT4BAcDgocy2Uk3RQ4BIeDAsdaGWE3BQ6bAYfgWDgbeTcFDgcFDsGxajYibwocDgocgmPJbKTeFDgcFDjIgGN+wTcFDrMBBxlwuClwmA04yIDDTYHDbMBBBhzNZXS4Kd4cgsNBgWOOjCY3xVlRexwOChwzZPS5Kfk4bAYcgmP1bLS6Kck4HBQ4BEeB2eh2UzJxOChwCI4as9HwpqThcFDgIAOOMvW8KUfMf4ccOhtzNqkgwZMM4+SsqB8OswEHGXD4PggOs+HNQcbGs7ErDjLg8NSAw1MDDjL2mg1nhYwUHLvPxnY/3T3JkLNiNkJxOChwOChw+N4VDh2b//5paRyeGmu7dv5wvWacFbMBR6XZyPhTF8tBBhyCw2zAUfTBEfZXtZZDcDgocJABBxlwbPUahUNdZgMOMuAgAw4PDjjMBhxkwEEGHB4ccJgNOMiAQ86KzEZzHP95jfpnPCIDDsFhNuAY+ODoLMNykAGH4DAbcJABx6LXKBmWQ3A4KHCQAcfwB4csh9mAgww4yIBDcMx9jZoNy0EGHGTAITgGPjjMhuUgAw7BYTbgGPjgIAMOmwGH4DAbcJABx/TXKBlwCA4HBQ4y4Bj44CADDsHhoMBBBhyCQ3AIDsEhwSE4BIfgEByCQ3AIDsEhOCQ4BIfgEByCQ0v7Ak2t3dLOFLMGAAAAAElFTkSuQmCC">
+<title>Presupuestos de vivienda</title>
+<style>
+:root{color-scheme:light dark;--bg:#f2f4f7;--card:#fff;--ink:#17202a;--mut:#627184;--line:#dbe1e8;--acc:#1f4e79;--on:#fff;--warn:#9a4a00;--ok:#1d6b3c;--hd:#16395a}
+@media (prefers-color-scheme:dark){:root{--bg:#0f141a;--card:#19212b;--ink:#e8edf2;--mut:#98a6b6;--line:#2b3644;--acc:#5b9bd5;--on:#0b1522;--warn:#e0a458;--ok:#6fcf97;--hd:#16273a}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 -apple-system,system-ui,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;touch-action:manipulation;overscroll-behavior-y:none}
+header{position:sticky;top:0;z-index:5;background:var(--hd);color:#fff;padding:calc(env(safe-area-inset-top) + 10px) 16px 10px;font-weight:600;font-size:1.05rem}
+main{padding:14px 14px calc(150px + env(safe-area-inset-bottom))}
+.v{display:none}.v.on{display:block}
+h3{font-size:1rem;margin:22px 0 8px}
+.mut{color:var(--mut);font-size:.88rem;margin:6px 0}
+input,select,button{font:inherit;font-size:16px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;min-height:44px;padding:8px 10px;min-width:0}
+input,select{width:100%}
+button{cursor:pointer}
+button:active{opacity:.7}
+:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+label{display:flex;flex-direction:column;gap:4px;font-size:.85rem;color:var(--mut)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.chips button{flex:none;border-radius:22px;background:var(--acc);color:var(--on);border-color:var(--acc);font-weight:600}
+.room{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0}
+.rh{display:flex;gap:8px}.rh select{font-weight:600}
+.rr{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.step{display:flex;gap:6px}.step input{text-align:center;flex:1}.step button{width:46px;flex:none;font-size:1.3rem;padding:0}
+.pts{margin:8px 0 0;font-size:.85rem;color:var(--mut)}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card)}
+.seg button{flex:1;border:0;border-radius:0;background:transparent}
+.seg button.on{background:var(--acc);color:var(--on);font-weight:600}
+.f{margin:12px 0}.f>span{display:block;font-size:.85rem;color:var(--mut);margin-bottom:4px}
+.sw{display:flex;justify-content:space-between;align-items:center;min-height:48px;border-bottom:1px solid var(--line);font-size:1rem;color:var(--ink)}
+.sw input{appearance:none;-webkit-appearance:none;width:51px;height:31px;min-height:0;border-radius:16px;background:var(--line);border:0;position:relative;padding:0;transition:background .2s;flex:none}
+.sw input::after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;transition:transform .2s}
+.sw input:checked{background:var(--ok)}.sw input:checked::after{transform:translateX(20px)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#aviso{font-weight:600;margin:12px 0}
+.warn{color:var(--warn)}.ok{color:var(--ok)}
+details{margin-top:18px;border-top:1px solid var(--line);padding-top:10px}summary{font-weight:600;min-height:44px;display:flex;align-items:center}
+.pi{border-bottom:1px solid var(--line);padding:10px 0}.pi b{margin-right:6px}
+.g4{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.ln{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+.ln small{display:block;color:var(--mut)}.ln>b{white-space:nowrap;font-weight:600}
+.sec{margin:18px 0 4px;font-weight:700}
+.sub{display:flex;justify-content:space-between;padding:8px 0;font-weight:700}
+.tot div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)}
+.tot .g{font-size:1.3rem;font-weight:700;border:0;padding-top:12px}
+.act{display:grid;gap:10px;margin-top:16px}.act button{background:var(--acc);color:var(--on);border-color:var(--acc);font-weight:600}
+.act button.s{background:transparent;color:var(--ink);border-color:var(--line)}
+#dock{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.strip{display:flex;justify-content:space-between;align-items:baseline;padding:8px 16px 2px;font-size:.85rem;color:var(--mut)}.strip b{color:var(--ink);font-size:1.15rem}
+nav{display:flex}nav button{flex:1;border:0;border-radius:0;background:transparent;min-height:52px;color:var(--mut);font-size:.82rem;font-weight:600}
+nav button.on{color:var(--acc)}
+@media print{#dock,header,button,.chips,.act{display:none!important}.v{display:none!important}#v2{display:block!important}body{background:#fff;color:#000}main{padding:0}}
+</style>
+</head>
+<body>
+<header>Presupuestos de vivienda</header>
+<main>
+<section class="v on" id="v0">
+<p class="mut">Pulsa para añadir cada estancia. Los puntos mínimos salen de la ITC-BT-25.</p>
+<div class="chips" id="chips"></div>
+<div id="rl"></div>
+<p class="mut" id="rs"></p>
+</section>
+
+<section class="v" id="v1">
+<h3>Presupuesto</h3>
+<div id="datos"></div>
+<h3>Instalación</h3>
+<div class="f"><span>Grado de electrificación</span><div class="seg" data-k="grado"></div></div>
+<div class="f"><span>Gama de mecanismos</span><div class="seg" data-k="gama"></div></div>
+<div class="f"><span>IVA</span><div class="seg" data-k="iva"></div></div>
+<div id="sw"></div>
+<p id="aviso"></p>
+<h3>Precio</h3>
+<div class="g2" id="nums"></div>
+<details><summary>Precios de partida</summary>
+<p class="mut">Coste = material + horas × tarifa de mano de obra. El suplemento se suma en gama media o alta. Valores de partida: sustitúyelos por tus costes.</p>
+<div id="ib"></div></details>
+<details><summary>Líneas de circuito</summary>
+<p class="mut">Cable y tubo desde el cuadro, en € por metro y por sección.</p>
+<div id="lb"></div>
+<p class="mut">Metros por circuito = circuitos × factor × m² de vivienda.</p>
+<div id="cb"></div></details>
+<div class="act"><button class="s" id="nuevo" type="button">Nuevo presupuesto</button><button class="s" id="rest" type="button">Restablecer precios</button></div>
+</section>
+
+<section class="v" id="v2">
+<div id="pl"></div>
+<h3>Partidas adicionales</h3>
+<p class="mut">Alarmas, ayudas de albañilería u otros. Precio final por unidad.</p>
+<div id="xb"></div>
+<h3>Totales</h3>
+<div class="tot" id="tot"></div>
+<p class="mut" id="ref"></p>
+<div class="act"><button id="share" type="button">Compartir resumen</button><button class="s" id="pr" type="button">Imprimir o guardar en PDF</button></div>
+</section>
+</main>
+
+<div id="dock">
+<div class="strip"><span>Total con IVA</span><b id="b2"></b><span id="b3"></span></div>
+<nav><button class="on" data-tab="0" type="button">Vivienda</button><button data-tab="1" type="button">Ajustes</button><button data-tab="2" type="button">Presupuesto</button></nav>
+</div>
+
+<script>
+//CALC-START
+const TIPOS=["Acceso","Vestíbulo","Salón","Dormitorio","Baño","Pasillo","Cocina","Terraza / vestidor","Garaje / otros"];
+const DEF={"Acceso":[2,0],"Vestíbulo":[4,0],"Salón":[20,0],"Dormitorio":[10,0],"Baño":[4,0],"Pasillo":[6,6],"Cocina":[9,0],"Terraza / vestidor":[8,0],"Garaje / otros":[15,0]};
+const PR=[
+["E01","Cuadro general de mando y protección (envolvente, IGA, ICP y sobretensiones)",200,3.5,0,0],
+["E02","Interruptor diferencial 30 mA (uno por cada 5 circuitos)",60,.5,0,0],
+["E03","Interruptor magnetotérmico (PIA) por circuito",12,.5,0,0],
+["E04","Punto de luz (derivación, caja y portalámparas)",16,.8,0,0],
+["E05","Interruptor o conmutador 10 A",7,.5,6,15],
+["E06","Base 16 A 2p+T, circuito C2",12,.8,6,15],
+["E07","Base 16 A 2p+T, circuitos C4 y C5",12,.8,6,15],
+["E08","Base 25 A 2p+T, circuito C3 (cocina y horno)",30,1.2,6,15],
+["E09","Pulsador de timbre",10,.8,6,15],
+["E10","Toma de calefacción eléctrica (C8)",20,1.2,0,0],
+["E11","Toma de aire acondicionado (C9)",20,1.2,0,0],
+["E12","Base 16 A secadora independiente (C10)",12,.8,6,15],
+["E13","Certificado de instalación eléctrica (CIE)",0,6.5,0,0],
+["T01","Registro de terminación de red (RTR) equipado",150,2.5,0,0],
+["T02","Toma de TV/FM (RTV) con cable coaxial",14,.9,6,15],
+["T03","Toma de voz y datos RJ-45 categoría 6",16,.7,6,15]];
+const LN=[[1.5,1.9,.05],[2.5,2.7,.05],[4,3.8,.05],[6,5.2,.05]];
+const CF=[["C1","Iluminación",1.5,.30],["C2","Tomas de uso general y frigorífico",2.5,.40],["C3","Cocina y horno",6,.15],["C4","Lavadora, lavavajillas y termo",4,.15],["C5","Baños y auxiliares de cocina",2.5,.15],["C6","Adicional tipo C1",1.5,.30],["C7","Adicional tipo C2",2.5,.40],["C8","Calefacción eléctrica",6,.30],["C9","Aire acondicionado",6,.30],["C10","Secadora independiente",2.5,.15],["C11","Automatización y seguridad",1.5,.25],["C12","Adicionales de C3, C4 o C5",2.5,.15],["C13","Recarga de vehículo eléctrico",6,.20]];
+const EJ=[["Acceso",2,0],["Vestíbulo",4,0],["Salón",22,0],["Cocina",9,0],["Baño",5,0],["Baño",4,0],["Dormitorio",12,0],["Dormitorio",10,0],["Dormitorio",9,0],["Pasillo",7,7]];
+const st={emp:"DMF Control y Sistemas",cli:"",dir:"",num:"",grado:"Básica",gama:"Básica",calef:"No",aa:"No",sec:"No",dom:"No",ve:"No",c12:0,iva:10,mar:15,tar:31,dto:0,
+rooms:EJ.map(a=>({t:a[0],s:a[1],l:a[2]})),ex:[{d:"Sistema de alarma",q:1,p:0},{d:"",q:0,p:0},{d:"",q:0,p:0}]};
+function calc(){
+ const el=st.grado==="Elevada",Y=k=>st[k]==="Sí";
+ const R=st.rooms.map(r=>{const t=r.t,s=+r.s||0,l=+r.l||0,coc=t==="Cocina";
+  const luz=t==="Acceso"?0:(t==="Vestíbulo"||t==="Baño")?1:t==="Pasillo"?Math.max(1,Math.ceil(l/5)):(s>10?2:1);
+  let c2=0;
+  if(t==="Vestíbulo")c2=1;else if(t==="Salón"||t==="Dormitorio")c2=Math.max(3,Math.ceil(s/6));else if(t==="Pasillo")c2=l>5?2:1;else if(t==="Cocina")c2=2;else if(t==="Terraza / vestidor"||t==="Garaje / otros")c2=s>10?2:1;
+  return {luz,int:luz,c2,c4:coc?3:0,c5:t==="Baño"?1:coc?3:0,c3:coc?1:0,tim:t==="Acceso"?1:0,
+   c8:el&&Y("calef")&&["Salón","Dormitorio","Baño","Cocina","Pasillo","Vestíbulo"].includes(t)?1:0,
+   c9:el&&Y("aa")&&(t==="Salón"||t==="Dormitorio")?1:0,
+   tv:["Salón","Dormitorio","Cocina"].includes(t)?1:0};});
+ const sum=k=>R.reduce((a,r)=>a+r[k],0);
+ const S=st.rooms.reduce((a,r)=>a+(+r.s||0),0);
+ const luz=sum("luz"),c2=sum("c2"),c5=sum("c5");
+ const n=[1,1,1,1,1,
+  el?Math.max(0,Math.ceil(luz/30)-1):0,
+  el?Math.max(Math.max(0,Math.ceil(c2/20)-1),S>160?1:0):0,
+  el&&Y("calef")?1:0,el&&Y("aa")?1:0,el&&Y("sec")?1:0,el&&Y("dom")?1:0,
+  el?(+st.c12||0)+Math.max(0,Math.ceil(c5/6)-1):0,el&&Y("ve")?1:0];
+ const nT=n.reduce((a,b)=>a+b,0),dif=Math.ceil(nT/5);
+ const min=(S>160||luz>30||c2>20||Y("calef")||Y("aa")||Y("sec")||Y("dom")||(+st.c12)>0||Y("ve")||c5>6)?"Elevada":"Básica";
+ const metros=CF.map((c,i)=>n[i]*Math.round(c[3]*S));
+ const euM=CF.map(c=>{const l=LN.find(x=>x[0]==c[2]);return l?l[1]+l[2]*st.tar:0;});
+ const mT=metros.reduce((a,b)=>a+b,0),eT=metros.reduce((a,m,i)=>a+m*euM[i],0);
+ const f=1+st.mar/100;
+ const cu=it=>(it[2]+it[3]*st.tar+(st.gama==="Media"?it[4]:st.gama==="Alta"?it[5]:0))*f;
+ const q=[1,dif,nT,luz,sum("int"),c2,sum("c4")+c5,sum("c3"),sum("tim"),sum("c8"),sum("c9"),n[9],1];
+ const el_rows=PR.slice(0,13).map((it,i)=>[it[0],it[1],q[i],cu(it)]);
+ el_rows.push(["E14","Líneas de circuito: cable, tubo y canalización desde el cuadro (m)",mT,mT?eT/mT*f:0]);
+ const tv=sum("tv");
+ const te_rows=[[PR[13],1],[PR[14],tv],[PR[15],tv]].map(([it,c])=>[it[0],it[1],c,cu(it)]);
+ const tot=rows=>rows.reduce((a,r)=>a+r[2]*r[3],0);
+ const sEl=tot(el_rows),sTe=tot(te_rows),sEx=st.ex.reduce((a,x)=>a+(+x.q||0)*(+x.p||0),0);
+ const sum1=sEl+sTe+sEx,dto=-sum1*st.dto/100,base=sum1+dto,iva=base*st.iva/100;
+ const m2=S>0?(sEl+sTe)*(1-st.dto/100)/S:0;
+ const ref=el?[73,100]:[48,80];
+ return {R,S,n,nT,dif,min,metros,mT,el_rows,te_rows,sEl,sTe,sEx,sum1,dto,base,iva,total:base+iva,m2,ref};
+}
+//CALC-END
+const $=s=>document.querySelector(s);
+const eur=n=>new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"}).format(n||0);
+const nf=n=>new Intl.NumberFormat("es-ES",{maximumFractionDigits:2}).format(n||0);
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+const KEY="presupuestosVivienda1",INIT=JSON.stringify({st,PR,LN,CF});
+function save(){try{localStorage.setItem(KEY,JSON.stringify({st,PR,LN,CF}));}catch(e){}}
+function load(s){try{if(!s)return;Object.assign(st,s.st);s.PR.forEach((p,i)=>PR[i]=p);s.LN.forEach((p,i)=>LN[i]=p);s.CF.forEach((p,i)=>CF[i]=p);}catch(e){}}
+try{load(JSON.parse(localStorage.getItem(KEY)||"null"));}catch(e){}
+const num=(a,v,k,w)=>`<input type="number" inputmode="decimal" step="any" min="0" ${a}="${k}" value="${v}">`;
+function seg(k,opts){document.querySelector(`.seg[data-k="${k}"]`).innerHTML=opts.map(o=>`<button type="button" data-v="${o}" class="${String(st[k])===String(o)?"on":""}">${k==="iva"?o+" %":o}</button>`).join("");}
+function build(){
+ $("#chips").innerHTML=TIPOS.map(t=>`<button type="button" data-add="${t}">+ ${t.split(" ")[0]}</button>`).join("");
+ $("#datos").innerHTML=[["emp","Empresa"],["cli","Cliente"],["dir","Dirección de la vivienda"],["num","Nº de presupuesto"]].map(([k,l])=>`<label class="f">${l}<input data-k="${k}" value="${esc(st[k])}"></label>`).join("");
+ $("#sw").innerHTML=[["calef","Calefacción eléctrica"],["aa","Aire acondicionado"],["sec","Secadora independiente"],["dom","Automatización o seguridad"],["ve","Recarga de vehículo eléctrico"]].map(([k,l])=>`<label class="sw">${l}<input type="checkbox" role="switch" data-t="${k}"${st[k]==="Sí"?" checked":""}></label>`).join("")+`<label class="f">Circuitos adicionales de C3 o C4 (C12)${num("data-k",st.c12,"c12")}</label>`;
+ $("#nums").innerHTML=[["mar","Margen (%)"],["tar","Mano de obra (€/h)"],["dto","Descuento (%)"]].map(([k,l])=>`<label>${l}${num("data-k",st[k],k)}</label>`).join("");
+ seg("grado",["Básica","Elevada"]);seg("gama",["Básica","Media","Alta"]);seg("iva",[10,21]);
+ $("#ib").innerHTML=PR.map((it,i)=>{const sp=it[4]||it[5];return `<div class="pi"><b>${it[0]}</b>${it[1]}<div class="g4"><label>Material (€)${num("data-p",it[2],i+".2")}</label><label>Horas${num("data-p",it[3],i+".3")}</label>${sp?`<label>Suplem. media (€)${num("data-p",it[4],i+".4")}</label><label>Suplem. alta (€)${num("data-p",it[5],i+".5")}</label>`:""}</div></div>`;}).join("");
+ $("#lb").innerHTML=LN.map((l,i)=>`<div class="pi"><b>${l[0]} mm²</b><div class="g4"><label>Material (€/m)${num("data-l",l[1],i+".1")}</label><label>Horas por m${num("data-l",l[2],i+".2")}</label></div></div>`).join("");
+ $("#cb").innerHTML=CF.map((c,i)=>`<div class="pi"><b>${c[0]}</b>${c[1]}<div class="g4"><label>Sección (mm²)${num("data-c",c[2],i+".2")}</label><label>m por m² de vivienda${num("data-c",c[3],i+".3")}</label></div><p class="mut cn"></p></div>`).join("");
+ $("#xb").innerHTML=st.ex.map((x,i)=>`<div class="pi"><label>Concepto<input data-x="${i}.d" value="${esc(x.d)}"></label><div class="g4"><label>Cantidad${num("data-x",x.q,i+".q")}</label><label>Precio unitario (€)${num("data-x",x.p,i+".p")}</label></div></div>`).join("");
+ rooms();
+}
+function rooms(){
+ const f=(i,k,l,v)=>`<label>${l}<div class="step"><button type="button" data-st="${i}.${k}.-1" aria-label="Menos">−</button><input type="number" inputmode="decimal" step="any" min="0" data-r="${i}.${k}" value="${v}"><button type="button" data-st="${i}.${k}.1" aria-label="Más">+</button></div></label>`;
+ $("#rl").innerHTML=st.rooms.length?st.rooms.map((r,i)=>`<div class="room"><div class="rh"><select data-r="${i}.t" aria-label="Tipo de estancia">${TIPOS.map(t=>`<option${t==r.t?" selected":""}>${t}</option>`).join("")}</select><button type="button" data-del="${i}" aria-label="Quitar estancia">✕</button></div><div class="rr">${f(i,"s","Superficie (m²)",r.s)}${r.t==="Pasillo"?f(i,"l","Longitud (m)",r.l):""}</div><p class="pts"></p></div>`).join(""):`<p class="mut">Aún no hay estancias. Añade la primera con los botones de arriba.</p>`;
+}
+document.addEventListener("input",e=>{
+ const t=e.target,d=t.dataset,v=parseFloat(t.value)||0;
+ if(d.k)st[d.k]=t.type==="number"?v:t.value;
+ else if(d.r&&t.tagName==="INPUT"){const [i,f]=d.r.split(".");st.rooms[i][f]=v;}
+ else if(d.x){const [i,f]=d.x.split(".");st.ex[i][f]=f==="d"?t.value:v;}
+ else if(d.p){const [i,j]=d.p.split(".");PR[i][j]=v;}
+ else if(d.l){const [i,j]=d.l.split(".");LN[i][j]=v;}
+ else if(d.c){const [i,j]=d.c.split(".");CF[i][j]=v;}
+ else return;
+ update();
+});
+document.addEventListener("change",e=>{
+ const t=e.target,d=t.dataset;
+ if(d.t){st[d.t]=t.checked?"Sí":"No";update();}
+ else if(d.r&&t.tagName==="SELECT"){const [i,f]=d.r.split(".");st.rooms[i].t=t.value;const df=DEF[t.value];if(t.value==="Pasillo"&&!st.rooms[i].l)st.rooms[i].l=df[1];rooms();update();}
+});
+document.addEventListener("click",e=>{
+ const b=e.target.closest("button");if(!b)return;const d=b.dataset;
+ if(d.tab!==undefined){document.querySelectorAll(".v").forEach((s,i)=>s.classList.toggle("on",i==d.tab));document.querySelectorAll("nav button").forEach(n=>n.classList.toggle("on",n===b));window.scrollTo(0,0);}
+ else if(d.add){const df=DEF[d.add];st.rooms.push({t:d.add,s:df[0],l:df[1]});rooms();update();}
+ else if(d.del!==undefined){st.rooms.splice(d.del,1);rooms();update();}
+ else if(d.st){const [i,f,s]=d.st.split(".");const r=st.rooms[i];r[f]=Math.max(0,Math.round(((+r[f]||0)+(+s)*(f==="s"?1:.5))*10)/10);b.parentNode.querySelector("input").value=r[f];update();}
+ else if(d.v){const k=b.parentNode.dataset.k;st[k]=k==="iva"?+d.v:d.v;b.parentNode.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));update();}
+});
+$("#nuevo").onclick=()=>{if(confirm("¿Empezar un presupuesto nuevo? Se borran las estancias y los datos del cliente, no los precios.")){Object.assign(st,{cli:"",dir:"",num:"",grado:"Básica",gama:"Básica",calef:"No",aa:"No",sec:"No",dom:"No",ve:"No",c12:0,dto:0,rooms:[],ex:[{d:"Sistema de alarma",q:1,p:0},{d:"",q:0,p:0},{d:"",q:0,p:0}]});build();update();}};
+$("#rest").onclick=()=>{if(confirm("¿Restablecer los precios de partida?")){const o=JSON.parse(INIT);o.PR.forEach((p,i)=>PR[i]=p);o.LN.forEach((p,i)=>LN[i]=p);o.CF.forEach((p,i)=>CF[i]=p);build();update();}};
+$("#pr").onclick=()=>window.print();
+function resumen(c){
+ const L=[st.emp||"Presupuesto","Presupuesto de instalación eléctrica y telecomunicaciones"];
+ if(st.num)L.push("Nº "+st.num);if(st.cli)L.push("Cliente: "+st.cli);if(st.dir)L.push("Vivienda: "+st.dir);
+ L.push("Electrificación "+st.grado.toLowerCase()+", mecanismos de gama "+st.gama.toLowerCase(),"");
+ [...c.el_rows,...c.te_rows].filter(r=>r[2]>0).forEach(r=>L.push(`${r[1]}: ${nf(r[2])} × ${eur(r[3])} = ${eur(r[2]*r[3])}`));
+ st.ex.filter(x=>x.d&&+x.q>0&&+x.p>0).forEach(x=>L.push(`${x.d}: ${nf(x.q)} × ${eur(x.p)} = ${eur(x.q*x.p)}`));
+ L.push("",`Base imponible: ${eur(c.base)}`,`IVA (${st.iva} %): ${eur(c.iva)}`,`Total: ${eur(c.total)}`);
+ return L.join("\n");
+}
+$("#share").onclick=async()=>{const t=resumen(calc());try{if(navigator.share)await navigator.share({title:"Presupuesto",text:t});else{await navigator.clipboard.writeText(t);alert("Resumen copiado.");}}catch(e){}};
+function update(){
+ const c=calc();
+ document.querySelectorAll("#rl .pts").forEach((p,i)=>{const r=c.R[i];p.textContent=`${r.luz} luces · ${r.c2+r.c3+r.c4+r.c5} bases`+(r.tv?" · TV y datos":"")+(r.tim?" · timbre":"");});
+ document.querySelectorAll("#cb .cn").forEach((p,i)=>p.textContent=`Circuitos: ${c.n[i]} · Metros: ${c.metros[i]}`);
+ $("#rs").textContent=`${nf(c.S)} m² · ${c.R.reduce((a,r)=>a+r.luz,0)} puntos de luz · ${c.nT} circuitos · ${c.dif} diferenciales de 30 mA`;
+ const a=$("#aviso");
+ if(st.grado==="Básica"&&c.min==="Elevada"){a.className="warn";a.textContent="Con estas especificaciones la ITC-BT-25 exige electrificación elevada. Cambia el grado.";}
+ else if(st.grado==="Elevada"&&c.min==="Básica"){a.className="mut";a.textContent="Elevada sin que se exija: válido si el cliente la solicita.";}
+ else{a.className="ok";a.textContent="Grado compatible con las especificaciones.";}
+ const row=r=>`<div class="ln"><span>${r[1]}<small>${nf(r[2])} × ${eur(r[3])}</small></span><b>${eur(r[2]*r[3])}</b></div>`;
+ const sec=(t,rows,s)=>`<div class="sec">${t}</div>${rows.filter(r=>r[2]>0).map(row).join("")}<div class="sub"><span>Subtotal</span><span>${eur(s)}</span></div>`;
+ $("#pl").innerHTML=sec("Instalación eléctrica",c.el_rows,c.sEl)+sec("Telecomunicaciones",c.te_rows,c.sTe);
+ $("#tot").innerHTML=`<div><span>Suma de partidas</span><span>${eur(c.sum1)}</span></div><div><span>Descuento (${nf(st.dto)} %)</span><span>${eur(c.dto)}</span></div><div><span>Base imponible</span><span>${eur(c.base)}</span></div><div><span>IVA (${st.iva} %)</span><span>${eur(c.iva)}</span></div><div class="g"><span>Total</span><span>${eur(c.total)}</span></div>`;
+ const rf=c.m2<c.ref[0]?"por debajo del":c.m2>c.ref[1]?"por encima del":"dentro del";
+ $("#ref").textContent=`Eléctrico + ICT: ${eur(c.m2)}/m², ${rf} rango de referencia (${c.ref[0]}–${c.ref[1]} €/m², sin IVA).`;
+ $("#b2").textContent=eur(c.total);$("#b3").textContent=eur(c.m2)+"/m²";
+ save();
+}
+build();update();
+</script>
+</body>
+</html>
