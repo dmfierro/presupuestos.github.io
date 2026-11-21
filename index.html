@@ -50,7 +50,7 @@ label{display:flex;flex-direction:column;gap:4px;font-size:.85rem;color:var(--mu
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 #aviso{font-weight:600;margin:12px 0}
 .warn{color:var(--warn)}.ok{color:var(--ok)}
-details{margin-top:18px;border-top:1px solid var(--line);padding-top:10px}summary{font-weight:600;min-height:44px;display:flex;align-items:center;gap:8px}
+details{margin-top:18px;border-top:1px solid var(--line);padding-top:10px}summary{font-weight:600;min-height:44px;display:flex;align-items:center;gap:10px;cursor:pointer;list-style:none}summary::-webkit-details-marker{display:none}summary::before{content:"";flex:none;width:26px;height:26px;border-radius:50%;background:var(--acc) no-repeat center/12px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3.5 1.5 8.5 6l-5 4.5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");transition:transform .15s}details[open]>summary::before{transform:rotate(90deg)}
 .pi{border-bottom:1px solid var(--line);padding:10px 0}.pi b{margin-right:6px}
 .g4{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 .ln{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
@@ -60,13 +60,13 @@ details{margin-top:18px;border-top:1px solid var(--line);padding-top:10px}summar
 .tot div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)}
 .tot .g{font-size:1.3rem;font-weight:700;border:0;padding-top:12px}
 .act{display:grid;gap:10px;margin-top:16px}.act button{background:var(--acc);color:var(--on);border-color:var(--acc);font-weight:600}
-.act button.s,button.s{background:transparent;color:var(--ink);border-color:var(--line);font-weight:500}
+.act button.s,button.s{background:var(--card);color:var(--acc);border:1.5px solid var(--acc);font-weight:600}button.x{width:40px;min-height:40px;padding:0;border-radius:50%;background:#fff;color:#b3261e;border:1.5px solid #e3b4b0;font-weight:700;font-size:1rem}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
 .row2 button{font-weight:600}
 .big{border:2px solid var(--acc)}
 .big .res{font-size:1.5rem;font-weight:700;margin:6px 0 0}
 .pt{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px 12px;margin:10px 0}
-.pt>summary{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:start;padding:8px 0;list-style:none}
+.pt>summary{display:grid;grid-template-columns:26px auto 1fr auto auto;gap:8px;align-items:center;padding:6px 0}.pt[open]{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
 .pt>summary::-webkit-details-marker{display:none}
 .pt .pc{color:var(--mut);font-size:.82rem;white-space:nowrap}
 .pt .pr{font-weight:600;font-size:.92rem;line-height:1.25;overflow:hidden}
@@ -132,7 +132,8 @@ nav button.on{color:var(--acc)}
 <h3>Luminarias</h3>
 <div class="g2"><label>Downlight DR 18 W 4000 K<input type="number" inputmode="numeric" min="0" data-k="l18" id="l18"></label><label>Downlight DR 12 W 4000 K<input type="number" inputmode="numeric" min="0" data-k="l12" id="l12"></label><label>Downlight DR 9 W 4000 K<input type="number" inputmode="numeric" min="0" data-k="l9" id="l9"></label><label>Dicroica LED 7 W 4000 K orientable<input type="number" inputmode="numeric" min="0" data-k="ld" id="ld"></label></div>
 <label class="f">Lámparas que suministra el cliente (solo instalación)<input type="number" inputmode="numeric" min="0" data-k="linst" id="linst"></label>
-<p class="mut">La instalación de lámpara se cobra por cada luminaria indicada arriba más las del cliente. Los precios se editan en «Precios de partida».</p>
+<div class="g2" id="lprc"></div>
+<p class="mut">Precios predefinidos del material (sin margen ni IVA); cámbialos aquí. La instalación de lámpara se cobra por cada luminaria indicada arriba más las del cliente. Los precios se editan en «Precios de partida».</p>
 <h3>Precio</h3>
 <div class="g2" id="nums"></div>
 <label class="f">Condiciones que salen en el PDF<textarea data-k="cond" id="cond"></textarea></label>
@@ -162,7 +163,7 @@ nav button.on{color:var(--acc)}
 
 <!-- ============ INDUSTRIAL ============ -->
 <section class="v" id="i0">
-<p class="mut">Cada partida lleva código, resumen, descripción, características, mediciones, cantidad, material y horas. Todo se puede editar a mano.</p>
+<p class="mut">Toca una partida (el círculo con flecha) para abrirla o cerrarla; la ✕ de la derecha la elimina. Cada partida lleva código, resumen, descripción, características, mediciones, cantidad, material y horas. Todo se puede editar a mano.</p>
 <div class="card"><b>Añadir partidas</b>
 <label class="fbtn">Adjuntar PDF o foto (lectura automática con OCR)<input type="file" id="ipdf" accept="application/pdf,image/*" class="vh"></label>
 <p class="mut">Sirve también con PDF escaneados o protegidos. La primera vez descarga el lector (hace falta internet).</p>
@@ -267,8 +268,8 @@ const hoyL=()=>new Date().toLocaleDateString("es-ES",{day:"numeric",month:"long"
 
 /* ================= VIVIENDA ================= */
 //CALC-START
-const TIPOS=["Acceso","Vestíbulo","Salón","Dormitorio","Baño","Pasillo","Cocina","Terraza / vestidor","Garaje / otros"];
-const DEF={"Acceso":[2,0],"Vestíbulo":[4,0],"Salón":[20,0],"Dormitorio":[10,0],"Baño":[4,0],"Pasillo":[6,6],"Cocina":[9,0],"Terraza / vestidor":[8,0],"Garaje / otros":[15,0]};
+const TIPOS=["Acceso","Vestíbulo","Salón","Dormitorio","Baño","Pasillo","Cocina","Terraza / vestidor","Garaje / otros","Otros"];
+const DEF={"Acceso":[2,0],"Vestíbulo":[4,0],"Salón":[20,0],"Dormitorio":[10,0],"Baño":[4,0],"Pasillo":[6,6],"Cocina":[9,0],"Terraza / vestidor":[8,0],"Garaje / otros":[15,0],"Otros":[8,0]};
 const PR=[
 ["E01","Cuadro general de mando y protección (envolvente, IGA, ICP y sobretensiones)",200,3.5,0,0],
 ["E02","Interruptor diferencial 30 mA (uno por cada 5 circuitos)",60,.5,0,0],
@@ -294,14 +295,15 @@ const PR=[
 ["L05","Downlight LED DR 12 W 4000 K (suministro)",9,0,0,0],
 ["L06","Downlight LED DR 9 W 4000 K (suministro)",7.5,0,0,0],
 ["L07","Dicroica LED 7 W 4000 K con aro orientable de aluminio (suministro)",10,0,0,0],
-["L08","Instalación de lámpara (montaje y conexionado)",0,.35,0,0]];
+["L08","Instalación de lámpara (montaje y conexionado)",0,.35,0,0],
+["E16","Conmutador de cruce 10 A",9.5,.5,6,15]];
 const RENEW=new Set(["E10","E11","E12"]);
 const LN=[[1.5,1.9,.05],[2.5,2.7,.05],[4,3.8,.05],[6,5.2,.05],[10,8.5,.06],[16,13,.07]];
 const CF=[["C1","Iluminación",1.5,.30],["C2","Tomas de uso general y frigorífico",2.5,.40],["C3","Cocina y horno",6,.15],["C4","Lavadora, lavavajillas y termo",4,.15],["C5","Baños y auxiliares de cocina",2.5,.15],["C6","Adicional tipo C1",1.5,.30],["C7","Adicional tipo C2",2.5,.40],["C8","Calefacción eléctrica (preinstalación)",6,.30],["C9","Aire acondicionado (preinstalación)",6,.30],["C10","Secadora independiente",2.5,.15],["C11","Automatización y seguridad (preinstalación)",1.5,.25],["C12","Adicionales de C3, C4 o C5",2.5,.15],["C13","Recarga de vehículo eléctrico (preinstalación)",6,.20]];
 const EJ=[["Acceso",2,0],["Vestíbulo",4,0],["Salón",22,0],["Cocina",9,0],["Baño",5,0],["Baño",4,0],["Dormitorio",12,0],["Dormitorio",10,0],["Dormitorio",9,0],["Pasillo",7,7]];
 const COND0="Presupuesto válido durante 30 días desde su fecha.\nIncluye material y mano de obra de lo detallado, con la instalación según el REBT.\nCalefacción, aire acondicionado, secadora, automatización y recarga de vehículo: solo preinstalación eléctrica y protecciones, sin suministro ni instalación de los equipos.";
 const EX0=()=>[{d:"Derivación individual",u:"Ud",q:1,p:0},{d:"Sistema de alarma",u:"Ud",q:1,p:0}];
-const st={cli:"",dir:"",num:"",grado:"Básica",gama:"Básica",calef:"No",aa:"No",sec:"No",dom:"No",ve:"No",c12:0,iva:10,mar:15,tar:31,dto:0,m2t:0,pm2:70,usar:"No",led:0,ledsw:"Aparte",l18:0,l12:0,l9:0,ld:0,linst:0,cond:COND0,
+const st={cli:"",dir:"",num:"",grado:"Básica",gama:"Básica",calef:"No",aa:"No",sec:"No",dom:"No",ve:"No",cruce:"No",c12:0,iva:10,mar:15,tar:31,dto:0,m2t:0,pm2:70,usar:"No",led:0,ledsw:"Aparte",l18:0,l12:0,l9:0,ld:0,linst:0,cond:COND0,
 rooms:EJ.map(a=>({t:a[0],s:a[1],l:a[2]})),ex:EX0()};
 function sint(m){
  const d=m<45?1:m<70?2:m<105?3:m<150?4:5,b=m<60?1:m<110?2:m<160?3:4;
@@ -321,8 +323,8 @@ function calc0(kq){
  const R=RM.map(r=>{const t=r.t,s=+r.s||0,l=+r.l||0,coc=t==="Cocina";
   const luz=t==="Acceso"?0:(t==="Vestíbulo"||t==="Baño")?1:t==="Pasillo"?Math.max(1,Math.ceil(l/5)):(s>10?2:1);
   let c2=0;
-  if(t==="Vestíbulo")c2=1;else if(t==="Salón"||t==="Dormitorio")c2=Math.max(3,Math.ceil(s/6));else if(t==="Pasillo")c2=l>5?2:1;else if(t==="Cocina")c2=2;else if(t==="Terraza / vestidor"||t==="Garaje / otros")c2=s>10?2:1;
-  return {luz,int:luz,c2,c4:coc?3:0,c5:t==="Baño"?1:coc?3:0,c3:coc?1:0,tim:t==="Acceso"?1:0,
+  if(t==="Vestíbulo")c2=1;else if(t==="Salón"||t==="Dormitorio")c2=Math.max(3,Math.ceil(s/6));else if(t==="Pasillo")c2=l>5?2:1;else if(t==="Cocina")c2=2;else if(t==="Terraza / vestidor"||t==="Garaje / otros"||t==="Otros")c2=s>10?2:1;
+  return {cr:(t==="Dormitorio"&&st.cruce==="Sí"?1:0)+Math.max(0,+r.cr||0),luz,int:luz,c2,c4:coc?3:0,c5:t==="Baño"?1:coc?3:0,c3:coc?1:0,tim:t==="Acceso"?1:0,
    c8:el&&Y("calef")&&["Salón","Dormitorio","Baño","Cocina","Pasillo","Vestíbulo"].includes(t)?1:0,
    c9:el&&Y("aa")&&(t==="Salón"||t==="Dormitorio")?1:0,
    tv:["Salón","Dormitorio","Cocina"].includes(t)?1:0};});
@@ -345,6 +347,7 @@ function calc0(kq){
  const el_rows=PR.slice(0,13).map((it,i)=>[it[0],it[1],q[i],cu(it)]);
  el_rows.push(["E14","Líneas de circuito: cable, tubo y canalización desde el cuadro (m)",mT,mT?eT/mT*f:0]);
  el_rows.push([PR[16][0],PR[16][1],el&&Y("ve")?1:0,cu(PR[16])]);
+ el_rows.push([PR[25][0],PR[25][1],R.reduce((a,r)=>a+r.cr,0),cu(PR[25])]);
  const tv=sum("tv");
  const te_rows=[[PR[13],1],[PR[14],tv],[PR[15],tv]].map(([it,c])=>[it[0],it[1],c,cu(it)]);
  const lm=Math.max(0,+st.led||0);
@@ -383,7 +386,7 @@ function load(s){try{if(!s)return;Object.assign(st,s.st);
  s.PR.forEach(p=>{const i=PR.findIndex(x=>x[0]===p[0]);if(i>=0&&!(old&&RENEW.has(p[0])))PR[i]=p;});
  s.LN.forEach((p,i)=>LN[i]=p);s.CF.forEach((p,i)=>{if(CF[i]){CF[i][2]=p[2];CF[i][3]=p[3];}});}catch(e){}}
 try{load(JSON.parse(localStorage.getItem(KEY)||localStorage.getItem("presupuestosVivienda1")||"null"));}catch(e){}
-const SW=[["calef","Calefacción eléctrica"],["aa","Aire acondicionado"],["sec","Secadora independiente"],["dom","Automatización o seguridad"],["ve","Recarga de vehículo eléctrico"]];
+const SW=[["calef","Calefacción eléctrica"],["aa","Aire acondicionado"],["sec","Secadora independiente"],["dom","Automatización o seguridad"],["ve","Recarga de vehículo eléctrico"],["cruce","Conmutador de cruce en dormitorios (3 puntos de mando)"]];
 function elevar(k){if(["calef","aa","sec","dom","ve","c12"].includes(k)&&st.grado==="Básica"&&(st[k]==="Sí"||+st[k]>0)){st.grado="Elevada";seg("grado",["Básica","Elevada"]);}}
 const num=(a,v,k)=>`<input type="number" inputmode="decimal" step="any" min="0" ${a}="${k}" value="${v}">`;
 function seg(k,opts,attr){const el=document.querySelector(`.seg[${attr||"data-k"}="${k}"]`);if(!el)return;const S=attr==="data-ik"?si:st;el.innerHTML=opts.map(o=>`<button type="button" data-v="${o}" class="${String(S[k])===String(o)?"on":""}">${k==="iva"?o+" %":o}</button>`).join("");}
@@ -395,7 +398,7 @@ function build(){
  SW.forEach(([k])=>seg(k,["No","Sí"]));
  $("#nums").innerHTML=[["mar","Margen (%)"],["tar","Mano de obra (€/h)"],["dto","Descuento (%)"]].map(([k,l])=>`<label>${l}${num("data-k",st[k],k)}</label>`).join("");
  seg("grado",["Básica","Elevada"]);seg("gama",["Básica","Media","Alta"]);seg("iva",[10,21]);seg("ledsw",["Aparte","En la tira","Ninguno"]);
- $("#cond").value=st.cond;$("#ledm").value=st.led;["l18","l12","l9","ld","linst"].forEach(k=>{const e=$("#"+k);if(e)e.value=st[k]||"";});$("#m2t").value=st.m2t||"";$("#pm2").value=st.pm2;
+ $("#cond").value=st.cond;$("#lprc").innerHTML=[[20,"Downlight 18 W"],[21,"Downlight 12 W"],[22,"Downlight 9 W"],[23,"Dicroica 7 W"]].map(([i,l])=>`<label>${l}: precio (€/ud)${num("data-p",PR[i][2],i+".2")}</label>`).join("")+`<label>Instalación de lámpara: horas${num("data-p",PR[24][3],"24.3")}</label>`;$("#ledm").value=st.led;["l18","l12","l9","ld","linst"].forEach(k=>{const e=$("#"+k);if(e)e.value=st[k]||"";});$("#m2t").value=st.m2t||"";$("#pm2").value=st.pm2;
  $("#ib").innerHTML=PR.map((it,i)=>{const sp=it[4]||it[5];return `<div class="pi"><b>${it[0]}</b>${it[1]}<div class="g4"><label>Material (€)${num("data-p",it[2],i+".2")}</label><label>Horas${num("data-p",it[3],i+".3")}</label>${sp?`<label>Suplem. media (€)${num("data-p",it[4],i+".4")}</label><label>Suplem. alta (€)${num("data-p",it[5],i+".5")}</label>`:""}</div></div>`;}).join("");
  $("#lb").innerHTML=LN.map((l,i)=>`<div class="pi"><b>${l[0]} mm²</b><div class="g4"><label>Material (€/m)${num("data-l",l[1],i+".1")}</label><label>Horas por m${num("data-l",l[2],i+".2")}</label></div></div>`).join("");
  $("#cb").innerHTML=CF.map((c,i)=>`<div class="pi"><b>${c[0]}</b>${c[1]}<div class="g4"><label>Sección (mm²)${num("data-c",c[2],i+".2")}</label><label>m por m² de vivienda${num("data-c",c[3],i+".3")}</label></div><p class="mut cn"></p></div>`).join("");
@@ -406,14 +409,14 @@ function xrender(){
 }
 function rooms(){
  const f=(i,k,l,v)=>`<label>${l}<div class="step"><button type="button" data-st="${i}.${k}.-1" aria-label="Menos">−</button><input type="number" inputmode="decimal" step="any" min="0" data-r="${i}.${k}" value="${v}"><button type="button" data-st="${i}.${k}.1" aria-label="Más">+</button></div></label>`;
- $("#rl").innerHTML=st.rooms.length?st.rooms.map((r,i)=>`<div class="room"><div class="rh"><select data-r="${i}.t" aria-label="Tipo de estancia">${TIPOS.map(t=>`<option${t==r.t?" selected":""}>${t}</option>`).join("")}</select><button type="button" data-del="${i}" aria-label="Quitar estancia">✕</button></div><div class="rr">${f(i,"s","Superficie (m²)",r.s)}${r.t==="Pasillo"?f(i,"l","Longitud (m)",r.l):""}</div><p class="pts"></p></div>`).join(""):`<p class="mut">Aún no hay estancias. Añade la primera con los botones de arriba.</p>`;
+ $("#rl").innerHTML=st.rooms.length?st.rooms.map((r,i)=>`<div class="room"><div class="rh"><select data-r="${i}.t" aria-label="Tipo de estancia">${TIPOS.map(t=>`<option${t==r.t?" selected":""}>${t}</option>`).join("")}</select><button type="button" data-del="${i}" aria-label="Quitar estancia">✕</button></div><div class="rr">${r.t==="Otros"?`<label class="f">Nombre de la estancia<input data-r="${i}.n" value="${esc(r.n||"")}" placeholder="Ej.: Despacho, trastero…"></label>`:""}${f(i,"s","Superficie (m²)",r.s)}${r.t==="Pasillo"?f(i,"l","Longitud (m)",r.l):""}${r.t==="Dormitorio"?f(i,"cr","Conmutadores de cruce extra",r.cr||0):""}</div><p class="pts"></p></div>`).join(""):`<p class="mut">Aún no hay estancias. Añade la primera con los botones de arriba.</p>`;
 }
-function nuevoViv(){Object.assign(st,{cli:"",dir:"",num:"",grado:"Básica",gama:"Básica",calef:"No",aa:"No",sec:"No",dom:"No",ve:"No",c12:0,dto:0,m2t:0,usar:"No",led:0,ledsw:"Aparte",l18:0,l12:0,l9:0,ld:0,linst:0,rooms:[],ex:EX0()});build();update();}
+function nuevoViv(){Object.assign(st,{cli:"",dir:"",num:"",grado:"Básica",gama:"Básica",calef:"No",aa:"No",sec:"No",dom:"No",ve:"No",cruce:"No",c12:0,dto:0,m2t:0,usar:"No",led:0,ledsw:"Aparte",l18:0,l12:0,l9:0,ld:0,linst:0,rooms:[],ex:EX0()});build();update();}
 function restViv(){const o=JSON.parse(INIT);o.PR.forEach((p,i)=>PR[i]=p);o.LN.forEach((p,i)=>LN[i]=p);o.CF.forEach((p,i)=>CF[i]=p);build();update();}
 
 /* ---- líneas del presupuesto de vivienda (para pantalla, texto y PDF) ---- */
 const CIR=["Circuito de alumbrado C1","Circuito de tomas de corriente de uso general C2","Circuito de cocina y horno C3","Circuito para lavadora, lavavajillas y termo eléctrico C4","Circuito para tomas de corriente de baños y auxiliares de cocina C5","Circuito adicional de alumbrado C6","Circuito adicional de tomas de corriente C7","Preinstalación de calefacción eléctrica C8: línea, tubo y protección (sin equipos)","Preinstalación de aire acondicionado C9: línea, tubo y protección (sin equipos)","Preinstalación de secadora independiente C10: línea y protección","Preinstalación de automatización y seguridad C11: línea y protección (sin equipos)","Circuito adicional de cocina, lavado o baños C12","Preinstalación de recarga de vehículo eléctrico C13: línea y protección (sin punto de recarga)"];
-function nombres(){const k={},u={};st.rooms.forEach(r=>k[r.t]=(k[r.t]||0)+1);return st.rooms.map(r=>k[r.t]>1?r.t+" "+(u[r.t]=(u[r.t]||0)+1):r.t);}
+function nombres(){const k={},u={},nm=r=>r.t==="Otros"&&r.n?r.n:r.t;st.rooms.forEach(r=>k[nm(r)]=(k[nm(r)]||0)+1);return st.rooms.map(r=>k[nm(r)]>1?nm(r)+" "+(u[nm(r)]=(u[nm(r)]||0)+1):nm(r));}
 function detalle(c){
  const A=c.el_rows,B=c.te_rows,am=r=>r[2]*r[3],N=nombres();
  const por=f=>c.quick?"":N.map((n,i)=>[n,c.R[i]?f(c.R[i]):0]).filter(x=>x[1]>0).map(x=>`${x[0]}: ${nf(x[1])}`).join(" · ");
@@ -421,6 +424,7 @@ function detalle(c){
  const add=(t,q,i,sub,ud)=>{if(q>0&&i>0.004)L.push({c:t,q,u:i/q,i,sub:sub||"",ud:ud||"Ud",g:G});};
  add(`Equipo de protecciones de electrificación ${st.grado==="Elevada"?"elevada":"básica"}, con caja`,1,am(A[0])+am(A[1]),`${c.dif} ${c.dif>1?"diferenciales":"diferencial"} de 30 mA · ${c.nT} circuitos`);
  add("Punto de luz con interruptor o conmutador",A[3][2],am(A[3])+am(A[4]),por(r=>r.luz));
+ add("Conmutador de cruce en dormitorios",A[15][2],am(A[15]),por(r=>r.cr));
  add("Base de enchufe con toma de tierra",A[5][2]+A[6][2],am(A[5])+am(A[6]),por(r=>r.c2+r.c4+r.c5));
  add("Base de 25 A con toma de tierra para cocina y horno",A[7][2],am(A[7]));
  add("Pulsador de timbre",A[8][2],am(A[8]));
@@ -458,65 +462,71 @@ function resumenViv(c){
 function pdfViv(c){
  const D=Doc([.89,.94,.85]),X0=40,X1=555,W=X1-X0,ZEB=[.95,.975,.92],WH=[1,1,1];let y=0;
  const band=()=>{D.R(0,800,595,42,DGREEN);D.R(0,796,595,4,GREEN);D.RR(X0-6,806,80,30,5,WH);};
- const card=(x,w,t,rows,h)=>{D.RR(x,y-h,w,h,5,WH);D.R(x,y-h+5,3.5,h-10,GREEN);D.T(x+12,y-14,t,7,{b:1,col:GREEN});let yy=y-28;rows.forEach(r=>{D.wrap(r[0],w-24,r[1]).forEach(l=>{D.T(x+12,yy,l,r[1],{b:r[2],col:r[3]||[0,0,0]});yy-=r[1]+3.5;});});};
- const rowsH=rows=>rows.reduce((a,r)=>a+D.wrap(r[0],226,r[1]).length*(r[1]+3.5),0)+36;
+ const card=(x,w,t,rows,h)=>{D.RR(x,y-h,w,h,5,WH);D.R(x,y-h+5,3.5,h-10,GREEN);D.T(x+12,y-15,t,8,{b:1,col:GREEN});let yy=y-31;rows.forEach(r=>{D.wrap(r[0],w-24,r[1]).forEach(l=>{D.T(x+12,yy,l,r[1],{b:r[2],col:r[3]||[0,0,0]});yy-=r[1]+4;});});};
+ const rowsH=rows=>rows.reduce((a,r)=>a+D.wrap(r[0],226,r[1]).length*(r[1]+4),0)+40;
  const cab1=()=>{
   D.R(0,726,595,116,DGREEN);D.R(0,722,595,4,GREEN);D.RR(X0-6,742,200,84,8,WH);
   const lh=D.I(X0+4,742+(84-170*LH/LW)/2,170);
   D.T(X1,800,"PRESUPUESTO",27,{b:1,r:1,col:WH});D.R(X1-64,791,64,3.5,GREEN);
   [["Nº",st.num||"—"],["FECHA",hoy()],["VALIDEZ","30 días"]].forEach(([a,b],i)=>{const x=X1-3*92-2*6+i*98;D.RR(x,744,92,32,5,[.24,.42,.24]);D.T(x+8,766,a,6.5,{b:1,col:[.78,.9,.6]});D.T(x+8,752,b,10,{b:1,col:WH});});
   y=722-22;
-  const cr=[[st.cli||"Cliente sin indicar",11,1],...(st.dir?[["Vivienda: "+st.dir,9,0,GRAY]]:[])];
-  const er=[[CO.nom,11,1],[CO.dir,9,0,GRAY],["Tel. "+CO.tel+"  ·  "+CO.mail,9,0,GRAY],[CO.web+(CO.cif?"  ·  CIF "+CO.cif:""),9,0,GRAY]];
+  const cr=[[st.cli||"Cliente sin indicar",13,1],...(st.dir?[["Vivienda: "+st.dir,10.5,0,GRAY]]:[])];
+  const er=[[CO.nom,13,1],[CO.dir,10,0,GRAY],["Tel. "+CO.tel,10,0,GRAY],[CO.mail,10,0,GRAY],[CO.web+(CO.cif?"  ·  CIF "+CO.cif:""),10,0,GRAY]];
   const h=Math.max(rowsH(cr),rowsH(er));
   card(X0,252,"CLIENTE",cr,h);card(X1-252,252,"EMPRESA",er,h);y-=h+14;
   const luces=c.R.reduce((a,r)=>a+r.luz,0);
   const k=[["SUPERFICIE",c.S>0?nf(c.S)+" m²":"—"],["ELECTRIFICACIÓN",st.grado.toUpperCase()],["CIRCUITOS",String(c.nT)],["PUNTOS DE LUZ",String(luces)]];
   D.RR(X0,y-42,W,42,6,DGREEN);D.R(X0+6,y-42,W-12,3,GREEN);
-  k.forEach(([a,b],i)=>{const x=X0+16+i*(W/4);D.T(x,y-18,b,14,{b:1,col:WH});D.T(x,y-31,a,6.5,{b:1,col:GREEN});});
-  y-=60;
-  D.T(X0,y,"INSTALACIÓN ELÉCTRICA Y TELECOMUNICACIONES EN VIVIENDA",8.5,{b:1,col:DGREEN});y-=14;
-  if(c.quick){D.T(X0,y,`Estimación orientativa sobre ${nf(c.S)} m² totales (precio medio ${nf(st.pm2)} €/m² sin IVA); se ajustará al medir la vivienda.`,8,{i:1,col:GRAY});y-=14;}
+  k.forEach(([a,b],i)=>{const x=X0+16+i*(W/4);D.T(x,y-18,b,15,{b:1,col:WH});D.T(x,y-32,a,7.5,{b:1,col:GREEN});});
+  y-=72;
+  /* resumen visual por apartados */
+  const sm={};detalle(c).forEach(l=>{sm[l.g]=(sm[l.g]||0)+l.i;});const gk=Object.keys(sm);
+  D.T(X0,y,"RESUMEN DE SU PRESUPUESTO",11,{b:1,col:DGREEN});y-=10;
+  const cw=(W-(gk.length-1)*8)/Math.max(1,gk.length);
+  gk.forEach((k,i)=>{const x=X0+i*(cw+8);D.RR(x,y-48,cw,48,6,WH);D.R(x+6,y-3,cw-12,3,GREEN);D.T(x+10,y-18,k.toUpperCase(),7.5,{b:1,col:GREEN});D.T(x+10,y-38,eur(sm[k]),14,{b:1,col:DGREEN});});
+  y-=66;
+  D.T(X0,y,"DETALLE DE LA INSTALACIÓN",11,{b:1,col:DGREEN});y-=16;
+  if(c.quick){D.T(X0,y,`Estimación orientativa sobre ${nf(c.S)} m² totales (precio medio ${nf(st.pm2)} €/m² sin IVA); se ajustará al medir la vivienda.`,9,{i:1,col:GRAY});y-=14;}
   y-=6;
  };
  const cabN=()=>{D.np();band();D.I(X0,810,68);D.T(X1,824,"Presupuesto"+(st.num?" Nº "+st.num:""),9.5,{b:1,r:1,col:WH});D.T(X1,811,hoy(),8,{r:1,col:[.85,.9,.82]});y=772;};
- const grp=(t)=>{if(y<150)cabN();D.R(X0,y-4,4,15,GREEN);D.T(X0+11,y,t.toUpperCase(),9.5,{b:1,col:DGREEN});D.L(X0+11+D.wd(t.toUpperCase(),9.5,1)+8,y+3,X1,y+3,GREEN,.8);y-=18;
-  D.R(X0,y-6,W,17,DGREEN);const z=7,o={b:1,col:WH};D.T(X0+8,y-1,"DESCRIPCIÓN",z,o);D.T(322,y-1,"UD",z,o);D.T(392,y-1,"CANT.",z,{...o,r:1});D.T(468,y-1,"PRECIO UD.",z,{...o,r:1});D.T(X1-8,y-1,"IMPORTE",z,{...o,r:1});y-=21;};
+ const grp=(t)=>{if(y<150)cabN();D.R(X0,y-4,4,15,GREEN);D.T(X0+11,y,t.toUpperCase(),11,{b:1,col:DGREEN});D.L(X0+11+D.wd(t.toUpperCase(),11,1)+8,y+3,X1,y+3,GREEN,.8);y-=20;
+  D.R(X0,y-7,W,19,DGREEN);const z=8,o={b:1,col:WH};D.T(X0+8,y-1,"DESCRIPCIÓN",z,o);D.T(318,y-1,"UD",z,o);D.T(388,y-1,"CANT.",z,{...o,r:1});D.T(466,y-1,"PRECIO UD.",z,{...o,r:1});D.T(X1-8,y-1,"IMPORTE",z,{...o,r:1});y-=24;};
  cab1();
  let g="",zi=0;
  detalle(c).forEach(l=>{
-  const w=D.wrap(l.c,265,9),sb=l.sub?D.wrap(l.sub,265,7.5):[];
-  const h=w.length*12+sb.length*9.5+8;
+  const w=D.wrap(l.c,258,10.5),sb=l.sub?D.wrap(l.sub,258,8.5):[];
+  const h=w.length*14+sb.length*11+8;
   if(l.g!==g){g=l.g;zi=0;grp(g);}
   else if(y-h<80){cabN();grp(g);zi=0;}
   D.R(X0,y-h+9,W,h+2,zi%2===0?WH:ZEB);zi++;
-  D.T(X0+8,y,w[0],9);D.T(322,y,l.ud,9);D.T(392,y,nf(l.q),9,{r:1});D.T(468,y,eur(l.u),9,{r:1});D.T(X1-8,y,eur(l.i),9,{r:1,b:1,col:DGREEN});
-  w.slice(1).forEach(t=>{y-=12;D.T(X0+8,y,t,9);});
-  sb.forEach(t=>{y-=9.5;D.T(X0+8,y,t,7.5,{col:GRAY});});
-  y-=h-(w.length*12+sb.length*9.5)+3;y-=9;
+  D.T(X0+8,y,w[0],10.5);D.T(318,y,l.ud,10.5);D.T(388,y,nf(l.q),10.5,{r:1});D.T(466,y,eur(l.u),10.5,{r:1});D.T(X1-8,y,eur(l.i),10.5,{r:1,b:1,col:DGREEN});
+  w.slice(1).forEach(t=>{y-=14;D.T(X0+8,y,t,10.5);});
+  sb.forEach(t=>{y-=11;D.T(X0+8,y,t,8.5,{col:GRAY});});
+  y-=h-(w.length*14+sb.length*11)+3;y-=9;
  });
  const cond=(st.cond||"").split("\n").filter(Boolean);
- const cl=cond.reduce((a,t)=>a+D.wrap(t,262,8).length,0);
+ const cl=cond.reduce((a,t)=>a+D.wrap(t,258,9.5).length,0);
  if(y<Math.max(300,140+cl*10)){cabN();}
  y-=14;
  const yt=y;
  /* condiciones */
- const ch=Math.max(96,34+cl*10.5);
- D.RR(X0,yt-ch,282,ch,5,WH);D.R(X0,yt-ch+5,3.5,ch-10,GREEN);D.T(X0+12,yt-14,"CONDICIONES",7,{b:1,col:GREEN});
- let cy=yt-28;cond.forEach(t=>D.wrap(t,258,8).forEach((l,i)=>{D.T(X0+12+(i?8:0),cy,(i?"":"· ")+l,8,{col:[.25,.3,.26]});cy-=10.5;}));
+ const ch=Math.max(100,38+cl*12.5);
+ D.RR(X0,yt-ch,282,ch,5,WH);D.R(X0,yt-ch+5,3.5,ch-10,GREEN);D.T(X0+12,yt-14,"CONDICIONES",8,{b:1,col:GREEN});
+ let cy=yt-31;cond.forEach(t=>D.wrap(t,258,9.5).forEach((l,i)=>{D.T(X0+12+(i?8:0),cy,(i?"":"· ")+l,9.5,{col:[.25,.3,.26]});cy-=12.5;}));
  /* totales */
- const hh=(st.dto?3:2)*16+66;D.RR(356,yt-hh,X1-356,hh,6,WH);
- let ty=yt-14;const row=(t,v)=>{D.T(370,ty,t,9.5,{col:GRAY});D.T(X1,ty,v,9.5,{r:1});ty-=16;D.L(365,ty+11,X1,ty+11);};
+ const hh=(st.dto?3:2)*18+70;D.RR(356,yt-hh,X1-356,hh,6,WH);
+ let ty=yt-14;const row=(t,v)=>{D.T(372,ty,t,11,{col:GRAY});D.T(X1-8,ty,v,11,{r:1});ty-=18;D.L(365,ty+11,X1,ty+11);};
  if(st.dto)row(`Descuento (${nf(st.dto)} %)`,eur(c.dto));
  row("Base imponible",eur(c.base));row(`IVA (${st.iva} %)`,eur(c.iva));
- ty-=20;D.R(360,ty-12,X1-360,32,DGREEN);D.R(360,ty-12,4,32,GREEN);D.T(374,ty-2,"TOTAL",12,{b:1,col:WH});D.T(X1-10,ty-2,eur(c.total),14,{b:1,r:1,col:WH});
+ ty-=20;D.R(360,ty-12,X1-360,32,DGREEN);D.R(360,ty-12,4,32,GREEN);D.T(374,ty-2,"TOTAL",13,{b:1,col:WH});D.T(X1-10,ty-2,eur(c.total),16,{b:1,r:1,col:WH});
  y=Math.min(ty-12,yt-ch,yt-hh)-22;
  /* sellos */
  if(y<150){cabN();y-=10;}
- [["PROFESIONALIDAD"],["EXPERIENCIA"],["CALIDAD"]].forEach(([t],i)=>{const x=X0+i*(W/3);D.R(x,y,W/3-10,3,GREEN);D.T(x,y-14,t,8,{b:1,col:DGREEN});});
- D.T(X0,y-30,"Empresa autorizada en telecomunicaciones y en baja tensión.",8,{i:1,col:GRAY});
+ [["PROFESIONALIDAD"],["EXPERIENCIA"],["CALIDAD"]].forEach(([t],i)=>{const x=X0+i*(W/3);D.R(x,y,W/3-10,3,GREEN);D.T(x,y-15,t,9,{b:1,col:DGREEN});});
+ D.T(X0,y-32,"Empresa autorizada en telecomunicaciones y en baja tensión.",9.5,{i:1,col:GRAY});
  y-=56;
- if(y>100){[["Conforme del cliente (firma y fecha)",X0],["Por "+CO.nom,X1-250]].forEach(([t,x])=>{D.RR(x,y-50,250,50,5,WH,LINE);D.T(x+8,y-12,t,7.5,{b:1,col:GREEN});});}
+ if(y>100){[["Conforme del cliente (firma y fecha)",X0],["Por "+CO.nom,X1-250]].forEach(([t,x])=>{D.RR(x,y-50,250,50,5,WH,LINE);D.T(x+8,y-13,t,8.5,{b:1,col:GREEN});});}
  return D.build((i,n)=>{
   D.R(0,0,595,44,DGREEN);D.R(0,44,595,3,GREEN);
   D.T(X0,28,CO.nom,9,{b:1,col:WH});D.T(X0+D.wd(CO.nom,9,1)+6,28,"· "+CO.dir,8,{col:[.85,.9,.82]});
@@ -566,7 +576,7 @@ const CP0={cab:{
  "H07V-K 450/750 V":{1.5:.2,2.5:.33,4:.52,6:.78,10:1.3,16:2.05},
  "RZ1-K (AS) 0,6/1 kV":{1.5:.33,2.5:.5,4:.8,6:1.15,10:1.95,16:3.05},
  "RV-K 0,6/1 kV":{1.5:.38,2.5:.58,4:.9,6:1.3,10:2.15,16:3.4}},
- tub:{"Sin tubo":0,"Tubo PVC corrugado doble capa M16":.3,"Tubo PVC corrugado doble capa M20":.38,"Tubo PVC corrugado doble capa M25":.58,"Tubo PVC corrugado doble capa M32":.9,"Tubo PVC corrugado doble capa M40":1.45,"Tubo PVC rígido M20":.65,"Tubo PVC rígido M25":.95,"Bandeja rejiband 35x60":4.8,"Bandeja rejiband 60x100":8.2}};
+ tub:{"Sin tubo":0,"Tubo PVC corrugado doble capa M16":.55,"Tubo PVC corrugado doble capa M20":.68,"Tubo PVC corrugado doble capa M25":.95,"Tubo PVC corrugado doble capa M32":1.4,"Tubo PVC corrugado doble capa M40":2.1,"Tubo PVC rígido M20":.95,"Tubo PVC rígido M25":1.3,"Bandeja rejiband 35x60":6.5,"Bandeja rejiband 60x100":11}};
 const CP=JSON.parse(JSON.stringify(CP0));
 const SECS=[1.5,2.5,4,6,10,16];
 /* sp: [cable, nº conductores, sección, tubo, metros por unidad] */
@@ -580,11 +590,11 @@ const BASE0={
  d4:[[25,50],[40,58],[63,85],[80,120],[100,150]],
  led:[[6,6],[9,7],[12,9],[18,12],[24,16],[40,25]],
  f:{p1:.55,p3:.8,sup:1.45,sel:1.4,iga:1.15},
- fix:{caja:[55,.7],icp:[45,.2],acc:[14,.3],pp:[30,.5],mont:[0,1.2],sob:[90,.4],mt:[0,.12],dif:[0,.2],dl:[0,.35],toma:[4,.35],int:[4,.3],reg:[2.5,.2]}};
+ fix:{caja:[55,.7],icp:[45,.2],acc:[14,.3],pp:[30,.5],mont:[0,1.2],sob:[90,.4],mt:[0,.12],dif:[0,.2],dl:[0,.35],toma:[12,.25],int:[14,.2],cruce:[19.3,.2],conm:[16.5,.2],pul:[15,.2],tv:[9,.3],dat:[8,.3],timb:[10,.3],cajam:[1.5,.1],ppm:[3,.15],reg:[2.5,.2]}};
 const BASE=JSON.parse(JSON.stringify(BASE0));
 const BNAME={mt2:"Magnetotérmico 2P, curva C 10 kA",mt4:"Magnetotérmico / IGA 4P, curva C 10 kA",d2:"Diferencial instantáneo 2P 30 mA (clase A)",d4:"Diferencial instantáneo 4P 30 mA (clase A)",led:"Downlight / panel LED 4000 K (por W)"};
 const FNAME={p1:"Magnetotérmico 1P = 2P ×",p3:"Magnetotérmico 3P = 4P ×",sup:"Recargo superinmunizado ×",sel:"Recargo selectivo ×",iga:"IGA = magnetotérmico ×"};
-const XNAME={caja:"Caja empotrable de cuadro con puerta",icp:"ICP (control de potencia)",acc:"Accesorios, regletas y fijación",pp:"Parte proporcional de cable y tubo",mont:"Replanteo, montaje, conexionado y pruebas",sob:"Protector contra sobretensiones",mt:"Montaje de un magnetotérmico",dif:"Montaje de un diferencial",dl:"Instalación de una luminaria",toma:"Toma de corriente",int:"Interruptor o pulsador",reg:"Caja de registro o derivación"};
+const XNAME={caja:"Caja empotrable de cuadro con puerta",icp:"ICP (control de potencia)",acc:"Accesorios, regletas y fijación",pp:"Parte proporcional de cable y tubo",mont:"Replanteo, montaje, conexionado y pruebas",sob:"Protector contra sobretensiones",mt:"Montaje de un magnetotérmico",dif:"Montaje de un diferencial",dl:"Instalación de una luminaria",toma:"Base de toma de corriente",int:"Interruptor (con marco, sin caja)",cruce:"Conmutador de cruce",conm:"Conmutador",pul:"Pulsador",tv:"Toma de TV/FM",dat:"Toma de datos",timb:"Timbre o zumbador",cajam:"Caja de mecanismo",ppm:"Parte proporcional de tubo y línea de mecanismo",reg:"Caja de registro o derivación"};
 function specCalc(s){
  if(!s)return null;const len=+s.len||1,n=+s.n||0,sec=+s.sec||0;
  const ln=LN.find(x=>+x[0]===sec)||LN.reduce((a,b)=>Math.abs(b[0]-sec)<Math.abs(a[0]-sec)?b:a),k=n/3;
@@ -667,10 +677,10 @@ const CAT_INIT=JSON.stringify(CATL.map(c=>[c.mat,c.hor]));
 const COND_I0="Presupuesto válido durante 30 días desde su fecha.\nLos precios incluyen suministro de material y mano de obra de cada partida. No incluyen IVA salvo que se indique.\nNo incluye tasas de legalización ni trabajos de albañilería, salvo que figuren como partida.";
 const si={obra:"",cli:"",dir:"",num:"",tar:31,mar:15,dto:0,iva:21,cond:COND_I0,l:[]};
 const KEYI="presupuestosIndustrial1";
-function saveI(){try{localStorage.setItem(KEYI,JSON.stringify({v:2,si,CP,BASE,cat:CATL.map(c=>[c.k,c.mat,c.hor])}));}catch(e){}}
+function saveI(){try{localStorage.setItem(KEYI,JSON.stringify({v:3,si,CP,BASE,cat:CATL.map(c=>[c.k,c.mat,c.hor])}));}catch(e){}}
 function loadI(s){try{if(!s)return;Object.assign(si,s.si);if(!Array.isArray(si.l))si.l=[];if(!si.cond)si.cond=COND_I0;
- if(s.CP){Object.keys(s.CP.cab||{}).forEach(k=>{CP.cab[k]=s.CP.cab[k];});Object.keys(s.CP.tub||{}).forEach(k=>{CP.tub[k]=s.CP.tub[k];});}
- if(s.BASE){["mt2","mt4","d2","d4","led"].forEach(k=>{if(Array.isArray(s.BASE[k])&&s.BASE[k].length===BASE[k].length)BASE[k]=s.BASE[k];});Object.assign(BASE.f,s.BASE.f||{});Object.keys(BASE.fix).forEach(k=>{if(s.BASE.fix&&s.BASE.fix[k])BASE.fix[k]=s.BASE.fix[k];});}
+ if(s.v>=3&&s.CP){Object.keys(s.CP.cab||{}).forEach(k=>{CP.cab[k]=s.CP.cab[k];});Object.keys(s.CP.tub||{}).forEach(k=>{CP.tub[k]=s.CP.tub[k];});}
+if(s.v>=3&&s.BASE){["mt2","mt4","d2","d4","led"].forEach(k=>{if(Array.isArray(s.BASE[k])&&s.BASE[k].length===BASE[k].length)BASE[k]=s.BASE[k];});Object.assign(BASE.f,s.BASE.f||{});Object.keys(BASE.fix).forEach(k=>{if(s.BASE.fix&&s.BASE.fix[k])BASE.fix[k]=s.BASE.fix[k];});}
  (s.cat||[]).forEach(a=>{const c=CATL.find(x=>x.k===a[0]);if(c){c.mat=a[1];c.hor=a[2];}});}catch(e){}}
 try{loadI(JSON.parse(localStorage.getItem(KEYI)||"null"));}catch(e){}
 
@@ -715,10 +725,10 @@ const specUI=(l,i)=>{const s=l.sp||{cab:Object.keys(CP.cab)[0],n:0,sec:2.5,tub:"
 const dgUI=(l,i)=>{const d=l.dg||[];return `<div class="card" style="margin:10px 0"><b style="font-size:.9rem">Desglose por componentes</b><p class="mut">Cada componente del texto se valora por separado; el material y las horas de la partida son la suma. Puedes cambiar, añadir o quitar.</p>${d.map((c,j)=>`<div class="med"><label class="w">Componente<input data-dg="${i}.${j}.t" value="${esc(c.t)}"></label><label>Cant.${num("data-dg",c.q,i+"."+j+".q")}</label><label>Mat. €/ud${num("data-dg",c.mat,i+"."+j+".mat")}</label><label>Horas/ud${num("data-dg",c.hor,i+"."+j+".hor")}</label><div class="pp"><span></span><button type="button" class="s" data-dgdel="${i}.${j}">Quitar</button></div></div>`).join("")||'<p class="mut">Sin desglose. Pulsa «Releer texto» o añade componentes a mano.</p>'}<div class="g2" style="margin-top:8px"><button type="button" class="s" data-dgre="${i}">Releer texto y recalcular</button><button type="button" class="s" data-dgadd="${i}">+ Componente</button></div></div>`;};
 const medUI=(m,i,j)=>`<div class="med"><label class="w">Medición (zona o concepto)<input data-md="${i}.${j}.t" value="${esc(m.t)}" placeholder="Planta baja, zona…"></label><label>Uds${num("data-md",m.n,i+"."+j+".n")}</label><label>Largo${num("data-md",m.l,i+"."+j+".l")}</label><label>Ancho${num("data-md",m.a,i+"."+j+".a")}</label><label>Alto${num("data-md",m.h,i+"."+j+".h")}</label><div class="pp"><span>Parcial: <b data-pp="${i}.${j}">0</b></span><button type="button" class="s" data-mdel="${i}.${j}">Quitar</button></div></div>`;
 function irender(){
- const mv=(i)=>`<div class="g3" style="margin-top:8px"><button type="button" class="s" data-up="${i}">↑ Subir</button><button type="button" class="s" data-down="${i}">↓ Bajar</button><button type="button" class="s" data-dup="${i}">Duplicar</button></div><button type="button" class="s" style="width:100%;margin-top:8px" data-idel="${i}">Eliminar</button>`;
+ const mv=(i)=>`<div class="g3" style="margin-top:8px"><button type="button" class="s" data-up="${i}">↑ Subir</button><button type="button" class="s" data-down="${i}">↓ Bajar</button><button type="button" class="s" data-dup="${i}">Duplicar</button></div>`;
  $("#il").innerHTML=si.l.length?si.l.map((l,i)=>l.tipo==="cap"?
-  `<div class="cap"><div style="display:flex;justify-content:space-between"><b>CAPÍTULO</b><b data-ct="${i}"></b></div><div class="g4"><label style="color:inherit">Código<input data-ind="${i}.cod" value="${esc(l.cod)}"></label><label style="color:inherit">Nombre<input data-ind="${i}.res" value="${esc(l.res)}"></label></div>${mv(i)}</div>`:
-  `<details class="pt" data-d="${i}"${l.open?" open":""}><summary><span class="pc" data-pcod="${i}">${esc(l.cod)}</span><span class="pr" data-pres="${i}">${esc(l.u)} · ${esc(l.res||"(sin resumen)")}</span><span class="pm" data-pimp="${i}"></span></summary><div class="pb">
+  `<div class="cap"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><b>CAPÍTULO</b><b data-ct="${i}" style="margin-left:auto"></b><button type="button" class="x" data-idel="${i}" aria-label="Eliminar capítulo">✕</button></div><div class="g4"><label style="color:inherit">Código<input data-ind="${i}.cod" value="${esc(l.cod)}"></label><label style="color:inherit">Nombre<input data-ind="${i}.res" value="${esc(l.res)}"></label></div>${mv(i)}</div>`:
+  `<details class="pt" data-d="${i}"${l.open?" open":""}><summary><span class="pc" data-pcod="${i}">${esc(l.cod)}</span><span class="pr" data-pres="${i}">${esc(l.u)} · ${esc(l.res||"(sin resumen)")}</span><span class="pm" data-pimp="${i}"></span><button type="button" class="x" data-idel="${i}" aria-label="Eliminar partida">✕</button></summary><div class="pb">
   <div class="g4"><label>Código<input data-ind="${i}.cod" value="${esc(l.cod)}"></label><label>Unidad<select data-ind="${i}.u">${["Ud","Ml","m²","m³","h","PA","kg"].map(u=>`<option${u===l.u?" selected":""}>${u}</option>`).join("")}</select></label></div>
   <label class="f">Resumen<input data-ind="${i}.res" value="${esc(l.res)}"></label>
   <label class="f">Descripción<textarea data-ind="${i}.desc" rows="5">${esc(l.desc)}</textarea></label>
@@ -841,12 +851,14 @@ function compDe(seg){
  return null;
 }
 function genericDe(t){
- const o=[],X=BASE.fix;
+ const o=[],X=BASE.fix,add=(n,k,q)=>o.push({t:n,q:q||1,mat:X[k][0],hor:X[k][1]});
  const w=t.match(/(\d+(?:[.,]\d+)?)\s*W\b/i);
- if(/downlight|panel led|plaf[oó]n|luminaria|foco|dicroica/i.test(t)){const W=w?+w[1].replace(",","."):12;o.push({t:`Luminaria LED ${W} W`,q:1,mat:r2(pickA(BASE.led,W)),hor:0},{t:"Instalación y conexionado de luminaria",q:1,mat:0,hor:X.dl[1]});}
- else if(/base de enchufe|toma de corriente|enchufe/i.test(t))o.push({t:"Toma de corriente",q:1,mat:X.toma[0],hor:X.toma[1]});
- else if(/interruptor|conmutador|pulsador/i.test(t))o.push({t:"Interruptor o pulsador",q:1,mat:X.int[0],hor:X.int[1]});
- else if(/caja de (registro|derivaci)/i.test(t))o.push({t:"Caja de registro",q:1,mat:X.reg[0],hor:X.reg[1]});
+ if(/downlight|panel led|plaf[oó]n|luminaria|foco|dicroica/i.test(t)){const W=w?+w[1].replace(",","."):12;o.push({t:`Luminaria LED ${W} W`,q:1,mat:r2(pickA(BASE.led,W)),hor:0},{t:"Instalación y conexionado de luminaria",q:1,mat:0,hor:X.dl[1]});return o;}
+ const mec=/conmutador de cruce|cruzamiento/i.test(t)?["Conmutador de cruce","cruce"]:/conmutador/i.test(t)?["Conmutador","conm"]:/pulsador/i.test(t)?["Pulsador","pul"]:/base (schuko|de enchufe|de toma)|toma de corriente|schuko|enchufe/i.test(t)?["Base de toma de corriente","toma"]:/toma.{0,25}(tv|televisi|radiodifusi)|\bTV\b/i.test(t)?["Toma de TV/FM","tv"]:/toma.{0,30}datos|RJ-?45/i.test(t)?["Toma de datos","dat"]:/timbre|zumbador/i.test(t)?["Timbre o zumbador","timb"]:/interruptor/i.test(t)?["Interruptor","int"]:null;
+ if(mec){add(mec[0],mec[1]);
+  if(/incluye la caja|caja para mecanismo|caja empotrad/i.test(t))add("Caja de mecanismo","cajam");
+  if(/p\.?\s?p\.? de tubo|parte proporcional de tubo|tubo y l[ií]nea/i.test(t))add("Parte proporcional de tubo y línea","ppm");}
+ else if(/caja de (registro|derivaci)/i.test(t))add("Caja de registro","reg");
  return o;
 }
 function desglosar(l){
@@ -876,8 +888,10 @@ function valorarPartida(l,force){
  if(l.mm&&!force&&!(l.dg&&l.dg.length))return "man";
  const g=desglosar(l);
  if(g.bul){l.dg=g.items;l.dgm=false;applyDg(l);return "dg";}
- let sp2=l.sp&&(+l.sp.n>0||l.sp.tub!=="Sin tubo")?l.sp:detectSpec((l.res||"")+" "+(l.desc||""),l.u);
- if(sp2&&(+sp2.n>0||sp2.tub!=="Sin tubo")){l.sp=sp2;const r=specCalc(sp2);l.mat=r.mat;l.hor=r.hor;l.dg=[];return "spec";}
+ const tieneNxS=!/^\s*(canalizaci|tubo|bandeja)/i.test(l.desc||"")&&/(?<![\d.,])\d\s*[xX×G]\s*\d+(?:[.,]\d+)?\s*mm/.test((l.res||"")+" "+(l.desc||""));
+ if(!tieneNxS&&g.items.length&&!/^\s*(cable|canalizaci[oó]n)/i.test(l.desc||"")){l.dg=g.items;l.dgm=false;applyDg(l);return "dg";}
+ const sp2=detectSpec((l.res||"")+" "+(l.desc||""),l.u,l.desc||"");
+ if(sp2&&(+sp2.n>0||sp2.tub!=="Sin tubo")){l.sp=sp2;if(sp2.len===1&&l.u==="Ud")l.u="Ml";const r=specCalc(sp2);l.mat=r.mat;l.hor=r.hor;l.dg=[];return "spec";}
  const cat=matchCat(l.res||"",l.desc||"");
  if(cat){const f=fromCat(cat,1);l.sp=f.sp;l.mat=f.mat;l.hor=f.hor;l.k=cat.k;l.dg=[];return "cat";}
  if(g.items.length){l.dg=g.items;l.dgm=false;applyDg(l);return "dg";}
@@ -899,17 +913,24 @@ const jac=(a,b)=>{let i=0;a.forEach(x=>{if(b.has(x))i++;});return i/(a.size+b.si
 const HEAD=/^\s*([A-Za-z]{1,4}\d{2,3}[A-Za-z]?|\d{1,2}[.,]\d{2,3})\s+(Ud|Ml|ml|ud|m²|m2|m³|m3|PA|pa|h|kg|m)\.?\s+(\S.*)$/;
 const HEAD2=/^\s*(Ud|Ml|ml|ud|m²|m2|m³|m3|PA|pa|m)\.?\s+(\S.*)$/;
 const fixU=u=>({ud:"Ud",ml:"Ml",m2:"m²","m²":"m²",m3:"m³","m³":"m³",pa:"PA",h:"h",kg:"kg",m:"Ml"})[u.toLowerCase()]||"Ud";
-function detectSpec(txt,u){
- const t=txt;let cab=null;
+function detectSpec(txt,u,desc){
+ const t=txt,d0=(desc||txt).trim(),solo=/^(cable|conductor|canalizaci[oó]n|tubo|bandeja)/i.test(d0);let cab=null;
  if(/RZ1-?K/i.test(t))cab=RZ;else if(/RV-?K/i.test(t))cab="RV-K 0,6/1 kV";else if(/H07Z1|libre de hal[oó]genos|libre hal/i.test(t))cab=H07;else if(/H07V|V-?750|VV[ -]?750/i.test(t))cab="H07V-K 450/750 V";
- const m=t.match(/(\d)\s*[xX×G]\s*(\d+(?:[.,]\d+)?)\s*mm/);
- let n=0,sec=0;if(m){n=+m[1];sec=pn(m[2]);sec=SECS.reduce((a,b)=>Math.abs(b-sec)<Math.abs(a-sec)?b:a,SECS[0]);}
+ const m=/^canalizaci[oó]n|^tubo|^bandeja/i.test(d0)?null:t.match(/(?<![\d.,])(\d)\s*[xX×G]\s*(\d+(?:[.,]\d+)?)\s*mm/);
+ let n=0,sec=0;
+ if(m){n=+m[1];sec=pn(m[2]);}
+ else if(/^(cable|conductor)/i.test(d0)&&/unipolar/i.test(d0)||(/^(cable|conductor)/i.test(d0)&&cab)){const ms=t.match(/(\d+(?:[.,]\d+)?)\s*mm\s*[²2]/);if(ms){n=1;sec=pn(ms[1]);}}
+ if(sec)sec=SECS.reduce((a,b)=>Math.abs(b-sec)<Math.abs(a-sec)?b:a,SECS[0]);
  let tub="Sin tubo";
- const rj=t.match(/rejiband\s*(\d+)\s*x\s*(\d+)/i);
- if(rj)tub=+rj[2]>=100||+rj[1]>=100?"Bandeja rejiband 60x100":"Bandeja rejiband 35x60";
- else{const tm=t.match(/\bM\s?(16|20|25|32|40)\b/);if(tm){const rig=/r[ií]gido/i.test(t)&&(tm[1]==="20"||tm[1]==="25");tub=(rig?"Tubo PVC rígido M":"Tubo PVC corrugado doble capa M")+tm[1];}}
- if(!cab||!n||!sec)return tub!=="Sin tubo"&&(u==="Ml")?{cab:H07,n:0,sec:1.5,tub,len:1}:null;
- return {cab,n,sec,tub,len:u==="Ml"?1:15};
+ const bj=t.match(/(?:rejiband|bandeja[^.]{0,60}?)\s*(\d+)\s*x\s*(\d+)/i);
+ if(bj)tub=+bj[2]>=100||+bj[1]>=100?"Bandeja rejiband 60x100":"Bandeja rejiband 35x60";
+ else{
+  let dia=null;const tm=t.match(/\bM\s?(16|20|25|32|40)\b/),dm=t.match(/(16|20|25|32|40)\s*mm\s*de\s*di[aá]metro/i);
+  if(tm)dia=tm[1];else if(dm)dia=dm[1];
+  if(dia){const rig=/r[ií]gido/i.test(t)&&(dia==="20"||dia==="25");tub=(rig?"Tubo PVC rígido M":"Tubo PVC corrugado doble capa M")+dia;}}
+ if(!cab&&n)cab=H07;
+ if(!cab||!n||!sec)return tub!=="Sin tubo"&&(u==="Ml"||solo)?{cab:H07,n:0,sec:1.5,tub,len:1}:null;
+ return {cab,n,sec,tub,len:(u==="Ml"||solo)?1:15};
 }
 function matchCat(res,desc){
  const a=toks(res),b=toks(res+" "+desc.slice(0,140));let best=null,bs=0;
@@ -1066,7 +1087,7 @@ document.addEventListener("input",e=>{
  else if(d.sp){const [i,f]=d.sp.split(".");const l=si.l[i];l.sp=l.sp||{cab:Object.keys(CP.cab)[0],n:0,sec:2.5,tub:"Sin tubo",len:1};l.sp[f]=v;return;}
  else if(d.cp){const a=d.cp.split("|");if(a[0]==="cab")CP.cab[a[1]][a[2]]=v;else CP.tub[a[1]]=v;saveI();return;}
  else if(d.cat){const [i,f]=d.cat.split(".");CATL[i][f]=v;saveI();return;}
- else if(d.r&&t.tagName==="INPUT"){const [i,f]=d.r.split(".");st.rooms[i][f]=v;}
+ else if(d.r&&t.tagName==="INPUT"){const [i,f]=d.r.split(".");st.rooms[i][f]=f==="n"?t.value:v;}
  else if(d.x){const [i,f]=d.x.split(".");st.ex[i][f]=(f==="d"||f==="u")?t.value:v;}
  else if(d.p){const [i,j]=d.p.split(".");PR[i][j]=v;}
  else if(d.l){const [i,j]=d.l.split(".");LN[i][j]=v;}
@@ -1097,7 +1118,7 @@ document.addEventListener("click",e=>{
  /* vivienda */
  if(d.add){const df=DEF[d.add];st.rooms.push({t:d.add,s:df[0],l:df[1]});rooms();update();return;}
  if(d.del!==undefined){st.rooms.splice(d.del,1);rooms();update();return;}
- if(d.st){const [i,f,s]=d.st.split(".");const r=st.rooms[i];r[f]=Math.max(0,Math.round(((+r[f]||0)+(+s)*(f==="s"?1:.5))*10)/10);b.parentNode.querySelector("input").value=r[f];update();return;}
+ if(d.st){const [i,f,s]=d.st.split(".");const r=st.rooms[i];r[f]=Math.max(0,Math.round(((+r[f]||0)+(+s)*(f==="s"||f==="cr"?1:.5))*10)/10);b.parentNode.querySelector("input").value=r[f];update();return;}
  if(d.v!==undefined){const p=b.parentNode;if(p.dataset.ik){si[p.dataset.ik]=+d.v;p.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));update();return;}
   const k=p.dataset.k;st[k]=k==="iva"?+d.v:d.v;p.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));elevar(k);update();return;}
  if(id==="usar"){if(st.usar!=="Sí"&&!(+st.m2t>0)){$("#qsub").textContent="Escribe primero los m² totales.";$("#m2t").focus();return;}st.usar=st.usar==="Sí"?"No":"Sí";update();return;}
@@ -1117,7 +1138,7 @@ document.addEventListener("click",e=>{
  if(d.up!==undefined){if(mv(si.l,+d.up,-1))irender();return;}
  if(d.down!==undefined){if(mv(si.l,+d.down,1))irender();return;}
  if(d.dup!==undefined){const l=JSON.parse(JSON.stringify(si.l[+d.dup]));si.l.splice(+d.dup+1,0,l);irender();return;}
- if(d.idel!==undefined){if(confirm("¿Eliminar esta línea?")){si.l.splice(+d.idel,1);irender();}return;}
+ if(d.idel!==undefined){e.preventDefault();e.stopPropagation();if(confirm("¿Eliminar esta línea?")){si.l.splice(+d.idel,1);irender();}return;}
  if(d.madd!==undefined){si.l[+d.madd].med.push({t:"",n:1,l:0,a:0,h:0});irender();return;}
  if(d.mdel!==undefined){const [i,j]=d.mdel.split(".");si.l[i].med.splice(j,1);irender();return;}
  if(d.dgre!==undefined){const l=si.l[+d.dgre];l.dgm=false;const k=valorarPartida(l,true);irender();msgOf("ind").textContent=k==="dg"?"Texto releído y partida valorada por componentes.":k==="sin"?"No he reconocido componentes en el texto: añádelos a mano.":"Partida valorada.";return;}
