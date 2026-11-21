@@ -129,6 +129,10 @@ nav button.on{color:var(--acc)}
 <p id="aviso"></p>
 <h3>Tira LED</h3>
 <div class="g2"><label>Metros de tira LED<input type="number" inputmode="decimal" step="any" min="0" data-k="led" id="ledm"></label><div class="f"><span>Interruptor de encendido</span><div class="seg" data-k="ledsw"></div></div></div>
+<h3>Luminarias</h3>
+<div class="g2"><label>Downlight DR 18 W 4000 K<input type="number" inputmode="numeric" min="0" data-k="l18" id="l18"></label><label>Downlight DR 12 W 4000 K<input type="number" inputmode="numeric" min="0" data-k="l12" id="l12"></label><label>Downlight DR 9 W 4000 K<input type="number" inputmode="numeric" min="0" data-k="l9" id="l9"></label><label>Dicroica LED 7 W 4000 K orientable<input type="number" inputmode="numeric" min="0" data-k="ld" id="ld"></label></div>
+<label class="f">Lámparas que suministra el cliente (solo instalación)<input type="number" inputmode="numeric" min="0" data-k="linst" id="linst"></label>
+<p class="mut">La instalación de lámpara se cobra por cada luminaria indicada arriba más las del cliente. Los precios se editan en «Precios de partida».</p>
 <h3>Precio</h3>
 <div class="g2" id="nums"></div>
 <label class="f">Condiciones que salen en el PDF<textarea data-k="cond" id="cond"></textarea></label>
@@ -164,6 +168,7 @@ nav button.on{color:var(--acc)}
 <p class="mut">Sirve también con PDF escaneados o protegidos. La primera vez descarga el lector (hace falta internet).</p>
 <div class="row2"><button type="button" class="s" id="ipeg">Pegar partida</button><button type="button" id="ibl">+ Partida en blanco</button></div>
 <button type="button" class="s" id="icap" style="width:100%">+ Capítulo</button>
+<button type="button" id="icalcall" style="width:100%;margin-top:8px">Calcular todo (valorar todas las partidas)</button>
 <p class="mut" id="ocrmsg" role="status"></p>
 <button type="button" class="s" id="otxt" hidden style="width:100%">Ver texto leído</button>
 </div>
@@ -179,9 +184,12 @@ nav button.on{color:var(--acc)}
 <p class="mut">Precio unitario de una partida = (material + horas × tarifa) × (1 + margen). La mano de obra no sale desglosada en el PDF: solo el precio final de cada partida.</p>
 <label class="f">Condiciones que salen en el PDF<textarea data-ik="cond" id="icond"></textarea></label>
 <details><summary>Cables y tubos (€/m, material)</summary>
-<p class="mut">Se usan al pulsar «Calcular material y horas» en una partida con cable o tubo. Orientativos para Castilla y León: sustitúyelos por tu tarifa de proveedor.</p>
+<p class="mut">El cable usa los mismos precios que Vivienda. Los tubos son orientativos para Castilla y León.</p>
 <div id="icp"></div></details>
-<details><summary>Base de precios para valorar automáticamente</summary>
+<details><summary>Base de precios de aparamenta y luminarias</summary>
+<p class="mut">Precios sin IVA tomados de tiendas y distribuidores de España (Obramat, RS, Autosolar, Wattuneed, generadordeprecios), a nivel de instalador. Son la base para valorar cada componente del texto. Sustitúyelos por tu tarifa.</p>
+<div id="ibs"></div></details>
+<details><summary>Catálogo de partidas tipo</summary>
 <p class="mut">Cuando una partida leída se parece a una de esta lista, se rellena con su material y horas. Todo editable.</p>
 <div id="icc"></div></details>
 <div class="act"><button class="s" id="inuevo" type="button">Nuevo presupuesto industrial</button><button class="s" id="irest" type="button">Restablecer catálogo y precios</button></div>
@@ -220,23 +228,24 @@ const saveCO=()=>{try{localStorage.setItem("dmfEmpresa1",JSON.stringify(CO));}ca
 /* ---------- motor de PDF (PDF 1.4, Helvetica, logo JPEG) ---------- */
 const WN={" ":278,"!":278,'"':355,"#":556,"$":556,"%":889,"&":667,"'":191,"(":333,")":333,"*":389,"+":584,",":278,"-":333,".":278,"/":278,":":278,";":278,"<":584,"=":584,">":584,"@":1015,A:667,B:667,C:722,D:722,E:667,F:611,G:778,H:722,I:278,J:500,K:667,L:556,M:833,N:722,O:778,P:667,Q:778,R:722,S:667,T:611,U:722,V:667,W:944,X:667,Y:667,Z:611,"[":278,"\\":278,"]":278,"^":469,"`":333,a:556,b:556,c:500,d:556,e:556,f:278,g:556,h:556,i:222,j:222,k:500,l:222,m:833,n:556,o:556,p:556,q:556,r:333,s:500,t:278,u:556,v:500,w:722,x:500,y:500,z:500,"{":334,"|":260,"}":334,"~":584};
 const WB={"!":333,'"':474,"&":722,"'":238,":":333,";":333,"?":611,"@":975,A:722,B:722,J:556,K:722,L:611,"[":333,"]":333,"^":584,b:611,c:556,d:611,f:333,g:611,h:611,i:278,j:278,k:556,l:278,m:889,n:611,o:611,p:611,q:611,r:389,s:556,t:333,u:611,v:556,w:778,x:556,y:556,"{":389,"|":280,"}":389};
-function Doc(){
- const pg=[""];let P=0;
+function Doc(bg){
+ const B0=bg?`${bg.join(" ")} rg 0 0 595 842 re f\n`:"";const pg=[B0];let P=0;
  const enc=s=>String(s).replace(/€/g,"\x80").replace(/[–—]/g,"-").replace(/[’‘]/g,"'").replace(/[“”]/g,'"').replace(/…/g,"...").replace(/[^\x00-\xFF]/g,"?");
  const base=ch=>{if(ch.charCodeAt(0)<=126)return ch;const n=ch.normalize("NFD")[0];return n.charCodeAt(0)<=126?n:"?";};
  const wd=(s,z,b)=>{s=enc(s);let a=0;for(const ch of s){const k=base(ch);a+=(b&&WB[k])||WN[k]||556;}return a*z/1000;};
  const col=c=>c.join(" ");
  const d={
   get P(){return P;},get n(){return pg.length;},
-  np(){P++;pg[P]="";},
+  np(){P++;pg[P]=B0;},
   wd,
   T(x,y,s,z,o){o=o||{};s=enc(s);const w=wd(s,z,o.b);const xx=o.r?x-w:o.c?x-w/2:x;
    pg[P]+=`${col(o.col||[0,0,0])} rg BT /${o.i?"F3":o.b?"F2":"F1"} ${z} Tf ${xx.toFixed(1)} ${y.toFixed(1)} Td (${s.replace(/[\\()]/g,"\\$&")}) Tj ET\n`;return w;},
   R(x,y,w,h,c){pg[P]+=`${col(c)} rg ${x.toFixed(1)} ${y.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)} re f\n`;},
   L(x1,y1,x2,y2,c,lw){pg[P]+=`${col(c||LINE)} RG ${lw||.5} w ${x1.toFixed(1)} ${y1.toFixed(1)} m ${x2.toFixed(1)} ${y2.toFixed(1)} l S\n`;},
+  RR(x,y,w,h,r,c,sc){const k=.5523*r,f=n=>n.toFixed(1);pg[P]+=`${col(c)} rg ${sc?col(sc)+' RG .6 w ':''}${f(x+r)} ${f(y)} m ${f(x+w-r)} ${f(y)} l ${f(x+w-r+k)} ${f(y)} ${f(x+w)} ${f(y+r-k)} ${f(x+w)} ${f(y+r)} c ${f(x+w)} ${f(y+h-r)} l ${f(x+w)} ${f(y+h-r+k)} ${f(x+w-r+k)} ${f(y+h)} ${f(x+w-r)} ${f(y+h)} c ${f(x+r)} ${f(y+h)} l ${f(x+r-k)} ${f(y+h)} ${f(x)} ${f(y+h-r+k)} ${f(x)} ${f(y+h-r)} c ${f(x)} ${f(y+r)} l ${f(x)} ${f(y+r-k)} ${f(x+r-k)} ${f(y)} ${f(x+r)} ${f(y)} c h ${sc?'B':'f'}\n`;},
   B(x,y,w,h,c,lw){pg[P]+=`${col(c||LINE)} RG ${lw||.5} w ${x.toFixed(1)} ${y.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)} re S\n`;},
   I(x,y,w){const h=w*LH/LW;pg[P]+=`q ${w.toFixed(1)} 0 0 ${h.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)} cm /Im1 Do Q\n`;return h;},
-  wrap(s,maxW,z,b){const out=[];String(s==null?"":s).split(/\n/).forEach(par=>{let l="";par.split(/\s+/).filter(Boolean).forEach(w=>{const t=l?l+" "+w:w;if(wd(t,z,b)>maxW&&l){out.push(l);l=w;}else l=t;});out.push(l);});return out;},
+  wrap(s,maxW,z,b){const out=[];String(s==null?"":s).split(/\n/).forEach(par=>{let l="";par.split(/\s+/).filter(Boolean).forEach(w=>{while(wd(w,z,b)>maxW){let k=w.length-1;while(k>1&&wd(w.slice(0,k),z,b)>maxW)k--;if(l){out.push(l);l="";}out.push(w.slice(0,k));w=w.slice(k);}const t=l?l+" "+w:w;if(wd(t,z,b)>maxW&&l){out.push(l);l=w;}else l=t;});out.push(l);});return out;},
   build(foot){
    pg.forEach((_,i)=>{P=i;foot&&foot(i,pg.length);});
    const jb=atob(LOGO.split(",")[1]);
@@ -280,14 +289,19 @@ const PR=[
 ["E15","Diferencial tipo A dedicado a la recarga de vehículo eléctrico",85,.5,0,0],
 ["L01","Tira LED con perfil de aluminio y difusor, por metro (suministro e instalación)",11,.35,0,0],
 ["L02","Fuente de alimentación LED 24 V (una cada 5 m de tira)",28,.6,0,0],
-["L03","Pulsador o interruptor integrado en la propia tira",9,.25,0,0]];
+["L03","Pulsador o interruptor integrado en la propia tira",9,.25,0,0],
+["L04","Downlight LED DR 18 W 4000 K (suministro)",12,0,0,0],
+["L05","Downlight LED DR 12 W 4000 K (suministro)",9,0,0,0],
+["L06","Downlight LED DR 9 W 4000 K (suministro)",7.5,0,0,0],
+["L07","Dicroica LED 7 W 4000 K con aro orientable de aluminio (suministro)",10,0,0,0],
+["L08","Instalación de lámpara (montaje y conexionado)",0,.35,0,0]];
 const RENEW=new Set(["E10","E11","E12"]);
-const LN=[[1.5,1.9,.05],[2.5,2.7,.05],[4,3.8,.05],[6,5.2,.05]];
+const LN=[[1.5,1.9,.05],[2.5,2.7,.05],[4,3.8,.05],[6,5.2,.05],[10,8.5,.06],[16,13,.07]];
 const CF=[["C1","Iluminación",1.5,.30],["C2","Tomas de uso general y frigorífico",2.5,.40],["C3","Cocina y horno",6,.15],["C4","Lavadora, lavavajillas y termo",4,.15],["C5","Baños y auxiliares de cocina",2.5,.15],["C6","Adicional tipo C1",1.5,.30],["C7","Adicional tipo C2",2.5,.40],["C8","Calefacción eléctrica (preinstalación)",6,.30],["C9","Aire acondicionado (preinstalación)",6,.30],["C10","Secadora independiente",2.5,.15],["C11","Automatización y seguridad (preinstalación)",1.5,.25],["C12","Adicionales de C3, C4 o C5",2.5,.15],["C13","Recarga de vehículo eléctrico (preinstalación)",6,.20]];
 const EJ=[["Acceso",2,0],["Vestíbulo",4,0],["Salón",22,0],["Cocina",9,0],["Baño",5,0],["Baño",4,0],["Dormitorio",12,0],["Dormitorio",10,0],["Dormitorio",9,0],["Pasillo",7,7]];
 const COND0="Presupuesto válido durante 30 días desde su fecha.\nIncluye material y mano de obra de lo detallado, con la instalación según el REBT.\nCalefacción, aire acondicionado, secadora, automatización y recarga de vehículo: solo preinstalación eléctrica y protecciones, sin suministro ni instalación de los equipos.";
 const EX0=()=>[{d:"Derivación individual",u:"Ud",q:1,p:0},{d:"Sistema de alarma",u:"Ud",q:1,p:0}];
-const st={cli:"",dir:"",num:"",grado:"Básica",gama:"Básica",calef:"No",aa:"No",sec:"No",dom:"No",ve:"No",c12:0,iva:10,mar:15,tar:31,dto:0,m2t:0,pm2:70,usar:"No",led:0,ledsw:"Aparte",cond:COND0,
+const st={cli:"",dir:"",num:"",grado:"Básica",gama:"Básica",calef:"No",aa:"No",sec:"No",dom:"No",ve:"No",c12:0,iva:10,mar:15,tar:31,dto:0,m2t:0,pm2:70,usar:"No",led:0,ledsw:"Aparte",l18:0,l12:0,l9:0,ld:0,linst:0,cond:COND0,
 rooms:EJ.map(a=>({t:a[0],s:a[1],l:a[2]})),ex:EX0()};
 function sint(m){
  const d=m<45?1:m<70?2:m<105?3:m<150?4:5,b=m<60?1:m<110?2:m<160?3:4;
@@ -337,12 +351,16 @@ function calc0(kq){
  const ld_rows=lm>0?[[PR[17][0],PR[17][1],lm,cu(PR[17])],[PR[18][0],PR[18][1],Math.ceil(lm/5),cu(PR[18])]]:[];
  if(lm>0&&st.ledsw==="En la tira")ld_rows.push([PR[19][0],PR[19][1],1,cu(PR[19])]);
  if(lm>0&&st.ledsw==="Aparte")ld_rows.push(["E05","Interruptor independiente para la tira LED",1,cu(PR[4])]);
+ const lq=[[20,+st.l18||0],[21,+st.l12||0],[22,+st.l9||0],[23,+st.ld||0]];
+ const lu_rows=lq.map(([i,q])=>[PR[i][0],PR[i][1],q>0?q:0,cu(PR[i])]);
+ const nl=lq.reduce((a,x)=>a+Math.max(0,x[1]),0)+Math.max(0,+st.linst||0);
+ lu_rows.push([PR[24][0],PR[24][1],nl,cu(PR[24])]);
  const tot=rows=>rows.reduce((a,r)=>a+r[2]*r[3],0);
- const sEl=tot(el_rows),sTe=tot(te_rows),sLd=tot(ld_rows),sEx=st.ex.reduce((a,x)=>a+(+x.q||0)*(+x.p||0),0);
- const sum1=sEl+sTe+sLd+sEx,dto=-sum1*st.dto/100,base=sum1+dto,iva=base*st.iva/100;
+ const sEl=tot(el_rows),sTe=tot(te_rows),sLd=tot(ld_rows),sLu=tot(lu_rows),sEx=st.ex.reduce((a,x)=>a+(+x.q||0)*(+x.p||0),0);
+ const sum1=sEl+sTe+sLd+sLu+sEx,dto=-sum1*st.dto/100,base=sum1+dto,iva=base*st.iva/100;
  const m2=S>0?(sEl+sTe)*(1-st.dto/100)/S:0;
  const ref=el?[73,100]:[48,80];
- return {R,RM,quick,S,n,nT,dif,min,metros,mT,el_rows,te_rows,ld_rows,sEl,sTe,sLd,sEx,sum1,dto,base,iva,total:base+iva,m2,ref,euM,f,cu};
+ return {R,RM,quick,S,n,nT,dif,min,metros,mT,el_rows,te_rows,ld_rows,lu_rows,sEl,sTe,sLd,sLu,sEx,sum1,dto,base,iva,total:base+iva,m2,ref,euM,f,cu};
 }
 function calc(){
  let c=calc0(1);
@@ -377,7 +395,7 @@ function build(){
  SW.forEach(([k])=>seg(k,["No","Sí"]));
  $("#nums").innerHTML=[["mar","Margen (%)"],["tar","Mano de obra (€/h)"],["dto","Descuento (%)"]].map(([k,l])=>`<label>${l}${num("data-k",st[k],k)}</label>`).join("");
  seg("grado",["Básica","Elevada"]);seg("gama",["Básica","Media","Alta"]);seg("iva",[10,21]);seg("ledsw",["Aparte","En la tira","Ninguno"]);
- $("#cond").value=st.cond;$("#ledm").value=st.led;$("#m2t").value=st.m2t||"";$("#pm2").value=st.pm2;
+ $("#cond").value=st.cond;$("#ledm").value=st.led;["l18","l12","l9","ld","linst"].forEach(k=>{const e=$("#"+k);if(e)e.value=st[k]||"";});$("#m2t").value=st.m2t||"";$("#pm2").value=st.pm2;
  $("#ib").innerHTML=PR.map((it,i)=>{const sp=it[4]||it[5];return `<div class="pi"><b>${it[0]}</b>${it[1]}<div class="g4"><label>Material (€)${num("data-p",it[2],i+".2")}</label><label>Horas${num("data-p",it[3],i+".3")}</label>${sp?`<label>Suplem. media (€)${num("data-p",it[4],i+".4")}</label><label>Suplem. alta (€)${num("data-p",it[5],i+".5")}</label>`:""}</div></div>`;}).join("");
  $("#lb").innerHTML=LN.map((l,i)=>`<div class="pi"><b>${l[0]} mm²</b><div class="g4"><label>Material (€/m)${num("data-l",l[1],i+".1")}</label><label>Horas por m${num("data-l",l[2],i+".2")}</label></div></div>`).join("");
  $("#cb").innerHTML=CF.map((c,i)=>`<div class="pi"><b>${c[0]}</b>${c[1]}<div class="g4"><label>Sección (mm²)${num("data-c",c[2],i+".2")}</label><label>m por m² de vivienda${num("data-c",c[3],i+".3")}</label></div><p class="mut cn"></p></div>`).join("");
@@ -390,7 +408,7 @@ function rooms(){
  const f=(i,k,l,v)=>`<label>${l}<div class="step"><button type="button" data-st="${i}.${k}.-1" aria-label="Menos">−</button><input type="number" inputmode="decimal" step="any" min="0" data-r="${i}.${k}" value="${v}"><button type="button" data-st="${i}.${k}.1" aria-label="Más">+</button></div></label>`;
  $("#rl").innerHTML=st.rooms.length?st.rooms.map((r,i)=>`<div class="room"><div class="rh"><select data-r="${i}.t" aria-label="Tipo de estancia">${TIPOS.map(t=>`<option${t==r.t?" selected":""}>${t}</option>`).join("")}</select><button type="button" data-del="${i}" aria-label="Quitar estancia">✕</button></div><div class="rr">${f(i,"s","Superficie (m²)",r.s)}${r.t==="Pasillo"?f(i,"l","Longitud (m)",r.l):""}</div><p class="pts"></p></div>`).join(""):`<p class="mut">Aún no hay estancias. Añade la primera con los botones de arriba.</p>`;
 }
-function nuevoViv(){Object.assign(st,{cli:"",dir:"",num:"",grado:"Básica",gama:"Básica",calef:"No",aa:"No",sec:"No",dom:"No",ve:"No",c12:0,dto:0,m2t:0,usar:"No",led:0,ledsw:"Aparte",rooms:[],ex:EX0()});build();update();}
+function nuevoViv(){Object.assign(st,{cli:"",dir:"",num:"",grado:"Básica",gama:"Básica",calef:"No",aa:"No",sec:"No",dom:"No",ve:"No",c12:0,dto:0,m2t:0,usar:"No",led:0,ledsw:"Aparte",l18:0,l12:0,l9:0,ld:0,linst:0,rooms:[],ex:EX0()});build();update();}
 function restViv(){const o=JSON.parse(INIT);o.PR.forEach((p,i)=>PR[i]=p);o.LN.forEach((p,i)=>LN[i]=p);o.CF.forEach((p,i)=>CF[i]=p);build();update();}
 
 /* ---- líneas del presupuesto de vivienda (para pantalla, texto y PDF) ---- */
@@ -419,6 +437,10 @@ function detalle(c){
  G="Iluminación LED";
  if(c.ld_rows.length){const lm=c.ld_rows[0][2],sw=st.ledsw==="En la tira"?" · pulsador integrado en la tira":st.ledsw==="Aparte"?" · interruptor independiente":"";
   add(`Tira LED con perfil y difusor, con fuente de alimentación`,lm,c.ld_rows.reduce((a,r)=>a+r[2]*r[3],0),`${nf(lm)} m${sw}`,"m");}
+ G="Luminarias";
+ const LUD=["Downlight LED DR 18 W, 4000 K","Downlight LED DR 12 W, 4000 K","Downlight LED DR 9 W, 4000 K","Dicroica LED 7 W, 4000 K, con aro orientable de aluminio"];
+ c.lu_rows.slice(0,4).forEach((r,i)=>add(LUD[i],r[2],r[2]*r[3]));
+ add("Instalación de lámpara (montaje y conexionado)",c.lu_rows[4][2],c.lu_rows[4][2]*c.lu_rows[4][3]);
  st.ex.forEach(x=>{const q=+x.q,p=+x.p;if(q>0&&p>0)L.push({c:x.d||"Otros trabajos",q,u:p,i:q*p,sub:"",ud:x.u||"Ud",g:"Otros trabajos"});});
  return L;
 }
@@ -434,30 +456,30 @@ function resumenViv(c){
 
 /* ---- PDF corporativo de vivienda (paleta del logo: verde lima y verde oscuro, fondo blanco) ---- */
 function pdfViv(c){
- const D=Doc(),X0=40,X1=555,W=X1-X0,ZEB=[.965,.978,.94],WH=[1,1,1];let y=0;
- const band=()=>{D.R(0,832,595,10,DGREEN);D.R(0,829,595,3,GREEN);};
- const card=(x,w,t,rows,h)=>{D.R(x,y-h,w,h,LGREEN);D.R(x,y-h,3.5,h,GREEN);D.T(x+12,y-14,t,7,{b:1,col:GREEN});let yy=y-28;rows.forEach(r=>{D.wrap(r[0],w-24,r[1]).forEach(l=>{D.T(x+12,yy,l,r[1],{b:r[2],col:r[3]||[0,0,0]});yy-=r[1]+3.5;});});};
+ const D=Doc([.89,.94,.85]),X0=40,X1=555,W=X1-X0,ZEB=[.95,.975,.92],WH=[1,1,1];let y=0;
+ const band=()=>{D.R(0,800,595,42,DGREEN);D.R(0,796,595,4,GREEN);D.RR(X0-6,806,80,30,5,WH);};
+ const card=(x,w,t,rows,h)=>{D.RR(x,y-h,w,h,5,WH);D.R(x,y-h+5,3.5,h-10,GREEN);D.T(x+12,y-14,t,7,{b:1,col:GREEN});let yy=y-28;rows.forEach(r=>{D.wrap(r[0],w-24,r[1]).forEach(l=>{D.T(x+12,yy,l,r[1],{b:r[2],col:r[3]||[0,0,0]});yy-=r[1]+3.5;});});};
  const rowsH=rows=>rows.reduce((a,r)=>a+D.wrap(r[0],226,r[1]).length*(r[1]+3.5),0)+36;
  const cab1=()=>{
-  band();
-  const lw=165,lh=D.I(X0,842-22-165*LH/LW,lw);
-  D.T(X1,800,"PRESUPUESTO",27,{b:1,r:1,col:DGREEN});D.R(X1-64,791,64,3.5,GREEN);
-  [["Nº",st.num||"—"],["FECHA",hoy()],["VALIDEZ","30 días"]].forEach(([a,b],i)=>{const x=X1-3*92-2*6+i*98;D.R(x,752,92,28,LGREEN);D.T(x+8,771,a,6.5,{b:1,col:GREEN});D.T(x+8,758,b,10,{b:1,col:DGREEN});});
-  y=842-22-lh-18;
+  D.R(0,726,595,116,DGREEN);D.R(0,722,595,4,GREEN);D.RR(X0-6,742,200,84,8,WH);
+  const lh=D.I(X0+4,742+(84-170*LH/LW)/2,170);
+  D.T(X1,800,"PRESUPUESTO",27,{b:1,r:1,col:WH});D.R(X1-64,791,64,3.5,GREEN);
+  [["Nº",st.num||"—"],["FECHA",hoy()],["VALIDEZ","30 días"]].forEach(([a,b],i)=>{const x=X1-3*92-2*6+i*98;D.RR(x,744,92,32,5,[.24,.42,.24]);D.T(x+8,766,a,6.5,{b:1,col:[.78,.9,.6]});D.T(x+8,752,b,10,{b:1,col:WH});});
+  y=722-22;
   const cr=[[st.cli||"Cliente sin indicar",11,1],...(st.dir?[["Vivienda: "+st.dir,9,0,GRAY]]:[])];
   const er=[[CO.nom,11,1],[CO.dir,9,0,GRAY],["Tel. "+CO.tel+"  ·  "+CO.mail,9,0,GRAY],[CO.web+(CO.cif?"  ·  CIF "+CO.cif:""),9,0,GRAY]];
   const h=Math.max(rowsH(cr),rowsH(er));
   card(X0,252,"CLIENTE",cr,h);card(X1-252,252,"EMPRESA",er,h);y-=h+14;
   const luces=c.R.reduce((a,r)=>a+r.luz,0);
   const k=[["SUPERFICIE",c.S>0?nf(c.S)+" m²":"—"],["ELECTRIFICACIÓN",st.grado.toUpperCase()],["CIRCUITOS",String(c.nT)],["PUNTOS DE LUZ",String(luces)]];
-  D.R(X0,y-42,W,42,DGREEN);D.R(X0,y-42,W,3,GREEN);
+  D.RR(X0,y-42,W,42,6,DGREEN);D.R(X0+6,y-42,W-12,3,GREEN);
   k.forEach(([a,b],i)=>{const x=X0+16+i*(W/4);D.T(x,y-18,b,14,{b:1,col:WH});D.T(x,y-31,a,6.5,{b:1,col:GREEN});});
   y-=60;
   D.T(X0,y,"INSTALACIÓN ELÉCTRICA Y TELECOMUNICACIONES EN VIVIENDA",8.5,{b:1,col:DGREEN});y-=14;
   if(c.quick){D.T(X0,y,`Estimación orientativa sobre ${nf(c.S)} m² totales (precio medio ${nf(st.pm2)} €/m² sin IVA); se ajustará al medir la vivienda.`,8,{i:1,col:GRAY});y-=14;}
   y-=6;
  };
- const cabN=()=>{D.np();band();D.I(X0,842-20-62*LH/LW,62);D.T(X1,805,"Presupuesto"+(st.num?" Nº "+st.num:""),9,{b:1,r:1,col:DGREEN});D.T(X1,793,hoy(),8,{r:1,col:GRAY});y=842-20-62*LH/LW-34;};
+ const cabN=()=>{D.np();band();D.I(X0,810,68);D.T(X1,824,"Presupuesto"+(st.num?" Nº "+st.num:""),9.5,{b:1,r:1,col:WH});D.T(X1,811,hoy(),8,{r:1,col:[.85,.9,.82]});y=772;};
  const grp=(t)=>{if(y<150)cabN();D.R(X0,y-4,4,15,GREEN);D.T(X0+11,y,t.toUpperCase(),9.5,{b:1,col:DGREEN});D.L(X0+11+D.wd(t.toUpperCase(),9.5,1)+8,y+3,X1,y+3,GREEN,.8);y-=18;
   D.R(X0,y-6,W,17,DGREEN);const z=7,o={b:1,col:WH};D.T(X0+8,y-1,"DESCRIPCIÓN",z,o);D.T(322,y-1,"UD",z,o);D.T(392,y-1,"CANT.",z,{...o,r:1});D.T(468,y-1,"PRECIO UD.",z,{...o,r:1});D.T(X1-8,y-1,"IMPORTE",z,{...o,r:1});y-=21;};
  cab1();
@@ -467,7 +489,7 @@ function pdfViv(c){
   const h=w.length*12+sb.length*9.5+8;
   if(l.g!==g){g=l.g;zi=0;grp(g);}
   else if(y-h<80){cabN();grp(g);zi=0;}
-  if(zi%2===0)D.R(X0,y-h+9,W,h+2,ZEB);zi++;
+  D.R(X0,y-h+9,W,h+2,zi%2===0?WH:ZEB);zi++;
   D.T(X0+8,y,w[0],9);D.T(322,y,l.ud,9);D.T(392,y,nf(l.q),9,{r:1});D.T(468,y,eur(l.u),9,{r:1});D.T(X1-8,y,eur(l.i),9,{r:1,b:1,col:DGREEN});
   w.slice(1).forEach(t=>{y-=12;D.T(X0+8,y,t,9);});
   sb.forEach(t=>{y-=9.5;D.T(X0+8,y,t,7.5,{col:GRAY});});
@@ -480,20 +502,21 @@ function pdfViv(c){
  const yt=y;
  /* condiciones */
  const ch=Math.max(96,34+cl*10.5);
- D.R(X0,yt-ch,282,ch,LGREEN);D.R(X0,yt-ch,3.5,ch,GREEN);D.T(X0+12,yt-14,"CONDICIONES",7,{b:1,col:GREEN});
+ D.RR(X0,yt-ch,282,ch,5,WH);D.R(X0,yt-ch+5,3.5,ch-10,GREEN);D.T(X0+12,yt-14,"CONDICIONES",7,{b:1,col:GREEN});
  let cy=yt-28;cond.forEach(t=>D.wrap(t,258,8).forEach((l,i)=>{D.T(X0+12+(i?8:0),cy,(i?"":"· ")+l,8,{col:[.25,.3,.26]});cy-=10.5;}));
  /* totales */
+ const hh=(st.dto?3:2)*16+66;D.RR(356,yt-hh,X1-356,hh,6,WH);
  let ty=yt-14;const row=(t,v)=>{D.T(370,ty,t,9.5,{col:GRAY});D.T(X1,ty,v,9.5,{r:1});ty-=16;D.L(365,ty+11,X1,ty+11);};
  if(st.dto)row(`Descuento (${nf(st.dto)} %)`,eur(c.dto));
  row("Base imponible",eur(c.base));row(`IVA (${st.iva} %)`,eur(c.iva));
  ty-=20;D.R(360,ty-12,X1-360,32,DGREEN);D.R(360,ty-12,4,32,GREEN);D.T(374,ty-2,"TOTAL",12,{b:1,col:WH});D.T(X1-10,ty-2,eur(c.total),14,{b:1,r:1,col:WH});
- y=Math.min(ty-12,yt-ch)-22;
+ y=Math.min(ty-12,yt-ch,yt-hh)-22;
  /* sellos */
  if(y<150){cabN();y-=10;}
  [["PROFESIONALIDAD"],["EXPERIENCIA"],["CALIDAD"]].forEach(([t],i)=>{const x=X0+i*(W/3);D.R(x,y,W/3-10,3,GREEN);D.T(x,y-14,t,8,{b:1,col:DGREEN});});
  D.T(X0,y-30,"Empresa autorizada en telecomunicaciones y en baja tensión.",8,{i:1,col:GRAY});
  y-=56;
- if(y>100){[["Conforme del cliente (firma y fecha)",X0],["Por "+CO.nom,X1-250]].forEach(([t,x])=>{D.B(x,y-50,250,50,LINE);D.T(x+8,y-12,t,7.5,{b:1,col:GREEN});});}
+ if(y>100){[["Conforme del cliente (firma y fecha)",X0],["Por "+CO.nom,X1-250]].forEach(([t,x])=>{D.RR(x,y-50,250,50,5,WH,LINE);D.T(x+8,y-12,t,7.5,{b:1,col:GREEN});});}
  return D.build((i,n)=>{
   D.R(0,0,595,44,DGREEN);D.R(0,44,595,3,GREEN);
   D.T(X0,28,CO.nom,9,{b:1,col:WH});D.T(X0+D.wd(CO.nom,9,1)+6,28,"· "+CO.dir,8,{col:[.85,.9,.82]});
@@ -517,7 +540,7 @@ function updateViv(c){
  else{a.className="ok";a.textContent="Grado compatible con las especificaciones.";}
  const row=r=>`<div class="ln"><span>${r[1]}<small>${nf(r[2])} × ${eur(r[3])}</small></span><b>${eur(r[2]*r[3])}</b></div>`;
  const sec=(t,rows,s)=>rows.filter(r=>r[2]>0).length?`<div class="sec">${t}</div>${rows.filter(r=>r[2]>0).map(row).join("")}<div class="sub"><span>Subtotal</span><span>${eur(s)}</span></div>`:"";
- $("#pl").innerHTML=sec("Instalación eléctrica",c.el_rows,c.sEl)+sec("Telecomunicaciones",c.te_rows,c.sTe)+sec("Tira LED",c.ld_rows,c.sLd);
+ $("#pl").innerHTML=sec("Instalación eléctrica",c.el_rows,c.sEl)+sec("Telecomunicaciones",c.te_rows,c.sTe)+sec("Tira LED",c.ld_rows,c.sLd)+sec("Luminarias",c.lu_rows,c.sLu);
  $("#tot").innerHTML=`<div><span>Suma de partidas</span><span>${eur(c.sum1)}</span></div><div><span>Descuento (${nf(st.dto)} %)</span><span>${eur(c.dto)}</span></div><div><span>Base imponible</span><span>${eur(c.base)}</span></div><div><span>IVA (${st.iva} %)</span><span>${eur(c.iva)}</span></div><div class="g"><span>Total</span><span>${eur(c.total)}</span></div>`;
  const rf=c.m2<c.ref[0]?"por debajo del":c.m2>c.ref[1]?"por encima del":"dentro del";
  $("#ref").textContent=`Eléctrico + ICT: ${eur(c.m2)}/m², ${rf} rango de referencia (${c.ref[0]}–${c.ref[1]} €/m², sin IVA).`;
@@ -549,11 +572,25 @@ const SECS=[1.5,2.5,4,6,10,16];
 /* sp: [cable, nº conductores, sección, tubo, metros por unidad] */
 const sp=(cab,n,sec,tub,len)=>({cab,n,sec,tub,len});
 const H07="H07Z1-K 450/750 V (libre de halógenos)",RZ="RZ1-K (AS) 0,6/1 kV",T20="Tubo PVC corrugado doble capa M20",T16="Tubo PVC corrugado doble capa M16",T25="Tubo PVC corrugado doble capa M25",T32="Tubo PVC corrugado doble capa M32";
+/* Base de precios de aparamenta y luminarias (€ sin IVA, material). Referencias de internet en España (Obramat, RS, Autosolar, Wattuneed, generadordeprecios), a nivel de instalador. Editable en Ajustes. */
+const BASE0={
+ mt2:[[10,9],[16,10],[20,11],[25,12],[32,15],[40,19],[50,24],[63,28],[80,60],[100,75],[125,95]],
+ mt4:[[10,22],[16,24],[20,26],[25,28],[32,34],[40,40],[50,48],[63,56],[80,95],[100,120],[125,150]],
+ d2:[[25,30],[40,36],[63,60],[80,90]],
+ d4:[[25,50],[40,58],[63,85],[80,120],[100,150]],
+ led:[[6,6],[9,7],[12,9],[18,12],[24,16],[40,25]],
+ f:{p1:.55,p3:.8,sup:1.45,sel:1.4,iga:1.15},
+ fix:{caja:[55,.7],icp:[45,.2],acc:[14,.3],pp:[30,.5],mont:[0,1.2],sob:[90,.4],mt:[0,.12],dif:[0,.2],dl:[0,.35],toma:[4,.35],int:[4,.3],reg:[2.5,.2]}};
+const BASE=JSON.parse(JSON.stringify(BASE0));
+const BNAME={mt2:"Magnetotérmico 2P, curva C 10 kA",mt4:"Magnetotérmico / IGA 4P, curva C 10 kA",d2:"Diferencial instantáneo 2P 30 mA (clase A)",d4:"Diferencial instantáneo 4P 30 mA (clase A)",led:"Downlight / panel LED 4000 K (por W)"};
+const FNAME={p1:"Magnetotérmico 1P = 2P ×",p3:"Magnetotérmico 3P = 4P ×",sup:"Recargo superinmunizado ×",sel:"Recargo selectivo ×",iga:"IGA = magnetotérmico ×"};
+const XNAME={caja:"Caja empotrable de cuadro con puerta",icp:"ICP (control de potencia)",acc:"Accesorios, regletas y fijación",pp:"Parte proporcional de cable y tubo",mont:"Replanteo, montaje, conexionado y pruebas",sob:"Protector contra sobretensiones",mt:"Montaje de un magnetotérmico",dif:"Montaje de un diferencial",dl:"Instalación de una luminaria",toma:"Toma de corriente",int:"Interruptor o pulsador",reg:"Caja de registro o derivación"};
 function specCalc(s){
  if(!s)return null;const len=+s.len||1,n=+s.n||0,sec=+s.sec||0;
- const pc=(CP.cab[s.cab]||{})[sec]||0,pt=CP.tub[s.tub]||0,band=/rejiband/i.test(s.tub||"");
- const mat=len*(n*pc+pt+(band?.4:.12));
- const hor=len*((band?.07:.07)+.012*n);
+ const ln=LN.find(x=>+x[0]===sec)||LN.reduce((a,b)=>Math.abs(b[0]-sec)<Math.abs(a[0]-sec)?b:a),k=n/3;
+ const pt=CP.tub[s.tub]||0,band=/rejiband/i.test(s.tub||"");
+ const mat=len*(k*(+ln[1]||0)+pt+(band?.4:.12));
+ const hor=len*(k*(+ln[2]||0)+(band?.05:.02));
  return {mat:Math.round(mat*100)/100,hor:Math.round(hor*100)/100};
 }
 /* Catálogo: [clave, ud, resumen, descripción, material €/ud, horas/ud, spec, ejemplo (cantidad, capítulo)] */
@@ -630,9 +667,10 @@ const CAT_INIT=JSON.stringify(CATL.map(c=>[c.mat,c.hor]));
 const COND_I0="Presupuesto válido durante 30 días desde su fecha.\nLos precios incluyen suministro de material y mano de obra de cada partida. No incluyen IVA salvo que se indique.\nNo incluye tasas de legalización ni trabajos de albañilería, salvo que figuren como partida.";
 const si={obra:"",cli:"",dir:"",num:"",tar:31,mar:15,dto:0,iva:21,cond:COND_I0,l:[]};
 const KEYI="presupuestosIndustrial1";
-function saveI(){try{localStorage.setItem(KEYI,JSON.stringify({v:1,si,CP,cat:CATL.map(c=>[c.k,c.mat,c.hor])}));}catch(e){}}
+function saveI(){try{localStorage.setItem(KEYI,JSON.stringify({v:2,si,CP,BASE,cat:CATL.map(c=>[c.k,c.mat,c.hor])}));}catch(e){}}
 function loadI(s){try{if(!s)return;Object.assign(si,s.si);if(!Array.isArray(si.l))si.l=[];if(!si.cond)si.cond=COND_I0;
  if(s.CP){Object.keys(s.CP.cab||{}).forEach(k=>{CP.cab[k]=s.CP.cab[k];});Object.keys(s.CP.tub||{}).forEach(k=>{CP.tub[k]=s.CP.tub[k];});}
+ if(s.BASE){["mt2","mt4","d2","d4","led"].forEach(k=>{if(Array.isArray(s.BASE[k])&&s.BASE[k].length===BASE[k].length)BASE[k]=s.BASE[k];});Object.assign(BASE.f,s.BASE.f||{});Object.keys(BASE.fix).forEach(k=>{if(s.BASE.fix&&s.BASE.fix[k])BASE.fix[k]=s.BASE.fix[k];});}
  (s.cat||[]).forEach(a=>{const c=CATL.find(x=>x.k===a[0]);if(c){c.mat=a[1];c.hor=a[2];}});}catch(e){}}
 try{loadI(JSON.parse(localStorage.getItem(KEYI)||"null"));}catch(e){}
 
@@ -654,7 +692,7 @@ function icalc(){
  return {caps,sum,dto,base,iva,total:base+iva};
 }
 const vis=it=>it.q>0&&it.pu>0.004;
-const blank=()=>({cod:"",u:"Ud",res:"",desc:"",sp:null,len:0,med:[{t:"",n:1,l:0,a:0,h:0}],qm:"",mat:0,hor:0,pm:"",open:true});
+const blank=()=>({cod:"",u:"Ud",res:"",desc:"",sp:null,len:0,med:[{t:"",n:1,l:0,a:0,h:0}],qm:"",mat:0,hor:0,pm:"",dg:[],open:true});
 function nextCod(){let cap="",n=0;for(const l of si.l){if(l.tipo==="cap"){cap=l.cod;n=0;}else n++;}return (cap||"01")+"."+String(n+1).padStart(2,"0");}
 function fromCat(c,q){const s=c.sp?JSON.parse(JSON.stringify(c.sp)):null;const r=s?specCalc(s):null;
  return {cod:nextCod(),u:c.u,res:c.res,desc:c.desc,sp:s,med:[{t:"",n:q||1,l:0,a:0,h:0}],qm:"",mat:r?r.mat:c.mat,hor:r?r.hor:c.hor,pm:"",open:false,k:c.k};}
@@ -666,13 +704,15 @@ function ibuild(){
  $("#inums").innerHTML=[["mar","Margen (%)"],["tar","Mano de obra (€/h)"],["dto","Descuento (%)"]].map(([k,l])=>`<label>${l}${num("data-ik",si[k],k)}</label>`).join("");
  seg("iva",[10,21],"data-ik");
  $("#icond").value=si.cond;
- $("#icp").innerHTML=Object.keys(CP.cab).map(t=>`<div class="pi"><b>${esc(t)}</b><div class="g3">${SECS.map(s=>`<label>${s} mm²${num("data-cp",CP.cab[t][s],"cab|"+t+"|"+s)}</label>`).join("")}</div></div>`).join("")+
+ $("#icp").innerHTML=`<div class="pi"><b>Cable (mismos precios que Vivienda, para 3 conductores)</b>${LN.map((l,i)=>`<div class="g3"><label>${l[0]} mm² · €/m${num("data-lc",l[1],i+".1")}</label><label>h/m${num("data-lc",l[2],i+".2")}</label></div>`).join("")}<p class="mut">Con más de 3 conductores el precio sube proporcionalmente (n/3).</p></div>`+
   `<div class="pi"><b>Tubos y bandejas</b><div class="g2">${Object.keys(CP.tub).filter(t=>t!=="Sin tubo").map(t=>`<label>${esc(t)}${num("data-cp",CP.tub[t],"tub|"+t)}</label>`).join("")}</div></div>`;
  $("#icc").innerHTML=CATL.map((c,i)=>`<div class="pi"><b>${esc(c.res)}</b> <span class="mut">(${c.u})</span>${c.sp?`<p class="mut">Se calcula desde cable y tubo (${c.sp.len} m por unidad); aquí puedes forzar otros valores.</p>`:""}<div class="g4"><label>Material (€/${c.u})${num("data-cat",c.mat,i+".mat")}</label><label>Horas por ${c.u}${num("data-cat",c.hor,i+".hor")}</label></div></div>`).join("");
+ $("#ibs").innerHTML=Object.keys(BNAME).map(k=>`<div class="pi"><b>${BNAME[k]}</b><div class="g3">${BASE[k].map((e,j)=>`<label>${e[0]} ${k==="led"?"W":"A"}${num("data-bs",e[1],k+"."+j+".1")}</label>`).join("")}</div></div>`).join("")+`<div class="pi"><b>Recargos</b><div class="g3">${Object.keys(FNAME).map(k=>`<label>${FNAME[k]}${num("data-bs",BASE.f[k],"f."+k)}</label>`).join("")}</div></div><div class="pi"><b>Otros componentes (material €, horas)</b>${Object.keys(XNAME).map(k=>`<div class="g3"><label>${XNAME[k]}${num("data-bs",BASE.fix[k][0],"fix."+k+".0")}</label><label>Horas${num("data-bs",BASE.fix[k][1],"fix."+k+".1")}</label></div>`).join("")}</div>`;
  irender();
 }
 const specUI=(l,i)=>{const s=l.sp||{cab:Object.keys(CP.cab)[0],n:0,sec:2.5,tub:"Sin tubo",len:1};
  return `<div class="card" style="margin:10px 0"><b style="font-size:.9rem">Características de cable y tubo</b><div class="g2" style="margin-top:8px"><label>Cable<select data-sp="${i}.cab">${Object.keys(CP.cab).map(t=>`<option${t===s.cab?" selected":""}>${esc(t)}</option>`).join("")}</select></label><label>Conductores${num("data-sp",s.n,i+".n")}</label><label>Sección (mm²)<select data-sp="${i}.sec">${SECS.map(x=>`<option${+x===+s.sec?" selected":""}>${x}</option>`).join("")}</select></label><label>Metros por unidad${num("data-sp",s.len,i+".len")}</label></div><label style="margin-top:8px">Tubo o bandeja<select data-sp="${i}.tub">${Object.keys(CP.tub).map(t=>`<option${t===s.tub?" selected":""}>${esc(t)}</option>`).join("")}</select></label><button type="button" class="s" style="width:100%;margin-top:8px" data-calc="${i}">Calcular material y horas</button></div>`;};
+const dgUI=(l,i)=>{const d=l.dg||[];return `<div class="card" style="margin:10px 0"><b style="font-size:.9rem">Desglose por componentes</b><p class="mut">Cada componente del texto se valora por separado; el material y las horas de la partida son la suma. Puedes cambiar, añadir o quitar.</p>${d.map((c,j)=>`<div class="med"><label class="w">Componente<input data-dg="${i}.${j}.t" value="${esc(c.t)}"></label><label>Cant.${num("data-dg",c.q,i+"."+j+".q")}</label><label>Mat. €/ud${num("data-dg",c.mat,i+"."+j+".mat")}</label><label>Horas/ud${num("data-dg",c.hor,i+"."+j+".hor")}</label><div class="pp"><span></span><button type="button" class="s" data-dgdel="${i}.${j}">Quitar</button></div></div>`).join("")||'<p class="mut">Sin desglose. Pulsa «Releer texto» o añade componentes a mano.</p>'}<div class="g2" style="margin-top:8px"><button type="button" class="s" data-dgre="${i}">Releer texto y recalcular</button><button type="button" class="s" data-dgadd="${i}">+ Componente</button></div></div>`;};
 const medUI=(m,i,j)=>`<div class="med"><label class="w">Medición (zona o concepto)<input data-md="${i}.${j}.t" value="${esc(m.t)}" placeholder="Planta baja, zona…"></label><label>Uds${num("data-md",m.n,i+"."+j+".n")}</label><label>Largo${num("data-md",m.l,i+"."+j+".l")}</label><label>Ancho${num("data-md",m.a,i+"."+j+".a")}</label><label>Alto${num("data-md",m.h,i+"."+j+".h")}</label><div class="pp"><span>Parcial: <b data-pp="${i}.${j}">0</b></span><button type="button" class="s" data-mdel="${i}.${j}">Quitar</button></div></div>`;
 function irender(){
  const mv=(i)=>`<div class="g3" style="margin-top:8px"><button type="button" class="s" data-up="${i}">↑ Subir</button><button type="button" class="s" data-down="${i}">↓ Bajar</button><button type="button" class="s" data-dup="${i}">Duplicar</button></div><button type="button" class="s" style="width:100%;margin-top:8px" data-idel="${i}">Eliminar</button>`;
@@ -682,6 +722,7 @@ function irender(){
   <div class="g4"><label>Código<input data-ind="${i}.cod" value="${esc(l.cod)}"></label><label>Unidad<select data-ind="${i}.u">${["Ud","Ml","m²","m³","h","PA","kg"].map(u=>`<option${u===l.u?" selected":""}>${u}</option>`).join("")}</select></label></div>
   <label class="f">Resumen<input data-ind="${i}.res" value="${esc(l.res)}"></label>
   <label class="f">Descripción<textarea data-ind="${i}.desc" rows="5">${esc(l.desc)}</textarea></label>
+  ${dgUI(l,i)}
   ${specUI(l,i)}
   <b style="font-size:.9rem">Mediciones</b>
   ${(l.med||[]).map((m,j)=>medUI(m,i,j)).join("")}
@@ -698,6 +739,7 @@ function iupdate(){
   cp.items.forEach(it=>{const i=it.idx,g=s=>document.querySelector(s);
    const set=(s,t)=>{const e=g(s);if(e)e.textContent=t;};
    set(`[data-pimp="${i}"]`,eur(it.imp));set(`[data-iimp="${i}"]`,`${nf(it.q)} ${it.l.u} × ${eur(it.pu)} = ${eur(it.imp)}`);
+   ["mat","hor"].forEach(f=>{const e=g(`[data-ind="${i}.${f}"]`);if(e&&e!==document.activeElement)e.value=it.l[f];});
    set(`[data-pcod="${i}"]`,it.l.cod);set(`[data-pres="${i}"]`,`${it.l.u} · ${it.l.res||"(sin resumen)"}`);
    (it.l.med||[]).forEach((m,j)=>set(`[data-pp="${i}.${j}"]`,nf(it.par[j])));
    const q=g(`[data-q="${i}"]`),p=g(`[data-p2="${i}"]`);if(q)q.placeholder="auto: "+nf(it.qa);if(p)p.placeholder="auto: "+n2(it.pa);
@@ -725,7 +767,7 @@ function pdfInd(c){
  const heads=()=>{const o={b:1},z=6.5;D.T(K.cod,y,"CÓDIGO",z,o);D.T(K.res,y,"RESUMEN",z,o);D.T(K.uds,y,"UDS",z,{...o,r:1});D.T(K.lon,y,"LONGITUD",z,{...o,r:1});D.T(K.anc,y,"ANCHURA",z,{...o,r:1});D.T(K.alt,y,"ALTURA",z,{...o,r:1});D.T(K.par,y,"PARCIALES",z,{...o,r:1});D.T(K.can,y,"CANTIDAD",z,{...o,r:1});D.T(K.pre,y,"PRECIO",z,{...o,r:1});D.T(K.imp,y,"IMPORTE",z,{...o,r:1});y-=5;D.L(X0,y,X1,y,[0,0,0],.6);y-=13;};
  const p1=()=>{
   const lh=D.I(X0,842-26-150*LH/LW,150);
-  D.T(X1,806,CO.nom,9,{b:1,r:1,col:DGREEN});D.T(X1,794,CO.dir,8,{r:1,col:GRAY});D.T(X1,783,[CO.tel&&"Tel. "+CO.tel,CO.mail].filter(Boolean).join(" · "),8,{r:1,col:GRAY});
+  D.T(X1,806,CO.nom,9,{b:1,r:1});D.T(X1,794,CO.dir,8,{r:1});D.T(X1,783,[CO.tel&&"Tel. "+CO.tel,CO.mail].filter(Boolean).join(" · "),8,{r:1});
   y=842-26-lh-18;
   D.T(X0,y,"PRESUPUESTO Y MEDICIONES",13,{b:1});y-=17;
   if(si.obra){D.wrap(si.obra.toUpperCase(),515,9,1).forEach(l=>{D.T(X0,y,l,9,{b:1});y-=12;});}
@@ -740,7 +782,7 @@ function pdfInd(c){
   if(y<130){pN();}
   if(cp.res||cp.cod){D.R(X0,y-5,X1-X0,16,[.90,.90,.90]);D.T(X0+8,y,`CAPÍTULO ${cp.cod} ${cp.res}`.trim().toUpperCase(),8.5,{b:1});y-=22;}
   its.forEach(it=>{
-   const l=it.l,tl=D.wrap(`${l.u}   ${l.res}`,345,8.5,1),dl=D.wrap(l.desc,345,8);
+   const l=it.l,tl=D.wrap(`${l.u}   ${l.res}`,400,8.5,1),dl=D.wrap(l.desc,400,8);
    const meds=(l.med||[]).map((m,j)=>({m,p:it.par[j]})).filter(x=>x.p!==0);
    const H=tl.length*11+dl.length*9.5+meds.length*10+40;
    if(y-H<60&&y<740){pN();}
@@ -765,19 +807,87 @@ function pdfInd(c){
  });
  /* resumen final */
  if(y<250)pN();
- y-=6;D.R(X0,y-6,X1-X0,18,DGREEN);D.T(X0+8,y-1,"RESUMEN DEL PRESUPUESTO",9,{b:1,col:[1,1,1]});y-=26;
+ y-=6;D.R(X0,y-6,X1-X0,18,[.90,.90,.90]);D.T(X0+8,y-1,"RESUMEN DEL PRESUPUESTO",9,{b:1});y-=26;
  c.caps.forEach(cp=>{if(!cp.items.some(vis))return;D.T(X0+8,y,`${cp.cod} ${cp.res}`.trim().toUpperCase(),8.5);D.T(X1-8,y,eur(cp.tot),8.5,{r:1});y-=14;D.L(X0,y+6,X1,y+6);});
  y-=4;
- if(si.dto){D.T(X0+8,y,`Descuento (${nf(si.dto)} %)`,9,{col:GRAY});D.T(X1-8,y,eur(c.dto),9,{r:1});y-=15;}
- D.T(X0+8,y,"Base imponible",9,{col:GRAY});D.T(X1-8,y,eur(c.base),9,{r:1});y-=15;
- D.T(X0+8,y,`IVA (${si.iva} %)`,9,{col:GRAY});D.T(X1-8,y,eur(c.iva),9,{r:1});y-=10;
- D.R(X0,y-22,X1-X0,26,DGREEN);D.T(X0+8,y-14,"TOTAL PRESUPUESTO",11,{b:1,col:[1,1,1]});D.T(X1-8,y-14,eur(c.total),11,{b:1,r:1,col:[1,1,1]});y-=48;
+ if(si.dto){D.T(X0+8,y,`Descuento (${nf(si.dto)} %)`,9);D.T(X1-8,y,eur(c.dto),9,{r:1});y-=15;}
+ D.T(X0+8,y,"Base imponible",9);D.T(X1-8,y,eur(c.base),9,{r:1});y-=15;
+ D.T(X0+8,y,`IVA (${si.iva} %)`,9);D.T(X1-8,y,eur(c.iva),9,{r:1});y-=10;
+ D.L(X0,y-4,X1,y-4,[0,0,0],.8);D.T(X0+8,y-18,"TOTAL PRESUPUESTO",11,{b:1});D.T(X1-8,y-18,eur(c.total),11,{b:1,r:1});D.L(X0,y-26,X1,y-26,[0,0,0],.8);y-=52;
  const cond=(si.cond||"").split("\n").filter(Boolean);
- if(cond.length){if(y<90+cond.length*12)pN();D.T(X0,y,"CONDICIONES",7.5,{b:1,col:GREEN});y-=12;cond.forEach(t=>D.wrap(t,500,8).forEach((l,i)=>{D.T(X0+(i?8:0),y,(i?"":"· ")+l,8,{col:GRAY});y-=10;}));}
+ if(cond.length){if(y<90+cond.length*12)pN();D.T(X0,y,"CONDICIONES",7.5,{b:1});y-=12;cond.forEach(t=>D.wrap(t,500,8).forEach((l,i)=>{D.T(X0+(i?8:0),y,(i?"":"· ")+l,8);y-=10;}));}
  return D.build((i,n)=>{
   D.L(X0,50,X1,50,[0,0,0],.5);
-  D.T(X0,38,hoyL(),8);D.T(300,38,CO.nom,8,{c:1,col:GRAY});D.T(X1,38,"Página "+(i+1),8,{r:1});
+  D.T(X0,38,hoyL(),8);D.T(300,38,CO.nom,8,{c:1});D.T(X1,38,"Página "+(i+1),8,{r:1});
  });
+}
+
+/* ================= VALORACIÓN POR COMPONENTES ================= */
+const r2=x=>Math.round(x*100)/100;
+const pickA=(t,A)=>{if(!t.length)return 0;for(const e of t)if(e[0]>=A)return e[1];const l=t[t.length-1];return l[1]*A/l[0];};
+const polosDe=s=>/tetrapolar|\b4\s*P\b|4 polos/i.test(s)?4:/tripolar|\b3\s*P\b|3 polos/i.test(s)?3:/bipolar|\b2\s*P\b|1\s*P\s*\+\s*N|2 polos/i.test(s)?2:/unipolar|\b1\s*P\b/i.test(s)?1:2;
+const ampDe=s=>{const m=s.match(/(\d+(?:[.,]\d+)?)\s*A\b/);return m?+m[1].replace(",","."):0;};
+const mtPrecio=(p,A)=>p>=3?pickA(BASE.mt4,A)*(p===3?BASE.f.p3:1):pickA(BASE.mt2,A)*(p===1?BASE.f.p1:1);
+function difPrecio(p,A,s){let v=pickA(p>=3?BASE.d4:BASE.d2,A);if(/superinmuniz|HPI|\bSI\b/i.test(s))v*=BASE.f.sup;if(/selectivo/i.test(s))v*=BASE.f.sel;return v;}
+function compDe(seg){
+ const t=seg.replace(/\s+/g," ").trim(),p=polosDe(t),A=ampDe(t),mA=(t.match(/(\d+)\s*mA/i)||[])[1];
+ const X=BASE.fix;
+ if(/sobretensi/i.test(t)&&!/interruptor general/i.test(t))return {t:"Protector contra sobretensiones",q:1,mat:X.sob[0],hor:X.sob[1]};
+ if(/diferencial/i.test(t)){const ex=(/selectivo/i.test(t)?" selectivo":"")+(/superinmuniz/i.test(t)?" superinmunizado":"");
+  return {t:`Diferencial${ex} ${p}P/${A||"?"}A${mA?"/"+mA+" mA":""}`,q:1,mat:r2(difPrecio(p,A||25,t)),hor:X.dif[1]};}
+ if(/interruptor general autom/i.test(t))return {t:`IGA ${p}P ${A||"?"} A`,q:1,mat:r2(mtPrecio(p,A||25)*BASE.f.iga),hor:X.mt[1]*1.5};
+ if(/magnetot[ée]rmico|interruptor autom[aá]tico|autom[aá]tico/i.test(t))return {t:`Magnetotérmico ${p}P ${A||"?"} A`,q:1,mat:r2(mtPrecio(p,A||16)),hor:X.mt[1]};
+ if(/seccionador|interruptor.{0,12}corte/i.test(t))return {t:`Interruptor seccionador ${p}P ${A||"?"} A`,q:1,mat:r2(mtPrecio(p,A||40)*.9),hor:X.mt[1]};
+ return null;
+}
+function genericDe(t){
+ const o=[],X=BASE.fix;
+ const w=t.match(/(\d+(?:[.,]\d+)?)\s*W\b/i);
+ if(/downlight|panel led|plaf[oó]n|luminaria|foco|dicroica/i.test(t)){const W=w?+w[1].replace(",","."):12;o.push({t:`Luminaria LED ${W} W`,q:1,mat:r2(pickA(BASE.led,W)),hor:0},{t:"Instalación y conexionado de luminaria",q:1,mat:0,hor:X.dl[1]});}
+ else if(/base de enchufe|toma de corriente|enchufe/i.test(t))o.push({t:"Toma de corriente",q:1,mat:X.toma[0],hor:X.toma[1]});
+ else if(/interruptor|conmutador|pulsador/i.test(t))o.push({t:"Interruptor o pulsador",q:1,mat:X.int[0],hor:X.int[1]});
+ else if(/caja de (registro|derivaci)/i.test(t))o.push({t:"Caja de registro",q:1,mat:X.reg[0],hor:X.reg[1]});
+ return o;
+}
+function desglosar(l){
+ const txt=((l.desc||"")+"").replace(/\s+/g," ").trim(),X=BASE.fix,items=[];
+ const ti=txt.search(/Incluso elementos de fijaci|Incluso parte proporcional|Totalmente montado|Incluye:/i);
+ const body=ti>=0?txt.slice(0,ti):txt,tail=ti>=0?txt.slice(ti):"";
+ const parts=body.split(/\s-\s+(?=[A-ZÁÉÍÓÚÑ])/),intro=parts[0],bul=parts.slice(1);
+ let nDev=0;
+ if(bul.length){
+  if(/caja|armario|envolvente|cuadro/i.test(intro))items.push({t:"Caja empotrable de cuadro con puerta y cerradura",q:1,mat:X.caja[0],hor:X.caja[1]});
+  if(/\bICP\b/.test(intro)&&/incluido en este precio/i.test(intro)&&!/no incluido/i.test(intro))items.push({t:"ICP (control de potencia)",q:1,mat:X.icp[0],hor:X.icp[1]});
+  bul.forEach(b=>{const c=compDe(b);if(c){items.push(c);nDev++;}});
+ }
+ if(nDev){
+  if(/elementos de fijaci|regleta|accesorios/i.test(tail+body))items.push({t:"Accesorios, regletas y fijación",q:1,mat:X.acc[0],hor:X.acc[1]});
+  if(/parte proporcional de cable|cable y tubo/i.test(tail))items.push({t:"Parte proporcional de cable y tubo",q:1,mat:X.pp[0],hor:X.pp[1]});
+  items.push({t:"Replanteo, montaje, conexionado y pruebas",q:1,mat:X.mont[0],hor:X.mont[1]});
+  return {items,bul:true};
+ }
+ return {items:genericDe(txt),bul:false};
+}
+function applyDg(l){const d=l.dg||[];l.mat=r2(d.reduce((a,c)=>a+(+c.q||0)*(+c.mat||0),0));l.hor=r2(d.reduce((a,c)=>a+(+c.q||0)*(+c.hor||0),0));}
+/* Valora una partida. Devuelve "dg", "spec", "cat" o "sin". */
+function valorarPartida(l,force){
+ if(l.tipo==="cap")return "cap";
+ if(l.dg&&l.dg.length&&l.dgm&&!force){applyDg(l);return "dg";}
+ if(l.mm&&!force&&!(l.dg&&l.dg.length))return "man";
+ const g=desglosar(l);
+ if(g.bul){l.dg=g.items;l.dgm=false;applyDg(l);return "dg";}
+ let sp2=l.sp&&(+l.sp.n>0||l.sp.tub!=="Sin tubo")?l.sp:detectSpec((l.res||"")+" "+(l.desc||""),l.u);
+ if(sp2&&(+sp2.n>0||sp2.tub!=="Sin tubo")){l.sp=sp2;const r=specCalc(sp2);l.mat=r.mat;l.hor=r.hor;l.dg=[];return "spec";}
+ const cat=matchCat(l.res||"",l.desc||"");
+ if(cat){const f=fromCat(cat,1);l.sp=f.sp;l.mat=f.mat;l.hor=f.hor;l.k=cat.k;l.dg=[];return "cat";}
+ if(g.items.length){l.dg=g.items;l.dgm=false;applyDg(l);return "dg";}
+ return "sin";
+}
+function calcularTodo(){
+ const r={dg:0,spec:0,cat:0,sin:0,man:0};
+ si.l.forEach(l=>{if(l.tipo==="cap")return;const k=valorarPartida(l,false);r[k]=(r[k]||0)+1;});
+ irender();
+ return r;
 }
 
 /* ================= IMPORTAR PARTIDAS PEGADAS ================= */
@@ -845,10 +955,8 @@ function parsePartidas(txt){
   let med=meds;
   if(!med.length)med=[{t:"",n:cant!=null?cant:b.q!=null?b.q:lone!=null?lone:1,l:0,a:0,h:0}];
   const l={cod:b.cod||nextCod(),u:b.u,res:b.res,desc:d,sp:null,med,qm:"",mat:0,hor:0,pm:"",open:false};
-  const cat=matchCat(b.res,d),sp2=detectSpec(b.res+" "+d,b.u);
-  if(sp2&&(!cat||!cat.sp)&&(sp2.n>0||sp2.tub!=="Sin tubo")){l.sp=sp2;const r=specCalc(sp2);l.mat=r.mat;l.hor=r.hor;st2.spec++;}
-  else if(cat){const f=fromCat(cat,1);l.sp=f.sp;l.mat=f.mat;l.hor=f.hor;l.k=cat.k;st2.cat++;}
-  else if(precio==null)st2.sin++;
+  l.dg=[];const kv=valorarPartida(l,true);
+  if(kv==="dg")st2.dg=(st2.dg||0)+1;else if(kv==="spec")st2.spec++;else if(kv==="cat")st2.cat++;else if(precio==null)st2.sin++;
   if(precio!=null)l.pm=precio;
   si.l.push(l);st2.n++;
  });
@@ -898,7 +1006,7 @@ async function leerArchivo(f){
  finally{busy=false;}
 }
 function nuevoInd(){Object.assign(si,{obra:"",cli:"",dir:"",num:"",dto:0,l:[]});ibuild();}
-function restInd(){Object.keys(CP0.cab).forEach(k=>CP.cab[k]=Object.assign({},CP0.cab[k]));Object.keys(CP0.tub).forEach(k=>CP.tub[k]=CP0.tub[k]);JSON.parse(CAT_INIT).forEach((a,i)=>{CATL[i].mat=a[0];CATL[i].hor=a[1];});ibuild();}
+function restInd(){["mt2","mt4","d2","d4","led"].forEach(k=>BASE[k]=JSON.parse(JSON.stringify(BASE0[k])));Object.assign(BASE.f,BASE0.f);Object.keys(BASE0.fix).forEach(k=>BASE.fix[k]=BASE0.fix[k].slice());Object.keys(CP0.cab).forEach(k=>CP.cab[k]=Object.assign({},CP0.cab[k]));Object.keys(CP0.tub).forEach(k=>CP.tub[k]=CP0.tub[k]);JSON.parse(CAT_INIT).forEach((a,i)=>{CATL[i].mat=a[0];CATL[i].hor=a[1];});ibuild();}
 
 /* ================= MODAL, COMPARTIR, PDF ================= */
 let mode="viv";try{mode=localStorage.getItem("dmfModo")==="ind"?"ind":"viv";}catch(e){}
@@ -950,7 +1058,10 @@ document.addEventListener("input",e=>{
  if(d.k!==undefined){st[d.k]=t.type==="number"?v:t.value;elevar(d.k);}
  else if(d.co){CO[d.co]=t.value;saveCO();}
  else if(d.ik){si[d.ik]=t.type==="number"?v:t.value;}
- else if(d.ind){const [i,f]=d.ind.split(".");const l=si.l[i];if(f==="qm"||f==="pm")l[f]=t.value===""?"":v;else l[f]=TXT.has(f)?t.value:v;iupdate();return;}
+ else if(d.dg){const [i,j,f]=d.dg.split(".");const l=si.l[i];l.dg[j][f]=f==="t"?t.value:v;l.dgm=true;applyDg(l);iupdate();return;}
+ else if(d.lc){const [i,j]=d.lc.split(".");LN[i][j]=v;save();iupdate();return;}
+ else if(d.bs){const a=d.bs.split(".");let o=BASE;for(let k=0;k<a.length-1;k++)o=o[a[k]];o[a[a.length-1]]=v;saveI();iupdate();return;}
+ else if(d.ind){const [i,f]=d.ind.split(".");const l=si.l[i];if(f==="mat"||f==="hor")l.mm=true;if(f==="qm"||f==="pm")l[f]=t.value===""?"":v;else l[f]=TXT.has(f)?t.value:v;iupdate();return;}
  else if(d.md){const [i,j,f]=d.md.split(".");si.l[i].med[j][f]=f==="t"?t.value:v;iupdate();return;}
  else if(d.sp){const [i,f]=d.sp.split(".");const l=si.l[i];l.sp=l.sp||{cab:Object.keys(CP.cab)[0],n:0,sec:2.5,tub:"Sin tubo",len:1};l.sp[f]=v;return;}
  else if(d.cp){const a=d.cp.split("|");if(a[0]==="cab")CP.cab[a[1]][a[2]]=v;else CP.tub[a[1]]=v;saveI();return;}
@@ -979,7 +1090,7 @@ document.addEventListener("click",e=>{
  if(d.act==="copy"){const t=$("#mt");t.select();t.setSelectionRange(0,99999);let ok=false;try{ok=document.execCommand("copy");}catch(x){}if(!ok&&navigator.clipboard){navigator.clipboard.writeText(t.value).then(()=>{},()=>{});ok=true;}msgOf(mode).textContent=ok?"Resumen copiado.":"Selecciona el texto y cópialo a mano.";if(ok)closeModal();return;}
  if(d.act==="import"){const t=$("#mt").value;if(!t.trim()){$("#pmsg").textContent="Pega primero el texto de la partida.";return;}
   let r;try{if(/^\s*[\[{]/.test(t)){const j=JSON.parse(t);(Array.isArray(j)?j:[j]).forEach(x=>si.l.push(Object.assign(blank(),x)));r={n:Array.isArray(j)?j.length:1,cat:0,spec:0,sin:0};}else r=parsePartidas(t);}catch(x){$("#pmsg").textContent="No se pudo leer: "+x.message;return;}
-  closeModal();irender();msgOf("ind").textContent=`Añadidas ${r.n} partidas: ${r.cat} valoradas con el catálogo, ${r.spec} por cable y tubo, ${r.sin} sin precio (revísalas y pon material y horas).`;showTab(0);return;}
+  closeModal();irender();msgOf("ind").textContent=`Añadidas ${r.n} partidas: ${r.dg||0} por componentes, ${r.cat} con el catálogo, ${r.spec} por cable y tubo, ${r.sin} sin precio (revísalas y pon material y horas).`;showTab(0);return;}
  if(d.pdf){doPDF(d.pdf);return;}
  if(d.share){doShare(d.share);return;}
  if(d.print){try{window.print();}catch(x){}msgOf(d.print).textContent="Si no se abre la impresión, usa Guardar o compartir PDF.";return;}
@@ -1009,7 +1120,11 @@ document.addEventListener("click",e=>{
  if(d.idel!==undefined){if(confirm("¿Eliminar esta línea?")){si.l.splice(+d.idel,1);irender();}return;}
  if(d.madd!==undefined){si.l[+d.madd].med.push({t:"",n:1,l:0,a:0,h:0});irender();return;}
  if(d.mdel!==undefined){const [i,j]=d.mdel.split(".");si.l[i].med.splice(j,1);irender();return;}
- if(d.calc!==undefined){const l=si.l[+d.calc];if(!l.sp)l.sp={cab:Object.keys(CP.cab)[0],n:0,sec:2.5,tub:"Sin tubo",len:1};const r=specCalc(l.sp);l.mat=r.mat;l.hor=r.hor;irender();return;}
+ if(d.dgre!==undefined){const l=si.l[+d.dgre];l.dgm=false;const k=valorarPartida(l,true);irender();msgOf("ind").textContent=k==="dg"?"Texto releído y partida valorada por componentes.":k==="sin"?"No he reconocido componentes en el texto: añádelos a mano.":"Partida valorada.";return;}
+ if(d.dgadd!==undefined){const l=si.l[+d.dgadd];l.dg=l.dg||[];l.dg.push({t:"",q:1,mat:0,hor:0});l.dgm=true;irender();return;}
+ if(d.dgdel!==undefined){const [i,j]=d.dgdel.split(".");const l=si.l[i];l.dg.splice(j,1);l.dgm=true;applyDg(l);irender();return;}
+ if(id==="icalcall"){const r=calcularTodo();msgOf("ind").textContent=`Calculado: ${r.dg} por componentes, ${r.spec} por cable y tubo, ${r.cat} con el catálogo, ${r.man} con precio manual, ${r.sin} sin reconocer.`;return;}
+ if(d.calc!==undefined){const l=si.l[+d.calc];l.dg=[];if(!l.sp)l.sp={cab:Object.keys(CP.cab)[0],n:0,sec:2.5,tub:"Sin tubo",len:1};const r=specCalc(l.sp);l.mat=r.mat;l.hor=r.hor;irender();return;}
 });
 
 /* ================= ARRANQUE ================= */
