@@ -7,30 +7,36 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Presupuestos">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#16395a">
+<meta name="theme-color" content="#244a28">
 <meta name="format-detection" content="telephone=no">
 <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAACfElEQVR42u3dsU1DQRBF0e8v9+GcBuiCRqiAQijKDbgeIjILCdDuzr45Nyayjt4sAsTl9vZxSM86fQSCQ3AIDsEhOASH4BAcgkNwSHAIDsEhOASH4BAcgkNwCA7pu6uP4G893u8/f8HL56vlIMNZ0W8KmA04zAYcZMBRREbGTYFDcDgocFSQEXNT4BAcDgocy2Uk3RQ4BIeDAsdaGWE3BQ6bAYfgWDgbeTcFDgcFDsGxajYibwocDgocgmPJbKTeFDgcFDjIgGN+wTcFDrMBBxlwuClwmA04yIDDTYHDbMBBBhzNZXS4Kd4cgsNBgWOOjCY3xVlRexwOChwzZPS5Kfk4bAYcgmP1bLS6Kck4HBQ4BEeB2eh2UzJxOChwCI4as9HwpqThcFDgIAOOMvW8KUfMf4ccOhtzNqkgwZMM4+SsqB8OswEHGXD4PggOs+HNQcbGs7ErDjLg8NSAw1MDDjL2mg1nhYwUHLvPxnY/3T3JkLNiNkJxOChwOChw+N4VDh2b//5paRyeGmu7dv5wvWacFbMBR6XZyPhTF8tBBhyCw2zAUfTBEfZXtZZDcDgocJABBxlwbPUahUNdZgMOMuAgAw4PDjjMBhxkwEEGHB4ccJgNOMiAQ86KzEZzHP95jfpnPCIDDsFhNuAY+ODoLMNykAGH4DAbcJABx6LXKBmWQ3A4KHCQAcfwB4csh9mAgww4yIBDcMx9jZoNy0EGHGTAITgGPjjMhuUgAw7BYTbgGPjgIAMOmwGH4DAbcJABx/TXKBlwCA4HBQ4y4Bj44CADDsHhoMBBBhyCQ3AIDsEhwSE4BIfgEByCQ3AIDsEhOCQ4BIfgEByCQ0v7Ak2t3dLOFLMGAAAAAElFTkSuQmCC">
-<title>Presupuestos de vivienda</title>
+<title>Presupuestos DMF</title>
 <style>
-:root{color-scheme:light dark;--bg:#f2f4f7;--card:#fff;--ink:#17202a;--mut:#627184;--line:#dbe1e8;--acc:#1f4e79;--on:#fff;--warn:#9a4a00;--ok:#1d6b3c;--hd:#16395a}
-@media (prefers-color-scheme:dark){:root{--bg:#0f141a;--card:#19212b;--ink:#e8edf2;--mut:#98a6b6;--line:#2b3644;--acc:#5b9bd5;--on:#0b1522;--warn:#e0a458;--ok:#6fcf97;--hd:#16273a}}
+:root{color-scheme:light dark;--bg:#f2f4f2;--card:#fff;--ink:#17202a;--mut:#627184;--line:#dbe1e0;--acc:#2f6b2f;--on:#fff;--warn:#9a4a00;--ok:#1d6b3c;--hd:#244a28}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1410;--card:#192019;--ink:#e8efe8;--mut:#98a89a;--line:#2b362c;--acc:#8cc63f;--on:#0d1a0d;--warn:#e0a458;--ok:#6fcf97;--hd:#1a3320}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 -apple-system,system-ui,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;touch-action:manipulation;overscroll-behavior-y:none}
-header{position:sticky;top:0;z-index:5;background:var(--hd);color:#fff;padding:calc(env(safe-area-inset-top) + 10px) 16px 10px;font-weight:600;font-size:1.05rem}
+header{position:sticky;top:0;z-index:5;background:var(--hd);color:#fff;padding:calc(env(safe-area-inset-top) + 8px) 14px 8px}
+.hb{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:700}
+.mode{display:flex;border:1px solid rgba(255,255,255,.4);border-radius:10px;overflow:hidden}
+.mode button{border:0;border-radius:0;background:transparent;color:#fff;min-height:36px;padding:4px 12px;font-size:.92rem;font-weight:600}
+.mode button.on{background:#fff;color:#244a28}
 main{padding:14px 14px calc(150px + env(safe-area-inset-bottom))}
 .v{display:none}.v.on{display:block}
 h3{font-size:1rem;margin:22px 0 8px}
 .mut{color:var(--mut);font-size:.88rem;margin:6px 0}
-input,select,button{font:inherit;font-size:16px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;min-height:44px;padding:8px 10px;min-width:0}
-input,select{width:100%}
+input,select,button,textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;min-height:44px;padding:8px 10px;min-width:0}
+input,select,textarea{width:100%}
+textarea{min-height:90px;resize:vertical}
 button{cursor:pointer}
 button:active{opacity:.7}
 :focus-visible{outline:2px solid var(--acc);outline-offset:1px}
 label{display:flex;flex-direction:column;gap:4px;font-size:.85rem;color:var(--mut)}
 .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
 .chips button{flex:none;border-radius:22px;background:var(--acc);color:var(--on);border-color:var(--acc);font-weight:600}
-.room{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0}
+.room,.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0}
+.card.off,.room.off{opacity:.45}
 .rh{display:flex;gap:8px}.rh select{font-weight:600}
 .rr{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .step{display:flex;gap:6px}.step input{text-align:center;flex:1}.step button{width:46px;flex:none;font-size:1.3rem;padding:0}
@@ -39,11 +45,12 @@ label{display:flex;flex-direction:column;gap:4px;font-size:.85rem;color:var(--mu
 .seg button{flex:1;border:0;border-radius:0;background:transparent}
 .seg button.on{background:var(--acc);color:var(--on);font-weight:600}
 .f{margin:12px 0}.f>span{display:block;font-size:.85rem;color:var(--mut);margin-bottom:4px}
-.sr{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:56px;border-bottom:1px solid var(--line)}.sr .seg{width:140px;flex:none}
+.sr{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:56px;border-bottom:1px solid var(--line)}.sr .seg{width:150px;flex:none}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 #aviso{font-weight:600;margin:12px 0}
 .warn{color:var(--warn)}.ok{color:var(--ok)}
-details{margin-top:18px;border-top:1px solid var(--line);padding-top:10px}summary{font-weight:600;min-height:44px;display:flex;align-items:center}
+details{margin-top:18px;border-top:1px solid var(--line);padding-top:10px}summary{font-weight:600;min-height:44px;display:flex;align-items:center;gap:8px}
 .pi{border-bottom:1px solid var(--line);padding:10px 0}.pi b{margin-right:6px}
 .g4{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 .ln{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
@@ -53,11 +60,31 @@ details{margin-top:18px;border-top:1px solid var(--line);padding-top:10px}summar
 .tot div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)}
 .tot .g{font-size:1.3rem;font-weight:700;border:0;padding-top:12px}
 .act{display:grid;gap:10px;margin-top:16px}.act button{background:var(--acc);color:var(--on);border-color:var(--acc);font-weight:600}
-.act button.s{background:transparent;color:var(--ink);border-color:var(--line)}
+.act button.s,button.s{background:transparent;color:var(--ink);border-color:var(--line);font-weight:500}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.row2 button{font-weight:600}
+.big{border:2px solid var(--acc)}
+.big .res{font-size:1.5rem;font-weight:700;margin:6px 0 0}
+.pt{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px 12px;margin:10px 0}
+.pt>summary{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:start;padding:8px 0;list-style:none}
+.pt>summary::-webkit-details-marker{display:none}
+.pt .pc{color:var(--mut);font-size:.82rem;white-space:nowrap}
+.pt .pr{font-weight:600;font-size:.92rem;line-height:1.25;overflow:hidden}
+.pt .pm{white-space:nowrap;font-weight:600}
+.pt .pb{padding:4px 0 12px}
+.cap{background:var(--acc);color:var(--on);border-radius:12px;padding:10px 12px;margin:14px 0 6px}
+.cap .g4{margin-top:6px}.cap input{color:var(--ink)}
+.med{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;align-items:end;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+.med .w{grid-column:1/-1}
+.med .pp{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;font-size:.85rem;color:var(--mut)}
+.med .pp button{min-height:36px;padding:2px 10px}
+.mini{font-size:.8rem;min-height:36px}
+.imp{display:flex;justify-content:space-between;font-weight:700;font-size:1.05rem;padding:10px 0 4px}
+.tag{font-size:.75rem;color:var(--warn);font-weight:600}
 #pdf{display:none}
 #pdf img{width:200px;height:auto;display:block;margin-bottom:10px}#pdf .sb{font-size:.78rem;color:#555;font-weight:400}#pdf tr{break-inside:avoid}
 #pdf h2{margin:0 0 4px;font-size:1.4rem}#pdf p{margin:2px 0}#pdf table{width:100%;border-collapse:collapse;margin:16px 0}#pdf th,#pdf td{padding:6px 4px;border-bottom:1px solid #999;text-align:right}#pdf th:first-child,#pdf td:first-child{text-align:left}
-#mod{position:fixed;inset:0;z-index:9;background:rgba(0,0,0,.5);display:flex;align-items:flex-end}#mod[hidden]{display:none}#mod>div{background:var(--card);width:100%;padding:16px 16px calc(16px + env(safe-area-inset-bottom));border-radius:16px 16px 0 0}#mod textarea{width:100%;height:42vh;font:14px/1.4 ui-monospace,Menlo,monospace;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px}
+#mod{position:fixed;inset:0;z-index:9;background:rgba(0,0,0,.5);display:flex;align-items:flex-end}#mod[hidden]{display:none}#mod>div{background:var(--card);width:100%;max-height:92vh;overflow:auto;padding:16px 16px calc(16px + env(safe-area-inset-bottom));border-radius:16px 16px 0 0}#mod textarea{width:100%;height:42vh;font:14px/1.4 ui-monospace,Menlo,monospace;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px}
 #dock{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
 .strip{display:flex;justify-content:space-between;align-items:baseline;padding:8px 16px 2px;font-size:.85rem;color:var(--mut)}.strip b{color:var(--ink);font-size:1.15rem}
 nav{display:flex}nav button{flex:1;border:0;border-radius:0;background:transparent;min-height:52px;color:var(--mut);font-size:.82rem;font-weight:600}
@@ -66,16 +93,29 @@ nav button.on{color:var(--acc)}
 </style>
 </head>
 <body>
-<header>Presupuestos de vivienda</header>
+<header><div class="hb"><span id="ttl">Presupuestos</span><div class="mode" id="mode"><button type="button" data-mode="viv">Vivienda</button><button type="button" data-mode="ind">Industrial</button></div></div></header>
 <main>
-<section class="v on" id="v0">
+
+<!-- ============ VIVIENDA ============ -->
+<section class="v" id="h0">
+<div class="card big" id="qk">
+<b>Presupuesto rápido por m²</b>
+<p class="mut">Para una llamada sin planos: mete los m² totales y activa el botón para calcular sin estancias.</p>
+<div class="g2"><label>Superficie total (m²)<input type="number" inputmode="decimal" step="any" min="0" data-k="m2t" id="m2t"></label><label>Precio medio (€/m², sin IVA)<input type="number" inputmode="decimal" step="any" min="0" data-k="pm2" id="pm2"></label></div>
+<div class="row2"><button type="button" id="usar"></button><button type="button" class="s" id="usarh">Ver cómo se calcula</button></div>
+<div class="res" id="qres"></div>
+<p class="mut" id="qsub"></p>
+<p class="mut" id="qhelp" hidden>Con el botón activado se ignoran las estancias y se supone una vivienda tipo para esa superficie (salón, cocina, baños y dormitorios según los m²). Los precios se ajustan para que la instalación básica con ICT salga al precio medio por m² indicado (70 € de partida); las opciones de electrificación elevada, la tira LED y las partidas extra se suman encima. En el PDF consta como estimación.</p>
+</div>
+<div id="roomsbox">
 <p class="mut">Pulsa para añadir cada estancia. Los puntos mínimos salen de la ITC-BT-25.</p>
 <div class="chips" id="chips"></div>
 <div id="rl"></div>
 <p class="mut" id="rs"></p>
+</div>
 </section>
 
-<section class="v" id="v1">
+<section class="v" id="h1">
 <h3>Presupuesto</h3>
 <div id="datos"></div>
 <h3>Instalación</h3>
@@ -83,9 +123,13 @@ nav button.on{color:var(--acc)}
 <div class="f"><span>Gama de mecanismos</span><div class="seg" data-k="gama"></div></div>
 <div class="f"><span>IVA</span><div class="seg" data-k="iva"></div></div>
 <div id="sw"></div>
+<p class="mut">Calefacción, aire acondicionado, secadora, automatización y recarga de vehículo: se presupuesta solo la preinstalación eléctrica (línea, tubo, caja de conexión) y sus protecciones, sin equipos.</p>
 <p id="aviso"></p>
+<h3>Tira LED</h3>
+<div class="g2"><label>Metros de tira LED<input type="number" inputmode="decimal" step="any" min="0" data-k="led" id="ledm"></label><div class="f"><span>Interruptor de encendido</span><div class="seg" data-k="ledsw"></div></div></div>
 <h3>Precio</h3>
 <div class="g2" id="nums"></div>
+<label class="f">Condiciones que salen en el PDF<textarea data-k="cond" id="cond"></textarea></label>
 <details><summary>Precios de partida</summary>
 <p class="mut">Coste = material + horas × tarifa de mano de obra. El suplemento se suma en gama media o alta. Valores de partida: sustitúyelos por tus costes.</p>
 <div id="ib"></div></details>
@@ -94,31 +138,121 @@ nav button.on{color:var(--acc)}
 <div id="lb"></div>
 <p class="mut">Metros por circuito = circuitos × factor × m² de vivienda.</p>
 <div id="cb"></div></details>
-<div class="act"><button class="s" id="nuevo" type="button">Nuevo presupuesto</button><button class="s" id="rest" type="button">Restablecer precios</button></div>
+<div class="act"><button class="s" id="nuevo" type="button">Nuevo presupuesto de vivienda</button><button class="s" id="rest" type="button">Restablecer precios de vivienda</button></div>
 </section>
 
-<section class="v" id="v2">
+<section class="v" id="h2">
 <div id="pl"></div>
 <h3>Partidas adicionales</h3>
-<p class="mut">Alarmas, ayudas de albañilería u otros. Precio final por unidad.</p>
+<p class="mut">Derivación individual, alarmas, ayudas de albañilería u otros. Todos los campos son editables; una línea con cantidad o precio a 0 no sale en el presupuesto.</p>
 <div id="xb"></div>
+<div class="row2"><button type="button" class="s" id="xadd">+ Línea en blanco</button><button type="button" class="s" id="xdi">+ Derivación individual</button></div>
 <h3>Totales</h3>
 <div class="tot" id="tot"></div>
 <p class="mut" id="ref"></p>
-<div class="act"><button id="pdfb" type="button">Guardar o compartir PDF</button><button class="s" id="share" type="button">Compartir como texto</button><button class="s" id="pr" type="button">Imprimir</button></div>
+<div class="act"><button data-pdf="viv" type="button">Guardar o compartir PDF</button><button class="s" data-share="viv" type="button">Compartir como texto</button><button class="s" data-print="viv" type="button">Imprimir</button></div>
 <p class="mut" id="msg" role="status"></p>
 </section>
+
+<!-- ============ INDUSTRIAL ============ -->
+<section class="v" id="i0">
+<p class="mut">Cada partida lleva código, resumen, descripción, características, mediciones, cantidad, material y horas. Todo se puede editar a mano.</p>
+<div class="row2"><button type="button" id="icap" class="s">+ Capítulo</button><button type="button" id="ibl" class="s">+ Partida en blanco</button></div>
+<div class="card"><b>Añadir del catálogo</b>
+<input type="search" id="catq" placeholder="Buscar: emergencia, toma, cuadro, led…" autocomplete="off">
+<select id="catsel" style="margin-top:8px"></select>
+<div class="row2"><button type="button" id="icat">+ Añadir partida</button><button type="button" class="s" id="ipeg">Pegar partida</button></div>
+<button type="button" class="s" id="iej" style="width:100%">Cargar ejemplo: local comercial</button>
+</div>
+<div id="il"></div>
+</section>
+
+<section class="v" id="i1">
+<h3>Presupuesto</h3>
+<div id="idatos"></div>
+<h3>Precio</h3>
+<div class="f"><span>IVA</span><div class="seg" data-ik="iva"></div></div>
+<div class="g3" id="inums"></div>
+<p class="mut">Precio unitario de una partida = (material + horas × tarifa) × (1 + margen). La mano de obra no sale desglosada en el PDF: solo el precio final de cada partida.</p>
+<label class="f">Condiciones que salen en el PDF<textarea data-ik="cond" id="icond"></textarea></label>
+<details><summary>Cables y tubos (€/m, material)</summary>
+<p class="mut">Se usan al pulsar «Calcular material y horas» en una partida con cable o tubo. Orientativos para Castilla y León: sustitúyelos por tu tarifa de proveedor.</p>
+<div id="icp"></div></details>
+<details><summary>Catálogo: material y horas por partida</summary>
+<div id="icc"></div></details>
+<div class="act"><button class="s" id="inuevo" type="button">Nuevo presupuesto industrial</button><button class="s" id="irest" type="button">Restablecer catálogo y precios</button></div>
+</section>
+
+<section class="v" id="i2">
+<div id="ipl"></div>
+<h3>Totales</h3>
+<div class="tot" id="itot"></div>
+<div class="act"><button data-pdf="ind" type="button">Guardar o compartir PDF</button><button class="s" data-share="ind" type="button">Compartir como texto</button><button class="s" data-print="ind" type="button">Imprimir</button></div>
+<p class="mut" id="imsg" role="status"></p>
+</section>
+
 <section id="pdf"></section>
 </main>
 
-<div id="mod" hidden><div><textarea id="mt" readonly></textarea><div class="act"><button id="mc" type="button">Copiar</button><button class="s" id="mx" type="button">Cerrar</button></div></div></div>
+<div id="mod" hidden><div id="modc"></div></div>
 
 <div id="dock">
 <div class="strip"><span>Total con IVA</span><b id="b2"></b><span id="b3"></span></div>
-<nav><button class="on" data-tab="0" type="button">Vivienda</button><button data-tab="1" type="button">Ajustes</button><button data-tab="2" type="button">Presupuesto</button></nav>
+<nav id="nav"><button type="button" data-tab="0"></button><button type="button" data-tab="1">Ajustes</button><button type="button" data-tab="2">Presupuesto</button></nav>
 </div>
 
 <script>
+const $=s=>document.querySelector(s);
+const eur=n=>new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"}).format(n||0);
+const nf=n=>new Intl.NumberFormat("es-ES",{maximumFractionDigits:2}).format(n||0);
+const n2=n=>new Intl.NumberFormat("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2}).format(n||0);
+const esc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const LOGO="data:image/jpeg;base64,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eaX2YnFWoVZvmPnyhHZHRkbY6fOr/wByr+v6BqXhfU5bDVLSS0vIxlo2PX/4uvoT4Qfs5pBFa614riWackSw6Y4+WLP/AD1/vN7dK+bwOV4nHYj2FOPw/F/dOWlSnOXKeofCz4k2HxE8O288Msa6hHGourVW+aN8c8eldbfaha6XbtcXlxFawJ96WZwij8TXkXxD+AcNzO+u+DZW0LXo8yLHbv5ccrf+yn9PavnPxx478U+KTHp/iO7kmexZk+zzRLFtb/bVf4q/TMVnVfKKfssXTvL7Ml8MvXsepOs6MffR92W11DewJNbypNE4yro2QRUtfIP7PPxFu/Dni200OectpOoSGJIpP+WUv8DL7P8Adr6+r3MqzOGaUPbRVjajUVWPMgooor2jYKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA8p+NvwY/wCFjxW99p86WusWylFMgykqf3W9PrXhsX7NvjlpWVrC2VT/ABNdKV/KvrDxH4u0fwjZG71e/hsYN20NK2Nx9B6n6VY0LxBp3ibTYr/S7uO9s5OVliOQa+Tx2R5fmOI55u0/JnLOhTqS13PmHw78HPij4Evnu9DNrDIw2MsdwrJKv+0rpXS3fxI+MXhuN1vPC0F2qLnzIrdpv0jevomk61dLIlhocmGrSgONDk+GTPz98WeI9V8Wa7dahrMjPqDfIyOu3yv9jb/DWPX1j+0N8JG8VaaNe0i3DatZriWGNfmuI/8A4peor5Rr8rznL8Rl+Ikq0ubm+1/MePXpypSvIKKKERn+Vfv/AMNeElfQwPpH9lbwRGlleeJrmESTSSNbWrunCovDuv8AvN8v/AK+h65/wD4eh8K+D9K0uFlcW1usbuvRnx8x/E5Nb0kiQxs7sERRksegr+g8qwscFhIU12ufR04qEEh1FeDeNf2p9P0y4ktNA0/+1XXg3UsvlxZ/2f4m/AVzelftbaol4v8Aaeh2slt/EbWVldf++q4anEWW0qnspVdSHiKa0uavxx0mPUfjj4FgZFdbjyhKh7qk+7/4qvoivmQeM7H4mftD+FbjT3kks7ePYruNu5lWVm+WvpujJ5UqtTE16O0pfogpNScpIK+b/wBpb4WTvd/8JZpduZAV238UK/N8vKSj/wBBb2xX0hSEAjBGR716WY4ClmNB0KuzLq01Vjys+Hvgp4fufEfxI0ZbZWaKznS8mdPuKq/MP/iK+4qqWGkWWlmT7HaQ2vmHL+UgXcffFW64smypZTRdPm5m2TRpeyjyhRRRX0BuFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAfF/7QPiC71v4n6tBNK/2axdbWCI/dVNqbv8Avpq6L9lfX7u08bXOkqzvZXds8zxD7qSLty//ALLXU/Hz4Ian4j1xvEXh63F1POqreWpZUZmX5UZS3Fdb8Dfg63w8s5dR1Nlk1u7UB0Q5S3X+4p7+57mvzHD5Zj1nc6sl7vNzX/u9jzI0qnt+d7HrFFFNkkWJC7sEUclmOAK/Tj0xScAk9BXxlY+AX+LPxT1230Xy7TS/tckkt3tysce7+Ff9v5/lr2b4s/HrQbDw1f2GhajHqOrTqYF+z/OseRgtu+7x9ai/ZR02GDwLfXaoPPmvWVn9VVVC/pXw+YSw+c42lgItOMfel/kcVXlq1IwIdL/ZN8P20m6+1bUL5f8Anmu2Jf0Brc139mnwbqmneRZWsmk3CjCXMDszf8CDHDfjXq9Fe9HJcujHlVGNvQ39jT/lPmTS/E/i/wDZ21KLTNdt31jws7bIZox93/rm38P/AFyb/gFaXxu+Nmj+IvAC2nh3VhJNfSIk0KhllWL+NW/uc7V/GvfNY0Wx8QadNYajbR3lpMu2SGVcqw+lfJPxk+Bt58P531HTPNvPD7NneRue1/2W/wBn/ar5fNaGPy3Cyp4Z81H/AMmj/wAA5aqqUo2h8J5PRRT6/Jn5njnpv7N9r5/xa0xtv+qgnl/8d2/+zV9lMwVST0FfL37J/hu4n8RaprZUra28BtVc/wAcrMrN/wCOqP8AvuvXP2gdXvNF+FmrTWUjRSyGOBpF6qjsFY/ka/YuHr4LKJV5/wB6R7WG9yjzMpan+0h4O0zXxpj3E0yq/ly3sMZa3jb03fxf8BzXp1tcRXcCTQuJInG5WU5BFfnZX17+zLqF1qXwzgF1mRLS5lt7d3HJjU8flll/Cs8iz+tmOIlQrR2FQxEqsnFo9booor707wooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACvmH9pv4l3V1rLeErKRobK2VWvivWZmAZV/3Vxk19PV8mftNeA7rRvGL+IkiZtN1LaWljGBFOqbdjezhR/49XynE0sRHL5PD/wDb3p1OTFc/s3yHjVfQP7Jnikw32r+HpW+SRRew/XO1/wD2Svn6vbv2WfCd3eeLp9dKslhZwNB5v/PWVv4Poq/+y1+Z8PyqLMqfszzMNze0ifVVFFRzzpbQSTSsEjjUuzHsAMk1+77HvElRzwR3ULwzRrLE42sjjII9xXyn4n/ai8SXuqTHRUtbHTlb935sJklZP7zDtXZfCT9o+XxFrFtoniK2igubj5YLuA4V3/usp+6a+YpcRZfiK31eM9Tkjiac5ciZH4+/ZXt9Rumu/C93HYbzlrK63GL/AICw+ZfwrnPDP7KmtXF/G2vX9vZWQb5ls28yV/zTatfUgORmlp1OHcuq1fbOHy6fcV9Xp83NYzfDvh2w8K6Rb6bpluttZwLtSNe1O8QaFZ+JtGu9Lv4vOs7pDHIh7g1oUV9F7OHJ7O3u7WOi3Q+ZB+yXqA13Y+swnRt3EqK32jZ/d2/d3f7dfRXh7QLLwvo1rpenQi3s7ZAkca9hWjRXm4LK8Ll8pToRs5GcKUafwoKKKK9Y1CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKrajptrq9lNZ3tvHdWsylJIZVDKwPqDVmik0mrMDyp/2Z/A73wuBa3ix7t32ZbtxHn+f616RpGjWOgafDY6fax2lpCu2OKJdqqPQVdorjo4LDYZ81GmovyREYRjsgqhr+ntq2halYqdrXNtJCD6FlI/rV+iuyS5k0WfnZf6bc6RfXFjdwNbXUDeVLE/31aup+Ffg6+8Z+M7C3tklNvbzpcXNwn3I1V9wH+/X2drngfw/4lkWTVNGsr6VPuyTwKzD8SKvaToen6Dai202ygsYB0jt4wi/kK/OKPCCp4j2kqvunmrBpSvcvdKKKK/SD0gooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACsTxr4y0j4e+FNT8R69cmz0jTYTPcziNpCiDjO1QSeSOgrbrxL9tObyP2XfH7etnGv5zxj+tTJ8qbJk+VNml8NP2qfht8XfFC+HvC+uS3+qtA9wIXspohsXG75nQDuK9br8uP8AgnND537RxbbjytGvH/8AH4kr9R6xoVHVhzMww9R1Yc0goooroOkKKKKACvHPiv8AtbfDP4O382m61rhu9Zi/1ml6XEbidP8Afx8qf8CYV6Z4v1k+HfCet6svWwsZ7oZ/2I2b+lflT+yZ8BtP/ae8Z+JbfxHrOpWM0FqupNcWhjZ5ZZZfn3b1auerUlFqMVqzmrVJQajBas+nbr/gp94OjuNtv4N16eL/AJ6NLAh/75316l8C/wBtDwR8dfEi+HdPttS0fXHheeO21GNAsyr97YyOwJHpXmP/AA7C8Ef9Df4i/wC+bb/43Xd/Bf8AYY8H/Bbx5ZeLbHW9a1LU7JZFt0uXjWJN6FGyqoM/KzD8ayh9Y5vf2M4fWOb39j6RooortO0KKKKACiiigAooooAKKKKACiiigAooooAKy9e8UaN4Vt459a1ex0iCRtiS39ykCs3oCxAJrUr89v8AgqPqCzeJvh9prOrpHZ3s7RMc7d7xLv29+Fb8qyq1FTjzMxq1FSjzM/QdHWRQykMpGQQcginV5f8Asv6odY/Z5+Hlw0vnP/YltGzbt3KIE6/8Br1Cri+Z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",LW=640,LH=221;
+const GREEN=[.50,.69,.16],DGREEN=[.15,.31,.16],GRAY=[.42,.45,.43],LGREEN=[.93,.96,.88],LINE=[.80,.83,.80];
+const CO={nom:"DMF Control y Sistemas",lema:"¡Tu tranquilidad, nuestra prioridad!",dir:"C/ Asunción, 26 · 47004 Valladolid",tel:"617 280 726",mail:"info@dmfcontrolysistemas.com",web:"www.dmfcontrolysistemas.com",cif:""};
+try{Object.assign(CO,JSON.parse(localStorage.getItem("dmfEmpresa1")||"{}"));}catch(e){}
+const saveCO=()=>{try{localStorage.setItem("dmfEmpresa1",JSON.stringify(CO));}catch(e){}};
+
+/* ---------- motor de PDF (PDF 1.4, Helvetica, logo JPEG) ---------- */
+const WN={" ":278,"!":278,'"':355,"#":556,"$":556,"%":889,"&":667,"'":191,"(":333,")":333,"*":389,"+":584,",":278,"-":333,".":278,"/":278,":":278,";":278,"<":584,"=":584,">":584,"@":1015,A:667,B:667,C:722,D:722,E:667,F:611,G:778,H:722,I:278,J:500,K:667,L:556,M:833,N:722,O:778,P:667,Q:778,R:722,S:667,T:611,U:722,V:667,W:944,X:667,Y:667,Z:611,"[":278,"\\":278,"]":278,"^":469,"`":333,a:556,b:556,c:500,d:556,e:556,f:278,g:556,h:556,i:222,j:222,k:500,l:222,m:833,n:556,o:556,p:556,q:556,r:333,s:500,t:278,u:556,v:500,w:722,x:500,y:500,z:500,"{":334,"|":260,"}":334,"~":584};
+const WB={"!":333,'"':474,"&":722,"'":238,":":333,";":333,"?":611,"@":975,A:722,B:722,J:556,K:722,L:611,"[":333,"]":333,"^":584,b:611,c:556,d:611,f:333,g:611,h:611,i:278,j:278,k:556,l:278,m:889,n:611,o:611,p:611,q:611,r:389,s:556,t:333,u:611,v:556,w:778,x:556,y:556,"{":389,"|":280,"}":389};
+function Doc(){
+ const pg=[""];let P=0;
+ const enc=s=>String(s).replace(/€/g,"\x80").replace(/[–—]/g,"-").replace(/[’‘]/g,"'").replace(/[“”]/g,'"').replace(/…/g,"...").replace(/[^\x00-\xFF]/g,"?");
+ const base=ch=>{if(ch.charCodeAt(0)<=126)return ch;const n=ch.normalize("NFD")[0];return n.charCodeAt(0)<=126?n:"?";};
+ const wd=(s,z,b)=>{s=enc(s);let a=0;for(const ch of s){const k=base(ch);a+=(b&&WB[k])||WN[k]||556;}return a*z/1000;};
+ const col=c=>c.join(" ");
+ const d={
+  get P(){return P;},get n(){return pg.length;},
+  np(){P++;pg[P]="";},
+  wd,
+  T(x,y,s,z,o){o=o||{};s=enc(s);const w=wd(s,z,o.b);const xx=o.r?x-w:o.c?x-w/2:x;
+   pg[P]+=`${col(o.col||[0,0,0])} rg BT /${o.i?"F3":o.b?"F2":"F1"} ${z} Tf ${xx.toFixed(1)} ${y.toFixed(1)} Td (${s.replace(/[\\()]/g,"\\$&")}) Tj ET\n`;return w;},
+  R(x,y,w,h,c){pg[P]+=`${col(c)} rg ${x.toFixed(1)} ${y.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)} re f\n`;},
+  L(x1,y1,x2,y2,c,lw){pg[P]+=`${col(c||LINE)} RG ${lw||.5} w ${x1.toFixed(1)} ${y1.toFixed(1)} m ${x2.toFixed(1)} ${y2.toFixed(1)} l S\n`;},
+  B(x,y,w,h,c,lw){pg[P]+=`${col(c||LINE)} RG ${lw||.5} w ${x.toFixed(1)} ${y.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)} re S\n`;},
+  I(x,y,w){const h=w*LH/LW;pg[P]+=`q ${w.toFixed(1)} 0 0 ${h.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)} cm /Im1 Do Q\n`;return h;},
+  wrap(s,maxW,z,b){const out=[];String(s==null?"":s).split(/\n/).forEach(par=>{let l="";par.split(/\s+/).filter(Boolean).forEach(w=>{const t=l?l+" "+w:w;if(wd(t,z,b)>maxW&&l){out.push(l);l=w;}else l=t;});out.push(l);});return out;},
+  build(foot){
+   pg.forEach((_,i)=>{P=i;foot&&foot(i,pg.length);});
+   const jb=atob(LOGO.split(",")[1]);
+   const ob=["<< /Type /Catalog /Pages 2 0 R >>",`<< /Type /Pages /Kids [${pg.map((_,i)=>`${7+2*i} 0 R`).join(" ")}] /Count ${pg.length} >>`,
+    "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>","<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>","<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>",
+    `<< /Type /XObject /Subtype /Image /Width ${LW} /Height ${LH} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jb.length} >>\nstream\n${jb}\nendstream`];
+   pg.forEach((o,i)=>{ob.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> /XObject << /Im1 6 0 R >> >> /Contents ${8+2*i} 0 R >>`);ob.push(`<< /Length ${o.length} >>\nstream\n${o}endstream`);});
+   let p="%PDF-1.4\n";const off=[];
+   ob.forEach((x,i)=>{off.push(p.length);p+=`${i+1} 0 obj\n${x}\nendobj\n`;});
+   const xr=p.length;
+   p+=`xref\n0 ${ob.length+1}\n0000000000 65535 f \n`+off.map(n=>String(n).padStart(10,"0")+" 00000 n \n").join("")+`trailer\n<< /Size ${ob.length+1} /Root 1 0 R >>\nstartxref\n${xr}\n%%EOF`;
+   return new Blob([Uint8Array.from(p,ch=>ch.charCodeAt(0)&255)],{type:"application/pdf"});
+  }
+ };
+ return d;
+}
+const hoy=()=>new Date().toLocaleDateString("es-ES");
+const hoyL=()=>new Date().toLocaleDateString("es-ES",{day:"numeric",month:"long",year:"numeric"});
+
+/* ================= VIVIENDA ================= */
 //CALC-START
 const TIPOS=["Acceso","Vestíbulo","Salón","Dormitorio","Baño","Pasillo","Cocina","Terraza / vestidor","Garaje / otros"];
 const DEF={"Acceso":[2,0],"Vestíbulo":[4,0],"Salón":[20,0],"Dormitorio":[10,0],"Baño":[4,0],"Pasillo":[6,6],"Cocina":[9,0],"Terraza / vestidor":[8,0],"Garaje / otros":[15,0]};
@@ -132,21 +266,41 @@ const PR=[
 ["E07","Base 16 A 2p+T, circuitos C4 y C5",12,.8,6,15],
 ["E08","Base 25 A 2p+T, circuito C3 (cocina y horno)",30,1.2,6,15],
 ["E09","Pulsador de timbre",10,.8,6,15],
-["E10","Toma de calefacción eléctrica (C8)",20,1.2,0,0],
-["E11","Toma de aire acondicionado (C9)",20,1.2,0,0],
-["E12","Base 16 A secadora independiente (C10)",12,.8,6,15],
+["E10","Preinstalación calefacción eléctrica: caja de conexión y tubo de espera (C8)",8,.5,0,0],
+["E11","Preinstalación aire acondicionado: caja de conexión y tubo de espera (C9)",8,.5,0,0],
+["E12","Preinstalación secadora independiente: base 16 A (C10)",12,.8,6,15],
 ["E13","Certificado de instalación eléctrica (CIE)",0,6.5,0,0],
 ["T01","Registro de terminación de red (RTR) equipado",150,2.5,0,0],
 ["T02","Toma de TV/FM (RTV) con cable coaxial",14,.9,6,15],
-["T03","Toma de voz y datos RJ-45 categoría 6",16,.7,6,15]];
+["T03","Toma de voz y datos RJ-45 categoría 6",16,.7,6,15],
+["E15","Diferencial tipo A dedicado a la recarga de vehículo eléctrico",85,.5,0,0],
+["L01","Tira LED con perfil de aluminio y difusor, por metro (suministro e instalación)",11,.35,0,0],
+["L02","Fuente de alimentación LED 24 V (una cada 5 m de tira)",28,.6,0,0],
+["L03","Pulsador o interruptor integrado en la propia tira",9,.25,0,0]];
+const RENEW=new Set(["E10","E11","E12"]);
 const LN=[[1.5,1.9,.05],[2.5,2.7,.05],[4,3.8,.05],[6,5.2,.05]];
-const CF=[["C1","Iluminación",1.5,.30],["C2","Tomas de uso general y frigorífico",2.5,.40],["C3","Cocina y horno",6,.15],["C4","Lavadora, lavavajillas y termo",4,.15],["C5","Baños y auxiliares de cocina",2.5,.15],["C6","Adicional tipo C1",1.5,.30],["C7","Adicional tipo C2",2.5,.40],["C8","Calefacción eléctrica",6,.30],["C9","Aire acondicionado",6,.30],["C10","Secadora independiente",2.5,.15],["C11","Automatización y seguridad",1.5,.25],["C12","Adicionales de C3, C4 o C5",2.5,.15],["C13","Recarga de vehículo eléctrico",6,.20]];
+const CF=[["C1","Iluminación",1.5,.30],["C2","Tomas de uso general y frigorífico",2.5,.40],["C3","Cocina y horno",6,.15],["C4","Lavadora, lavavajillas y termo",4,.15],["C5","Baños y auxiliares de cocina",2.5,.15],["C6","Adicional tipo C1",1.5,.30],["C7","Adicional tipo C2",2.5,.40],["C8","Calefacción eléctrica (preinstalación)",6,.30],["C9","Aire acondicionado (preinstalación)",6,.30],["C10","Secadora independiente",2.5,.15],["C11","Automatización y seguridad (preinstalación)",1.5,.25],["C12","Adicionales de C3, C4 o C5",2.5,.15],["C13","Recarga de vehículo eléctrico (preinstalación)",6,.20]];
 const EJ=[["Acceso",2,0],["Vestíbulo",4,0],["Salón",22,0],["Cocina",9,0],["Baño",5,0],["Baño",4,0],["Dormitorio",12,0],["Dormitorio",10,0],["Dormitorio",9,0],["Pasillo",7,7]];
-const st={emp:"DMF Control y Sistemas",cli:"",dir:"",num:"",grado:"Básica",gama:"Básica",calef:"No",aa:"No",sec:"No",dom:"No",ve:"No",c12:0,iva:10,mar:15,tar:31,dto:0,
-rooms:EJ.map(a=>({t:a[0],s:a[1],l:a[2]})),ex:[{d:"Sistema de alarma",q:1,p:0},{d:"",q:0,p:0},{d:"",q:0,p:0}]};
-function calc(){
+const COND0="Presupuesto válido durante 30 días desde su fecha.\nIncluye material y mano de obra de lo detallado, con la instalación según el REBT.\nCalefacción, aire acondicionado, secadora, automatización y recarga de vehículo: solo preinstalación eléctrica y protecciones, sin suministro ni instalación de los equipos.";
+const EX0=()=>[{d:"Derivación individual",u:"Ud",q:1,p:0},{d:"Sistema de alarma",u:"Ud",q:1,p:0}];
+const st={cli:"",dir:"",num:"",grado:"Básica",gama:"Básica",calef:"No",aa:"No",sec:"No",dom:"No",ve:"No",c12:0,iva:10,mar:15,tar:31,dto:0,m2t:0,pm2:70,usar:"No",led:0,ledsw:"Aparte",cond:COND0,
+rooms:EJ.map(a=>({t:a[0],s:a[1],l:a[2]})),ex:EX0()};
+function sint(m){
+ const d=m<45?1:m<70?2:m<105?3:m<150?4:5,b=m<60?1:m<110?2:m<160?3:4;
+ const L=[{t:"Acceso",s:2,l:0}];
+ if(m>=45)L.push({t:"Vestíbulo",s:4,l:0});
+ L.push({t:"Salón",s:Math.max(14,Math.round(m*.2)),l:0},{t:"Cocina",s:Math.max(7,Math.round(m*.1)),l:0});
+ for(let i=0;i<b;i++)L.push({t:"Baño",s:4.5,l:0});
+ const rest=Math.max(8*d,m-L.reduce((a,r)=>a+r.s,0)-Math.round(m*.08));
+ for(let i=0;i<d;i++)L.push({t:"Dormitorio",s:Math.round(rest/d),l:0});
+ L.push({t:"Pasillo",s:Math.round(m*.08),l:Math.max(3,Math.round(m*.08))});
+ return L;
+}
+function calc0(kq){
  const el=st.grado==="Elevada",Y=k=>st[k]==="Sí";
- const R=st.rooms.map(r=>{const t=r.t,s=+r.s||0,l=+r.l||0,coc=t==="Cocina";
+ const quick=st.usar==="Sí"&&(+st.m2t)>0;
+ const RM=quick?sint(+st.m2t):st.rooms;
+ const R=RM.map(r=>{const t=r.t,s=+r.s||0,l=+r.l||0,coc=t==="Cocina";
   const luz=t==="Acceso"?0:(t==="Vestíbulo"||t==="Baño")?1:t==="Pasillo"?Math.max(1,Math.ceil(l/5)):(s>10?2:1);
   let c2=0;
   if(t==="Vestíbulo")c2=1;else if(t==="Salón"||t==="Dormitorio")c2=Math.max(3,Math.ceil(s/6));else if(t==="Pasillo")c2=l>5?2:1;else if(t==="Cocina")c2=2;else if(t==="Terraza / vestidor"||t==="Garaje / otros")c2=s>10?2:1;
@@ -155,7 +309,7 @@ function calc(){
    c9:el&&Y("aa")&&(t==="Salón"||t==="Dormitorio")?1:0,
    tv:["Salón","Dormitorio","Cocina"].includes(t)?1:0};});
  const sum=k=>R.reduce((a,r)=>a+r[k],0);
- const S=st.rooms.reduce((a,r)=>a+(+r.s||0),0);
+ const S=quick?+st.m2t:RM.reduce((a,r)=>a+(+r.s||0),0);
  const luz=sum("luz"),c2=sum("c2"),c5=sum("c5");
  const n=[1,1,1,1,1,
   el?Math.max(0,Math.ceil(luz/30)-1):0,
@@ -167,189 +321,635 @@ function calc(){
  const metros=CF.map((c,i)=>n[i]*Math.round(c[3]*S));
  const euM=CF.map(c=>{const l=LN.find(x=>x[0]==c[2]);return l?l[1]+l[2]*st.tar:0;});
  const mT=metros.reduce((a,b)=>a+b,0),eT=metros.reduce((a,m,i)=>a+m*euM[i],0);
- const f=1+st.mar/100;
+ const f=(1+st.mar/100)*kq;
  const cu=it=>(it[2]+it[3]*st.tar+(st.gama==="Media"?it[4]:st.gama==="Alta"?it[5]:0))*f;
  const q=[1,dif,nT,luz,sum("int"),c2,sum("c4")+c5,sum("c3"),sum("tim"),sum("c8"),sum("c9"),n[9],1];
  const el_rows=PR.slice(0,13).map((it,i)=>[it[0],it[1],q[i],cu(it)]);
  el_rows.push(["E14","Líneas de circuito: cable, tubo y canalización desde el cuadro (m)",mT,mT?eT/mT*f:0]);
+ el_rows.push([PR[16][0],PR[16][1],el&&Y("ve")?1:0,cu(PR[16])]);
  const tv=sum("tv");
  const te_rows=[[PR[13],1],[PR[14],tv],[PR[15],tv]].map(([it,c])=>[it[0],it[1],c,cu(it)]);
+ const lm=Math.max(0,+st.led||0);
+ const ld_rows=lm>0?[[PR[17][0],PR[17][1],lm,cu(PR[17])],[PR[18][0],PR[18][1],Math.ceil(lm/5),cu(PR[18])]]:[];
+ if(lm>0&&st.ledsw==="En la tira")ld_rows.push([PR[19][0],PR[19][1],1,cu(PR[19])]);
+ if(lm>0&&st.ledsw==="Aparte")ld_rows.push(["E05","Interruptor independiente para la tira LED",1,cu(PR[4])]);
  const tot=rows=>rows.reduce((a,r)=>a+r[2]*r[3],0);
- const sEl=tot(el_rows),sTe=tot(te_rows),sEx=st.ex.reduce((a,x)=>a+(+x.q||0)*(+x.p||0),0);
- const sum1=sEl+sTe+sEx,dto=-sum1*st.dto/100,base=sum1+dto,iva=base*st.iva/100;
+ const sEl=tot(el_rows),sTe=tot(te_rows),sLd=tot(ld_rows),sEx=st.ex.reduce((a,x)=>a+(+x.q||0)*(+x.p||0),0);
+ const sum1=sEl+sTe+sLd+sEx,dto=-sum1*st.dto/100,base=sum1+dto,iva=base*st.iva/100;
  const m2=S>0?(sEl+sTe)*(1-st.dto/100)/S:0;
  const ref=el?[73,100]:[48,80];
- return {R,S,n,nT,dif,min,metros,mT,el_rows,te_rows,sEl,sTe,sEx,sum1,dto,base,iva,total:base+iva,m2,ref,euM,f,cu};
+ return {R,RM,quick,S,n,nT,dif,min,metros,mT,el_rows,te_rows,ld_rows,sEl,sTe,sLd,sEx,sum1,dto,base,iva,total:base+iva,m2,ref,euM,f,cu};
+}
+function calc(){
+ let c=calc0(1);
+ if(c.quick&&(+st.pm2)>0){
+  const keep={grado:st.grado,calef:st.calef,aa:st.aa,sec:st.sec,dom:st.dom,ve:st.ve,c12:st.c12};
+  Object.assign(st,{grado:"Básica",calef:"No",aa:"No",sec:"No",dom:"No",ve:"No",c12:0});
+  let b;try{b=calc0(1);}finally{Object.assign(st,keep);}
+  const base=b.sEl+b.sTe;
+  if(base>0)c=calc0((+st.pm2)*c.S/base);
+ }
+ return c;
 }
 //CALC-END
-const $=s=>document.querySelector(s);
-const eur=n=>new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"}).format(n||0);
-const nf=n=>new Intl.NumberFormat("es-ES",{maximumFractionDigits:2}).format(n||0);
-const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
-const KEY="presupuestosVivienda1",INIT=JSON.stringify({st,PR,LN,CF});
-function save(){try{localStorage.setItem(KEY,JSON.stringify({st,PR,LN,CF}));}catch(e){}}
-function load(s){try{if(!s)return;Object.assign(st,s.st);s.PR.forEach((p,i)=>PR[i]=p);s.LN.forEach((p,i)=>LN[i]=p);s.CF.forEach((p,i)=>CF[i]=p);}catch(e){}}
-try{load(JSON.parse(localStorage.getItem(KEY)||"null"));}catch(e){}
+const KEY="presupuestosVivienda2",INIT=JSON.stringify({PR,LN,CF});
+function save(){try{localStorage.setItem(KEY,JSON.stringify({v:2,st,PR,LN,CF}));}catch(e){}}
+function load(s){try{if(!s)return;Object.assign(st,s.st);
+ if(!Array.isArray(st.ex)||!st.ex.length)st.ex=EX0();st.ex.forEach(x=>{if(!x.u)x.u="Ud";});
+ if(!st.cond)st.cond=COND0;
+ const old=s.v!==2;
+ s.PR.forEach(p=>{const i=PR.findIndex(x=>x[0]===p[0]);if(i>=0&&!(old&&RENEW.has(p[0])))PR[i]=p;});
+ s.LN.forEach((p,i)=>LN[i]=p);s.CF.forEach((p,i)=>{if(CF[i]){CF[i][2]=p[2];CF[i][3]=p[3];}});}catch(e){}}
+try{load(JSON.parse(localStorage.getItem(KEY)||localStorage.getItem("presupuestosVivienda1")||"null"));}catch(e){}
 const SW=[["calef","Calefacción eléctrica"],["aa","Aire acondicionado"],["sec","Secadora independiente"],["dom","Automatización o seguridad"],["ve","Recarga de vehículo eléctrico"]];
 function elevar(k){if(["calef","aa","sec","dom","ve","c12"].includes(k)&&st.grado==="Básica"&&(st[k]==="Sí"||+st[k]>0)){st.grado="Elevada";seg("grado",["Básica","Elevada"]);}}
-const num=(a,v,k,w)=>`<input type="number" inputmode="decimal" step="any" min="0" ${a}="${k}" value="${v}">`;
-function seg(k,opts){document.querySelector(`.seg[data-k="${k}"]`).innerHTML=opts.map(o=>`<button type="button" data-v="${o}" class="${String(st[k])===String(o)?"on":""}">${k==="iva"?o+" %":o}</button>`).join("");}
+const num=(a,v,k)=>`<input type="number" inputmode="decimal" step="any" min="0" ${a}="${k}" value="${v}">`;
+function seg(k,opts,attr){const el=document.querySelector(`.seg[${attr||"data-k"}="${k}"]`);if(!el)return;const S=attr==="data-ik"?si:st;el.innerHTML=opts.map(o=>`<button type="button" data-v="${o}" class="${String(S[k])===String(o)?"on":""}">${k==="iva"?o+" %":o}</button>`).join("");}
 function build(){
  $("#chips").innerHTML=TIPOS.map(t=>`<button type="button" data-add="${t}">+ ${t.split(" ")[0]}</button>`).join("");
- $("#datos").innerHTML=[["emp","Empresa"],["cli","Cliente"],["dir","Dirección de la vivienda"],["num","Nº de presupuesto"]].map(([k,l])=>`<label class="f">${l}<input data-k="${k}" value="${esc(st[k])}"></label>`).join("");
+ $("#datos").innerHTML=[["cli","Cliente"],["dir","Dirección de la vivienda"],["num","Nº de presupuesto"]].map(([k,l])=>`<label class="f">${l}<input data-k="${k}" value="${esc(st[k])}"></label>`).join("")+
+  `<details><summary>Datos de la empresa (PDF)</summary>${[["nom","Empresa"],["dir","Dirección"],["tel","Teléfono"],["mail","Correo"],["web","Web"],["cif","CIF"]].map(([k,l])=>`<label class="f">${l}<input data-co="${k}" value="${esc(CO[k])}"></label>`).join("")}</details>`;
  $("#sw").innerHTML=SW.map(([k,l])=>`<div class="sr"><span>${l}</span><div class="seg" data-k="${k}"></div></div>`).join("")+`<label class="f">Circuitos adicionales de C3 o C4 (C12)${num("data-k",st.c12,"c12")}</label>`;
  SW.forEach(([k])=>seg(k,["No","Sí"]));
  $("#nums").innerHTML=[["mar","Margen (%)"],["tar","Mano de obra (€/h)"],["dto","Descuento (%)"]].map(([k,l])=>`<label>${l}${num("data-k",st[k],k)}</label>`).join("");
- seg("grado",["Básica","Elevada"]);seg("gama",["Básica","Media","Alta"]);seg("iva",[10,21]);
+ seg("grado",["Básica","Elevada"]);seg("gama",["Básica","Media","Alta"]);seg("iva",[10,21]);seg("ledsw",["Aparte","En la tira","Ninguno"]);
+ $("#cond").value=st.cond;$("#ledm").value=st.led;$("#m2t").value=st.m2t||"";$("#pm2").value=st.pm2;
  $("#ib").innerHTML=PR.map((it,i)=>{const sp=it[4]||it[5];return `<div class="pi"><b>${it[0]}</b>${it[1]}<div class="g4"><label>Material (€)${num("data-p",it[2],i+".2")}</label><label>Horas${num("data-p",it[3],i+".3")}</label>${sp?`<label>Suplem. media (€)${num("data-p",it[4],i+".4")}</label><label>Suplem. alta (€)${num("data-p",it[5],i+".5")}</label>`:""}</div></div>`;}).join("");
  $("#lb").innerHTML=LN.map((l,i)=>`<div class="pi"><b>${l[0]} mm²</b><div class="g4"><label>Material (€/m)${num("data-l",l[1],i+".1")}</label><label>Horas por m${num("data-l",l[2],i+".2")}</label></div></div>`).join("");
  $("#cb").innerHTML=CF.map((c,i)=>`<div class="pi"><b>${c[0]}</b>${c[1]}<div class="g4"><label>Sección (mm²)${num("data-c",c[2],i+".2")}</label><label>m por m² de vivienda${num("data-c",c[3],i+".3")}</label></div><p class="mut cn"></p></div>`).join("");
- $("#xb").innerHTML=st.ex.map((x,i)=>`<div class="pi"><label>Concepto<input data-x="${i}.d" value="${esc(x.d)}"></label><div class="g4"><label>Cantidad${num("data-x",x.q,i+".q")}</label><label>Precio unitario (€)${num("data-x",x.p,i+".p")}</label></div></div>`).join("");
- rooms();
+ xrender();rooms();
+}
+function xrender(){
+ $("#xb").innerHTML=st.ex.map((x,i)=>`<div class="card"><label>Concepto<input data-x="${i}.d" value="${esc(x.d)}" placeholder="Descripción de la partida"></label><div class="g3" style="margin-top:8px"><label>Ud<input data-x="${i}.u" value="${esc(x.u||"Ud")}"></label><label>Cantidad${num("data-x",x.q,i+".q")}</label><label>Precio (€)${num("data-x",x.p,i+".p")}</label></div><div class="imp"><span>Importe</span><span data-xi="${i}">${eur((+x.q||0)*(+x.p||0))}</span></div><button type="button" class="s" data-xdel="${i}">Quitar línea</button></div>`).join("");
 }
 function rooms(){
  const f=(i,k,l,v)=>`<label>${l}<div class="step"><button type="button" data-st="${i}.${k}.-1" aria-label="Menos">−</button><input type="number" inputmode="decimal" step="any" min="0" data-r="${i}.${k}" value="${v}"><button type="button" data-st="${i}.${k}.1" aria-label="Más">+</button></div></label>`;
  $("#rl").innerHTML=st.rooms.length?st.rooms.map((r,i)=>`<div class="room"><div class="rh"><select data-r="${i}.t" aria-label="Tipo de estancia">${TIPOS.map(t=>`<option${t==r.t?" selected":""}>${t}</option>`).join("")}</select><button type="button" data-del="${i}" aria-label="Quitar estancia">✕</button></div><div class="rr">${f(i,"s","Superficie (m²)",r.s)}${r.t==="Pasillo"?f(i,"l","Longitud (m)",r.l):""}</div><p class="pts"></p></div>`).join(""):`<p class="mut">Aún no hay estancias. Añade la primera con los botones de arriba.</p>`;
 }
+function nuevoViv(){Object.assign(st,{cli:"",dir:"",num:"",grado:"Básica",gama:"Básica",calef:"No",aa:"No",sec:"No",dom:"No",ve:"No",c12:0,dto:0,m2t:0,usar:"No",led:0,ledsw:"Aparte",rooms:[],ex:EX0()});build();update();}
+function restViv(){const o=JSON.parse(INIT);o.PR.forEach((p,i)=>PR[i]=p);o.LN.forEach((p,i)=>LN[i]=p);o.CF.forEach((p,i)=>CF[i]=p);build();update();}
+
+/* ---- líneas del presupuesto de vivienda (para pantalla, texto y PDF) ---- */
+const CIR=["Circuito de alumbrado C1","Circuito de tomas de corriente de uso general C2","Circuito de cocina y horno C3","Circuito para lavadora, lavavajillas y termo eléctrico C4","Circuito para tomas de corriente de baños y auxiliares de cocina C5","Circuito adicional de alumbrado C6","Circuito adicional de tomas de corriente C7","Preinstalación de calefacción eléctrica C8: línea, tubo y protección (sin equipos)","Preinstalación de aire acondicionado C9: línea, tubo y protección (sin equipos)","Preinstalación de secadora independiente C10: línea y protección","Preinstalación de automatización y seguridad C11: línea y protección (sin equipos)","Circuito adicional de cocina, lavado o baños C12","Preinstalación de recarga de vehículo eléctrico C13: línea y protección (sin punto de recarga)"];
+function nombres(){const k={},u={};st.rooms.forEach(r=>k[r.t]=(k[r.t]||0)+1);return st.rooms.map(r=>k[r.t]>1?r.t+" "+(u[r.t]=(u[r.t]||0)+1):r.t);}
+function detalle(c){
+ const A=c.el_rows,B=c.te_rows,am=r=>r[2]*r[3],N=nombres();
+ const por=f=>c.quick?"":N.map((n,i)=>[n,c.R[i]?f(c.R[i]):0]).filter(x=>x[1]>0).map(x=>`${x[0]}: ${nf(x[1])}`).join(" · ");
+ const L=[];
+ const add=(t,q,i,sub,ud)=>{if(q>0&&i>0.004)L.push({c:t,q,u:i/q,i,sub:sub||"",ud:ud||"Ud"});};
+ add(`Equipo de protecciones de electrificación ${st.grado==="Elevada"?"elevada":"básica"}, con caja`,1,am(A[0])+am(A[1]),`${c.dif} ${c.dif>1?"diferenciales":"diferencial"} de 30 mA · ${c.nT} circuitos`);
+ add("Punto de luz con interruptor o conmutador",A[3][2],am(A[3])+am(A[4]),por(r=>r.luz));
+ add("Base de enchufe con toma de tierra",A[5][2]+A[6][2],am(A[5])+am(A[6]),por(r=>r.c2+r.c4+r.c5));
+ add("Base de 25 A con toma de tierra para cocina y horno",A[7][2],am(A[7]));
+ add("Pulsador de timbre",A[8][2],am(A[8]));
+ add("Preinstalación de calefacción eléctrica: caja de conexión y tubo de espera (sin equipos)",A[9][2],am(A[9]),por(r=>r.c8));
+ add("Preinstalación de aire acondicionado: caja de conexión y tubo de espera (sin equipos)",A[10][2],am(A[10]),por(r=>r.c9));
+ add("Preinstalación de secadora independiente: base de enchufe 16 A",A[11][2],am(A[11]));
+ CIR.forEach((t,i)=>add(t,c.n[i],c.metros[i]*c.euM[i]*c.f+c.n[i]*c.cu(PR[2])));
+ add("Protección diferencial tipo A para recarga de vehículo eléctrico",A[14][2],am(A[14]));
+ add("Tramitación de boletines: certificado de instalación eléctrica",A[12][2],am(A[12]));
+ add("Registro de terminación de red (RTR) equipado",B[0][2],am(B[0]));
+ add("Toma de TV/FM",B[1][2],am(B[1]),por(r=>r.tv));
+ add("Toma de datos RJ-45",B[2][2],am(B[2]),por(r=>r.tv));
+ if(c.ld_rows.length){const lm=c.ld_rows[0][2],sw=st.ledsw==="En la tira"?" · pulsador integrado en la tira":st.ledsw==="Aparte"?" · interruptor independiente":"";
+  add(`Tira LED con perfil y difusor, con fuente de alimentación`,lm,c.ld_rows.reduce((a,r)=>a+r[2]*r[3],0),`${nf(lm)} m${sw}`,"m");}
+ st.ex.forEach(x=>{const q=+x.q,p=+x.p;if(q>0&&p>0)L.push({c:x.d||"Otros trabajos",q,u:p,i:q*p,sub:"",ud:x.u||"Ud"});});
+ return L;
+}
+function resumenViv(c){
+ const L=[CO.nom,"Instalación eléctrica y telecomunicaciones en vivienda"];
+ if(st.num)L.push("Nº "+st.num);if(st.cli)L.push("Cliente: "+st.cli);if(st.dir)L.push("Vivienda: "+st.dir);
+ if(c.quick)L.push(`Estimación por superficie total: ${nf(c.S)} m²`);
+ L.push("");detalle(c).forEach(l=>{L.push(`${l.c}: ${nf(l.q)} ${l.ud} × ${eur(l.u)} = ${eur(l.i)}`);if(l.sub)L.push("   "+l.sub);});
+ if(st.dto)L.push(`Descuento (${nf(st.dto)} %): ${eur(c.dto)}`);
+ L.push("",`Base imponible: ${eur(c.base)}`,`IVA (${st.iva} %): ${eur(c.iva)}`,`Total: ${eur(c.total)}`);
+ return L.join("\n");
+}
+
+/* ---- PDF corporativo de vivienda (estilo web DMF sobre fondo blanco) ---- */
+function pdfViv(c){
+ const D=Doc(),X0=40,X1=555;let y=0;
+ const cab1=()=>{
+  const lh=D.I(X0,842-28-150*LH/LW,150);
+  D.T(X1,800,"PRESUPUESTO",22,{b:1,r:1,col:DGREEN});
+  D.T(X1,783,st.num?"Nº "+st.num:"",10,{r:1,col:GRAY});
+  D.T(X1,770,"Fecha: "+hoy(),9.5,{r:1,col:GRAY});
+  y=842-28-lh-10;
+  D.R(X0,y,X1-X0,2.5,GREEN);y-=22;
+  const bx=(x,t,rows)=>{D.T(x,y,t,7.5,{b:1,col:GREEN});let yy=y-13;rows.forEach((r,i)=>{D.wrap(r[0],235,r[1]||9,r[2]).forEach(l=>{D.T(x,yy,l,r[1]||9,{b:r[2],col:r[3]||[0,0,0]});yy-=(r[1]||9)+3;});});return yy;};
+  const a=bx(X0,"CLIENTE",[[st.cli||"—",10.5,1],[st.dir?"Vivienda: "+st.dir:"",9,0,GRAY]].filter(r=>r[0]));
+  const b=bx(310,"EMPRESA",[[CO.nom,10.5,1],[CO.dir,9,0,GRAY],["Tel. "+CO.tel,9,0,GRAY],[CO.mail,9,0,GRAY],[CO.web+(CO.cif?" · CIF "+CO.cif:""),9,0,GRAY]]);
+  y=Math.min(a,b)-8;
+  D.R(X0,y-14,X1-X0,20,DGREEN);
+  D.T(X0+8,y-8,("Instalación eléctrica y telecomunicaciones en vivienda · electrificación "+(st.grado==="Elevada"?"elevada":"básica")).toUpperCase(),8.5,{b:1,col:[1,1,1]});
+  y-=34;
+  if(c.quick){D.T(X0,y,`Estimación orientativa sobre ${nf(c.S)} m² totales (precio medio ${nf(st.pm2)} €/m² sin IVA); se ajustará al medir la vivienda.`,8.5,{i:1,col:GRAY});y-=16;}
+ };
+ const cabN=()=>{D.np();D.I(X0,842-26-70*LH/LW,70);D.T(X1,812,"Presupuesto"+(st.num?" Nº "+st.num:""),9,{r:1,col:GRAY});y=842-26-70*LH/LW-14;D.R(X0,y,X1-X0,1.5,GREEN);y-=24;};
+ const th=()=>{D.R(X0,y-6,X1-X0,18,LGREEN);const z=7.5,o={b:1,col:DGREEN};D.T(X0+6,y-1,"DESCRIPCIÓN",z,o);D.T(318,y-1,"UD",z,o);D.T(388,y-1,"CANT.",z,{...o,r:1});D.T(468,y-1,"PRECIO UD.",z,{...o,r:1});D.T(X1-6,y-1,"IMPORTE",z,{...o,r:1});y-=22;};
+ cab1();th();
+ detalle(c).forEach(l=>{
+  const w=D.wrap(l.c,262,9),sb=l.sub?D.wrap(l.sub,262,7.5):[];
+  if(y-(w.length*12+sb.length*9.5+8)<80){cabN();th();}
+  D.T(X0+6,y,w[0],9);D.T(318,y,l.ud,9);D.T(388,y,nf(l.q),9,{r:1});D.T(468,y,eur(l.u),9,{r:1});D.T(X1-6,y,eur(l.i),9,{r:1,b:1});
+  w.slice(1).forEach(t=>{y-=12;D.T(X0+6,y,t,9);});
+  sb.forEach(t=>{y-=9.5;D.T(X0+6,y,t,7.5,{col:GRAY});});
+  y-=7;D.L(X0,y,X1,y);y-=14;
+ });
+ const cond=(st.cond||"").split("\n").filter(Boolean);
+ const cl=cond.reduce((a,t)=>a+D.wrap(t,285,8).length,0);
+ if(y<Math.max(190,100+cl*10+60)){cabN();}
+ y-=4;
+ const yt=y;
+ /* totales a la derecha */
+ let ty=y;const row=(t,v)=>{D.T(375,ty,t,9.5,{col:GRAY});D.T(X1-6,ty,v,9.5,{r:1});ty-=16;};
+ if(st.dto)row(`Descuento (${nf(st.dto)} %)`,eur(c.dto));
+ row("Base imponible",eur(c.base));row(`IVA (${st.iva} %)`,eur(c.iva));
+ ty-=6;D.R(365,ty-8,X1-365,26,DGREEN);D.T(375,ty,"TOTAL",12,{b:1,col:[1,1,1]});D.T(X1-8,ty,eur(c.total),12,{b:1,r:1,col:[1,1,1]});ty-=34;
+ /* condiciones a la izquierda */
+ let cy=yt;D.T(X0,cy,"CONDICIONES",7.5,{b:1,col:GREEN});cy-=12;
+ cond.forEach(t=>D.wrap(t,300,8).forEach((l,i)=>{D.T(X0+(i?8:0),cy,(i?"":"· ")+l,8,{col:GRAY});cy-=10;}));
+ y=Math.min(ty,cy)-18;
+ if(y>110){D.B(X0,y-52,230,52,LINE);D.T(X0+8,y-12,"Aceptación del cliente (firma y fecha)",7.5,{b:1,col:GREEN});}
+ return D.build((i,n)=>{
+  D.L(X0,52,X1,52,GREEN,1.2);
+  D.T(X0,40,CO.nom,8,{b:1,col:DGREEN});D.T(X0+wdn(D,CO.nom,8)+4,40,"· "+CO.dir,8,{col:GRAY});
+  D.T(X0,29,[CO.tel&&"Tel. "+CO.tel,CO.mail,CO.web].filter(Boolean).join("  ·  "),8,{col:GRAY});
+  D.T(X1,40,`Página ${i+1} de ${n}`,8,{r:1,col:GRAY});
+  if(CO.lema)D.T(X1,29,CO.lema,8,{r:1,i:1,col:DGREEN});
+ });
+}
+const wdn=(D,s,z)=>D.wd(s,z,1);
+
+/* ---- pantalla de vivienda ---- */
+function updateViv(c){
+ const rows=c.quick?[]:c.R;
+ document.querySelectorAll("#rl .pts").forEach((p,i)=>{const r=rows[i];if(!r)return;p.textContent=`${r.luz} luces · ${r.c2+r.c3+r.c4+r.c5} bases`+(r.tv?" · TV y datos":"")+(r.tim?" · timbre":"");});
+ $("#roomsbox").style.opacity=c.quick?".4":"1";
+ document.querySelectorAll("#cb .cn").forEach((p,i)=>p.textContent=`Circuitos: ${c.n[i]} · Metros: ${c.metros[i]}`);
+ $("#rs").textContent=`${nf(c.S)} m² · ${c.R.reduce((a,r)=>a+r.luz,0)} puntos de luz · ${c.nT} circuitos · ${c.dif} diferenciales de 30 mA`+(c.quick?" (calculado con m² totales)":"");
+ const a=$("#aviso");
+ if(st.grado==="Básica"&&c.min==="Elevada"){a.className="warn";a.textContent="Con estas especificaciones la ITC-BT-25 exige electrificación elevada. Cambia el grado.";}
+ else if(st.grado==="Elevada"&&c.min==="Básica"){a.className="mut";a.textContent="Elevada sin que se exija: válido si el cliente la solicita.";}
+ else{a.className="ok";a.textContent="Grado compatible con las especificaciones.";}
+ const row=r=>`<div class="ln"><span>${r[1]}<small>${nf(r[2])} × ${eur(r[3])}</small></span><b>${eur(r[2]*r[3])}</b></div>`;
+ const sec=(t,rows,s)=>rows.filter(r=>r[2]>0).length?`<div class="sec">${t}</div>${rows.filter(r=>r[2]>0).map(row).join("")}<div class="sub"><span>Subtotal</span><span>${eur(s)}</span></div>`:"";
+ $("#pl").innerHTML=sec("Instalación eléctrica",c.el_rows,c.sEl)+sec("Telecomunicaciones",c.te_rows,c.sTe)+sec("Tira LED",c.ld_rows,c.sLd);
+ $("#tot").innerHTML=`<div><span>Suma de partidas</span><span>${eur(c.sum1)}</span></div><div><span>Descuento (${nf(st.dto)} %)</span><span>${eur(c.dto)}</span></div><div><span>Base imponible</span><span>${eur(c.base)}</span></div><div><span>IVA (${st.iva} %)</span><span>${eur(c.iva)}</span></div><div class="g"><span>Total</span><span>${eur(c.total)}</span></div>`;
+ const rf=c.m2<c.ref[0]?"por debajo del":c.m2>c.ref[1]?"por encima del":"dentro del";
+ $("#ref").textContent=`Eléctrico + ICT: ${eur(c.m2)}/m², ${rf} rango de referencia (${c.ref[0]}–${c.ref[1]} €/m², sin IVA).`;
+ const on=st.usar==="Sí";
+ $("#usar").textContent=on?"✔ Usando m² totales (pulsa para quitar)":"Usar m² totales en el cálculo";
+ $("#usar").style.background=on?"var(--acc)":"";$("#usar").style.color=on?"var(--on)":"";
+ const sinIva=(c.sEl+c.sTe)*(1-st.dto/100);
+ if((+st.m2t)>0){
+  $("#qres").textContent=on?`${eur(c.total)} con IVA`:"Activa el botón para calcular";
+  $("#qsub").textContent=on?`Precio medio ${eur(c.m2)}/m² sin IVA (eléctrico + telecomunicaciones) · ${eur(c.total/c.S)}/m² con IVA y extras · ${c.dif} diferenciales, ${c.nT} circuitos`:"";
+ }else{$("#qres").textContent="";$("#qsub").textContent="Escribe los m² totales de la vivienda.";}
+ $("#b2").textContent=eur(c.total);$("#b3").textContent=eur(c.m2)+"/m²";
+}
+function pdfViewViv(c){
+ const tot=`<div class="tot">${st.dto?`<div><span>Descuento (${nf(st.dto)} %)</span><span>${eur(c.dto)}</span></div>`:""}<div><span>Base imponible</span><span>${eur(c.base)}</span></div><div><span>IVA (${st.iva} %)</span><span>${eur(c.iva)}</span></div><div class="g"><span>Total</span><span>${eur(c.total)}</span></div></div>`;
+ $("#pdf").innerHTML=`<img src="${LOGO}" alt="${esc(CO.nom)}"><p><b>Presupuesto de instalación eléctrica y telecomunicaciones en vivienda</b>${st.num?" · Nº "+esc(st.num):""} · ${hoy()}</p>${st.cli?`<p>Cliente: ${esc(st.cli)}</p>`:""}${st.dir?`<p>Vivienda: ${esc(st.dir)}</p>`:""}<table><thead><tr><th>Descripción</th><th>Ud</th><th>Cant.</th><th>Precio unit.</th><th>Importe</th></tr></thead><tbody>${detalle(c).map(l=>`<tr><td>${esc(l.c)}${l.sub?`<div class="sb">${esc(l.sub)}</div>`:""}</td><td>${esc(l.ud)}</td><td>${nf(l.q)}</td><td>${eur(l.u)}</td><td>${eur(l.i)}</td></tr>`).join("")}</tbody></table>${tot}<p class="sb">${esc(st.cond||"").replace(/\n/g,"<br>")}</p>`;
+}
+
+/* ================= INDUSTRIAL ================= */
+/* Precios de cable y tubo (€/m, material), orientativos de distribuidor, zona centro-norte. Editables en Ajustes. */
+const CP0={cab:{
+ "H07Z1-K 450/750 V (libre de halógenos)":{1.5:.27,2.5:.43,4:.68,6:1.0,10:1.65,16:2.6},
+ "H07V-K 450/750 V":{1.5:.2,2.5:.33,4:.52,6:.78,10:1.3,16:2.05},
+ "RZ1-K (AS) 0,6/1 kV":{1.5:.33,2.5:.5,4:.8,6:1.15,10:1.95,16:3.05},
+ "RV-K 0,6/1 kV":{1.5:.38,2.5:.58,4:.9,6:1.3,10:2.15,16:3.4}},
+ tub:{"Sin tubo":0,"Tubo PVC corrugado doble capa M16":.3,"Tubo PVC corrugado doble capa M20":.38,"Tubo PVC corrugado doble capa M25":.58,"Tubo PVC corrugado doble capa M32":.9,"Tubo PVC corrugado doble capa M40":1.45,"Tubo PVC rígido M20":.65,"Tubo PVC rígido M25":.95,"Bandeja rejiband 35x60":4.8,"Bandeja rejiband 60x100":8.2}};
+const CP=JSON.parse(JSON.stringify(CP0));
+const SECS=[1.5,2.5,4,6,10,16];
+/* sp: [cable, nº conductores, sección, tubo, metros por unidad] */
+const sp=(cab,n,sec,tub,len)=>({cab,n,sec,tub,len});
+const H07="H07Z1-K 450/750 V (libre de halógenos)",RZ="RZ1-K (AS) 0,6/1 kV",T20="Tubo PVC corrugado doble capa M20",T16="Tubo PVC corrugado doble capa M16",T25="Tubo PVC corrugado doble capa M25",T32="Tubo PVC corrugado doble capa M32";
+function specCalc(s){
+ if(!s)return null;const len=+s.len||1,n=+s.n||0,sec=+s.sec||0;
+ const pc=(CP.cab[s.cab]||{})[sec]||0,pt=CP.tub[s.tub]||0,band=/rejiband/i.test(s.tub||"");
+ const mat=len*(n*pc+pt+(band?.4:.12));
+ const hor=len*((band?.07:.07)+.012*n);
+ return {mat:Math.round(mat*100)/100,hor:Math.round(hor*100)/100};
+}
+/* Catálogo: [clave, ud, resumen, descripción, material €/ud, horas/ud, spec, ejemplo (cantidad, capítulo)] */
+const CAT0=[
+["cuadro","Ud","ADECUACIÓN CUADRO MANDO Y PROTECCIÓN GENERAL PRINCIPAL","Suministro e instalación, por adecuación de cuadro de mando y protección, de aparamenta modular marca Schneider, o similar. Con interruptor general, diferenciales de 30 mA y magnetotérmicos. Conexión, rotulación y comprobación según normativa vigente.",650,8,null,[1,8]],
+["l3x25ren","Ud","LÍNEA REPARTIDORA 750V 3x2,5 mm² EQUIPO RENOVACIÓN AIRE","Suministro e instalación de circuito para equipo de renovación de aire realizado con conductores de cobre flexible de 2,5 mm², aislamiento VV 750 V, en sistema monofásico (fase, neutro y tierra) y mano de obra de montaje. Totalmente montada, instalada y comprobada según legislación vigente.",0,0,sp(H07,3,2.5,T20,20),[1,8]],
+["l3x6aa","Ud","LÍNEA REPARTIDORA 750V 3x6 mm² AIRE ACONDICIONADO","Suministro e instalación de circuito monofásico para aire acondicionado. Realizado con tubo PVC corrugado de doble capa gris de M25, conductores de cobre flexible de 3x6 mm² libre de halógenos y aislamiento VV 750 V. Incluido parte proporcional de cajas de paso y mano de obra de montaje. Totalmente montada, conectada y comprobada según legislación vigente. Aproximadamente 20 metros.",0,0,sp(H07,3,6,T25,20),[1,8]],
+["l3x25puerta","Ud","LÍNEA REPARTIDORA 750V 3x2,5 mm² - PUERTA DE CRISTAL AUTOMÁTICA","Suministro e instalación de circuito monofásico para puerta de cristal automática. Realizado con tubo PVC corrugado de doble capa gris de M20, conductores flexibles de 3x2,5 mm² libre de halógenos y aislamiento VV 750 V. Incluido parte proporcional de cajas de paso y mano de obra de montaje. Totalmente montada, instalada y comprobada según legislación vigente.",0,0,sp(H07,3,2.5,T20,15),[1,8]],
+["l3x25pt","Ud","LÍNEA REPARTIDORA 750V 3x2,5 mm² - PUESTOS DE TRABAJO","Realizado con tubo PVC corrugado de doble capa gris de M20, conductores de cobre flexible de 3x2,5 mm² libre de halógenos y aislamiento VV 750 V. Incluido parte proporcional de cajas de paso y mano de obra de montaje. Totalmente montada, conectada y comprobada según legislación vigente.",0,0,sp(H07,3,2.5,T20,20),[3,8]],
+["l3x25termo","Ud","LÍNEA REPARTIDORA 750V 3x2,5 mm² - TERMO","Suministro e instalación de circuito monofásico de termo. Realizado con tubo PVC corrugado de doble capa gris de M20, conductores de cobre de 3x2,5 mm² libre de halógenos y aislamiento VV 750 V. Incluido parte proporcional de cajas de registro, regletas de conexión, mecanismo universal con tornillos, base de enchufe 16 A (II+T) y marco Simon 31 en color blanco, o similar. Totalmente montada, instalada y comprobada según legislación vigente.",0,0,sp(H07,3,2.5,T20,12),[1,8]],
+["l3x25tc","Ud","LÍNEA REPARTIDORA 750V 3x2,5 mm² TOMAS DE CORRIENTE USOS VARIOS","Suministro e instalación de línea repartidora para tomas de corriente de usos varios. Realizada con tubo PVC corrugado de doble capa gris de M20, conductores de cobre flexible de 3x2,5 mm² libre de halógenos y aislamiento VV 750 V. Incluido parte proporcional de cajas de paso y mano de obra de montaje. Totalmente montada, instalada y comprobada según legislación vigente.",0,0,sp(H07,3,2.5,T20,20),[3,8]],
+["l3x25hum","Ud","LÍNEA REPARTIDORA 750V 3x2,5 TOMAS DE CORRIENTE DE USOS HÚMEDOS","Suministro e instalación de línea repartidora para tomas de corriente de usos húmedos. Realizada con tubo PVC corrugado de doble capa gris de M20, conductores de cobre flexible de 3x2,5 mm² libre de halógenos y aislamiento VV 750 V. Incluido parte proporcional de cajas de paso y mano de obra de montaje. Totalmente montada, instalada y comprobada según legislación vigente.",0,0,sp(H07,3,2.5,T20,15),[1,8]],
+["l3x15em","Ud","LÍNEA REPARTIDORA ILUMINACIÓN DE EMERGENCIA","Suministro e instalación de línea repartidora para iluminación de emergencia. Realizada en cable de cobre libre de halógenos V-750 de 3x1,5 mm², bajo tubo forroplast M20, con parte proporcional de cajas de paso y mano de obra de montaje. Según normativa vigente.",0,0,sp(H07,3,1.5,T20,15),[3,8]],
+["l3x15tel","Ud","LÍNEA REPARTIDORA 750V 3x1,5 mm² - ILUMINACIÓN/TELECOMUNICACIÓN","Suministro e instalación de línea repartidora para iluminación y telecomunicaciones. Realizada con tubo PVC corrugado de doble capa gris de M16, conductores de cobre flexible de 3x1,5 mm² libre de halógenos y aislamiento VV 750 V. Incluido parte proporcional de cajas de paso y mano de obra de montaje. Totalmente montada, instalada y comprobada según legislación vigente.",0,0,sp(H07,3,1.5,T16,15),[3,8]],
+["l3x15cmp","Ud","LÍNEA REPARTIDORA 750V 3x1,5 mm² ILUM. PROGRAMADA C/ RELOJ CMP","Suministro e instalación de línea repartidora para iluminación programada con reloj en CMP. Realizada con tubo PVC corrugado de doble capa gris de M16, conductores de cobre flexible de 3x1,5 mm² libre de halógenos y aislamiento VV 750 V. Incluido parte proporcional de cajas de paso y mano de obra de montaje. Totalmente montada, instalada y comprobada según legislación vigente.",0,0,sp(H07,3,1.5,T16,15),[3,8]],
+["ptoem","Ud","PUNTO DE ALIMENTACIÓN EMERGENCIA","Suministro e instalación de punto de alimentación para luminaria de emergencia. Realizada en cable de cobre libre de halógenos de V-750 de 3x1,5 mm², bajo tubo forroplast M20, con parte proporcional de cajas de paso y mano de obra de montaje. Según normativa vigente.",8.5,.7,null,[8,8]],
+["em110","Ud","EMERGENCIA LED SUPERFICIAL 110 lm - AERLUX SERIE 15 - Sala auditorio","Suministro e instalación de emergencia led superficial de 110 lm con sistema AutoTest no permanente de 1 h de autonomía. Marca Aerlux serie 15, o similar. Totalmente montada, conectada y comprobada según normativa vigente.",34,.5,null,[1,8]],
+["em300","Ud","EMERGENCIA LED EMPOTRADA 300 lm - AERLUX SERIE 15","Suministro e instalación de emergencia led empotrada de 300 lm con sistema AutoTest no permanente de 1 h de autonomía. Marca Aerlux serie 15, o similar. Totalmente montada, conectada y comprobada según normativa vigente.",46,.6,null,[1,8]],
+["em150","Ud","EMERGENCIA LED EMPOTRADA 150 lm - AERLUX SERIE 15","Suministro e instalación de emergencia led empotrada de 150 lm con sistema AutoTest no permanente de 1 h de autonomía. Marca Aerlux serie 15, o similar. Totalmente montada, conectada y comprobada según normativa vigente.",39,.6,null,[3,8]],
+["em60","Ud","EMERGENCIA LED EMPOTRADA 60 lm - AERLUX SERIE 15","Suministro e instalación de emergencia led empotrada de 60 lm con sistema AutoTest no permanente de 1 h de autonomía. Marca Aerlux serie 15, o similar. Totalmente montada, conectada y comprobada según normativa vigente.",31,.6,null,[1,8]],
+["ptolum","Ud","PUNTO DE ALIMENTACIÓN DE LUMINARIA","Suministro e instalación de punto de alimentación para luminaria. Realizada en cable de cobre libre de halógenos de V-750 de 3x1,5 mm² y bajo tubo forroplast M20. Incluido parte proporcional de cajas de registro y mano de obra de montaje.",8.5,.7,null,[28,8]],
+["tira","Ml","TIRA DE LED EN CANDILEJA RETROILUMINADA","Metros de suministro e instalación de tira de led, 230 V, 60 led/m, 3000° K e IP20. Con perfil de aluminio superficial, difusor opal y con fuente de alimentación. Accesorios de conexión y línea de alimentación de 2x1,5 mm². Candileja.",18,.45,null,[13,8]],
+["luz1","Ud","PUNTO DE LUZ SENCILLO - SIMON 31 BLANCO","Suministro e instalación de punto de luz sencillo realizado con conductor flexible de cobre de 1,5 mm² y aislamiento VV 750 V. Incluyendo caja de registro, caja de mecanismo universal con tornillos e interruptor unipolar con marco. Marca Simon 31 en color blanco, o similar. Totalmente montado, conectado y comprobado según normativa vigente.",17,1,null,[4,8]],
+["luz2","Ud","PUNTO DE LUZ SENCILLO DOBLE - SIMON 31 BLANCO","Suministro e instalación de punto de luz sencillo con tecla doble, realizado con conductor flexible de cobre de 1,5 mm² y aislamiento VV 750 V. Incluyendo caja de registro, caja de mecanismo universal con tornillos e interruptor de doble tecla con marco. Marca Simon 31 en color blanco, o similar. Totalmente montado, conectado y comprobado según legislación vigente.",21,1.15,null,[2,8]],
+["tc1","Ud","TOMA CORRIENTE SENCILLA - SIMON 31 BLANCO","Suministro e instalación de base de enchufe sencillo en sistema monofásico. Realizada con conductor de cobre flexible de 2,5 mm² y aislamiento de VV 750 V. Incluyendo caja de registro, caja de mecanismo universal con tornillos y base de enchufe 16 A (II+T) con marco sencillo. Marca Simon 31 en color blanco mate, o similar. Totalmente montada, conectada y comprobada según legislación vigente.",22.5,1,null,[4,8]],
+["tc2","Ud","TOMA CORRIENTE DOBLE - SIMON 31 BLANCO","Suministro e instalación de base de enchufe doble en sistema monofásico con toma de tierra, fase y neutro. Realizada con conductor de cobre flexible de 2,5 mm² y aislamiento de VV 750 V. Incluyendo caja de registro, 2 cajas de mecanismo universal con tornillos y 2 bases de enchufe 16 A (II+T) con marco doble. Marca Simon 31 en color blanco, o similar. Totalmente montada, conectada y comprobada según legislación vigente.",29,1.2,null,[10,8]],
+["tc3","Ud","TOMA CORRIENTE TRIPLE - SIMON 31 BLANCO","Suministro e instalación de base de enchufe triple en sistema monofásico con toma de tierra, fase y neutro. Realizada con tubo PVC corrugado de M13/gp5, con conductor de cobre flexible de 2,5 mm² y aislamiento de VV 750 V. Incluyendo caja de registro, 3 cajas de mecanismos universal con tornillos y 3 bases de enchufe 16 A (II+T) con marco triple. Marca Simon 31 en color blanco, o similar. Totalmente montada, conectada y comprobada según legislación vigente.",36,1.4,null,[3,8]],
+["rj45","Ud","TOMA RJ45 1 CONECTOR - SIMON 31 BLANCO","Suministro e instalación de toma de datos RJ45 categoría 6. Parte proporcional de línea de UTP categoría 6. Marca Simon 31 en color blanco, o similar. Totalmente montada, conectada y comprobada según legislación vigente.",18,.9,null,[4,8]],
+["tv","Ud","TOMA TV - SIMON 31 BLANCO","Suministro e instalación de toma de televisión realizada con cableado coaxial de 75 ohmios, para instalación de cable de televisión y radio. Incluyendo caja de registro, caja de mecanismo universal, toma de televisión y satélite. Marca Simon 31 en color blanco, o similar. Sin amplificación, desde red del edificio existente. Totalmente montada, conectada y comprobada según legislación vigente.",17,.9,null,[2,8]],
+["tel","Ud","CANALIZACIÓN - TELÉFONO","Suministro e instalación de canalización con tubo PVC corrugado para telefonía.",6,.4,null,[1,8]],
+["timbre","Ud","PUNTO PULSADOR DE TIMBRE - SIMON 31","Suministro e instalación de punto pulsador de timbre realizado en tubo PVC corrugado de M20/gp5, con conductor de cobre rígido de 1,5 mm², aislamiento de VV 750 V. Incluyendo pulsador de la marca Simón serie 31 en color blanco mate, o similar. Incluido zumbador tipo ding-dong, marca Orbis, o similar. Totalmente montado, conectado y comprobado según legislación vigente.",24,1,null,[1,8]],
+["ptoext","Ud","PUNTO DE ALIMENTACIÓN EXTRACTOR DE ASEO","Suministro e instalación de punto de alimentación para extractor de aseo. Realizada en cable de cobre libre de halógenos de V-750 de 3x1,5 mm², bajo tubo forroplast M20, con parte proporcional de cajas de paso y mano de obra de montaje. Según normativa vigente.",14,.9,null,[1,8]],
+["ext","Ud","EXTRACTOR BAÑO SILENT 100CZ 8W 2100rpm - S&P","Suministro e instalación de extractor para baño, alojado en techo, marca S&P modelo 100, o similar. Sin conexión de ventilación, ni conducto flexible. Con instalación conjunta de punto de sencillo existente en aseo. Conexión eléctrica y comprobación. No se incluye conexión mecánica de extracción.",62,.7,null,[1,8]],
+["plaf80","Ud","PLAFÓN CIRCULAR 80cm BLANCO - ABC ALISO","Suministro e instalación de plafón circular de 80 cm de diámetro y color blanco. Marca Abc, modelo Aliso, o similar. Totalmente montado, conectado y comprobado según normativa vigente.",55,.7,null,[1,8]],
+["plaf60","Ud","PLAFÓN CIRCULAR 60cm BLANCO - ABC ALISO","Suministro e instalación de plafón circular de 60 cm de diámetro y color blanco. Marca Abc, modelo Aliso, o similar.",38,.6,null,[7,8]],
+["carril","Ud","PROYECTOR 20W SOBRE CARRIL BLANCO - LEDSHOME - Escaparate","Suministro de 4 focos de 20 W y 4000° K sobre carril electrificado en color blanco. Marca Ledshome, o similar. 2 metros.",160,1.2,null,[1,8]],
+["foco5","Ud","FOCO EMPOTRABLE CIRCULAR BLANCO 5W - JISO","Suministro e instalación de luminaria Mini Cardan empotrable, circular, orientable y en color blanco. Marca Jiso. Incluyendo lámpara led de 5 W y 4000° K, de marca Philips, o similar. Totalmente montado, conectado y comprobado según normativa vigente.",11,.5,null,[13,8]],
+["apl5","Ud","APLIQUE SUPERFICIAL CUADRADO BLANCO 5W - JISO","Suministro e instalación de luminaria Mini Cardan superficial, cuadrada, orientable y en color blanco. Marca Jiso. Incluyendo lámpara led de 5 W y 4000° K, de marca Philips, o similar. Totalmente montado, conectado y comprobado según normativa vigente.",13,.5,null,[4,8]],
+["pau","Ud","ADECUACIÓN REGISTRO DE PAU","Adecuación del PAU existente. NOTA: partida alzada a justificar, según los trabajos de adecuación a realizar.",45,2,null,[1,9]],
+["switch","Ud","SWITCH 8 SALIDAS DE DATOS","Suministro e instalación de switch para datos RJ45 categoría 6 con 8 salidas RJ45. Marca D-Link, o similar.",34,.4,null,[1,9]],
+["latig","Ud","LATIGUILLOS PARA SWITCH","Suministro e instalación de latiguillo UTP RJ45 categoría 6 desde mostrador a PAU. Marca Lanza, o similar.",3.2,.05,null,[1,9]],
+["puesto3","Ud","PUESTO DE TRABAJO PARED 3M - SIMON 500 CIMA - 2 TOMAS CORRIENTE","Suministro e instalación de puesto de trabajo de pared de 3 módulos, compuesto por 3 tomas de corriente doble. Incluye línea de alimentación realizada con conductor de cobre flexible libre de halógenos de 3x2,5 mm² y aislamiento VV 750 V. Simon 500 Cima en color blanco, o similar. Según normativa. Sin certificado de cableado estructurado. Sin conexión en patch panel de rack. Totalmente montado, conectado y comprobado según legislación vigente.",62,1.6,null,[3,9]],
+["hdmican","Ud","CANALIZACIÓN E INSTALACIÓN DE HDMI - DESPACHOS","Suministro e instalación de canalización de tubo corrugado M40 de 10 metros de longitud para instalación de cable HDMI, suministrado por la propiedad.",28,1,null,[2,9]],
+["motv","Ud","M.O. INSTALACIÓN DE TV 50-80\" y SOPORTE","Mano de obra de replanteo, montaje, fijación e instalación de televisión en soporte suministrado por la propiedad, no se incluye desmontaje de TV en otra ubicación.",0,1,null,[2,9]],
+["hdmi","Ud","HDMI 15 MTS. ETHERNET","Suministro e instalación de cable HDMI 4K de longitud 15 m. Ultra HD High Speed con Ethernet, compatible con HDMI 2.0. Según normativa vigente. Sin mecanismo, salida de cableado directo.",38,.6,null,[3,9]],
+["altavoz","Ud","ALTAVOZ 8\" 20W 100V - OPTIMUS COLOR BLANCO","Suministro e instalación de altavoz de 8\" de 20 W y 100 V empotrado en el techo. Incluido cableado y pequeño material. Totalmente montado, conectado y comprobado según legislación vigente.",48,.8,null,[4,9]],
+["tomaalt","Ud","TOMA DE ALTAVOZ CENTRALIZADO EN DESPACHO","Suministro e instalación de línea repartidora para altavoz de 2x0,75 mm², bajo tubo corrugado doble capa M20 y libre de halógenos. Sin mecanismo, salida de cableado directo. Según normativa vigente.",8,.6,null,[4,9]],
+["cert6","Ud","CERTIFICACIÓN CABLEADO INFORMÁTICO CATG. 6","Pruebas y testeo de cableado, incluso entrega de documentación en formato electrónico. Mediante equipo FLUKE.",0,.15,null,[3,9]],
+/* --- resto del catálogo (no está en el ejemplo) --- */
+["boletin","Ud","LEGALIZACIÓN DE LA INSTALACIÓN (BOLETÍN, CIE Y TRAMITACIÓN)","Redacción de la documentación técnica, emisión del certificado de instalación eléctrica, tramitación y presentación ante el órgano competente de la Junta de Castilla y León. Tasas no incluidas.",60,3,null,null],
+["dif2","Ud","INTERRUPTOR DIFERENCIAL 2x40 A 30 mA","Suministro e instalación de interruptor diferencial bipolar de 40 A y sensibilidad 30 mA, clase AC. Conexionado, rotulación y comprobación.",38,.4,null,null],
+["dif4","Ud","INTERRUPTOR DIFERENCIAL 4x40 A 30 mA","Suministro e instalación de interruptor diferencial tetrapolar de 40 A y sensibilidad 30 mA, clase AC. Conexionado, rotulación y comprobación.",85,.5,null,null],
+["pia","Ud","MAGNETOTÉRMICO 1P+N 10-25 A","Suministro e instalación de interruptor magnetotérmico unipolar + neutro de 10 a 25 A, curva C. Conexionado, rotulación y comprobación.",14,.3,null,null],
+["pia4","Ud","MAGNETOTÉRMICO 4P 25 A","Suministro e instalación de interruptor magnetotérmico tetrapolar de 25 A, curva C. Conexionado, rotulación y comprobación.",62,.4,null,null],
+["subcuadro","Ud","SUBCUADRO SECUNDARIO DE DISTRIBUCIÓN","Suministro e instalación de cuadro secundario de superficie con puerta, para 24 módulos, con barras y bornes. Sin aparamenta.",95,2,null,null],
+["cable15","Ml","CABLE H07Z1-K 1,5 mm² 450/750 V","Suministro e instalación de cable unipolar de cobre flexible, libre de halógenos, de 1,5 mm² de sección y tensión asignada de 450/750 V, bajo canalización existente.",0,0,sp(H07,1,1.5,"Sin tubo",1),null],
+["cable25","Ml","CABLE H07Z1-K 2,5 mm² 450/750 V","Suministro e instalación de cable unipolar de cobre flexible, libre de halógenos, de 2,5 mm² de sección y tensión asignada de 450/750 V, bajo canalización existente.",0,0,sp(H07,1,2.5,"Sin tubo",1),null],
+["cable6","Ml","CABLE H07Z1-K 6 mm² 450/750 V","Suministro e instalación de cable unipolar de cobre flexible, libre de halógenos, de 6 mm² de sección y tensión asignada de 450/750 V, bajo canalización existente.",0,0,sp(H07,1,6,"Sin tubo",1),null],
+["rz5x6","Ml","LÍNEA RZ1-K 0,6/1 kV 5G6 mm² BAJO TUBO M32","Suministro e instalación de línea trifásica con cable de cobre RZ1-K (AS) 0,6/1 kV de 5G6 mm² bajo tubo PVC corrugado de doble capa M32, incluso parte proporcional de cajas de paso y mano de obra de montaje.",0,0,sp(RZ,5,6,T32,1),null],
+["rz5x10","Ml","LÍNEA RZ1-K 0,6/1 kV 5G10 mm² BAJO TUBO M32","Suministro e instalación de línea trifásica con cable de cobre RZ1-K (AS) 0,6/1 kV de 5G10 mm² bajo tubo PVC corrugado de doble capa M32, incluso parte proporcional de cajas de paso y mano de obra de montaje.",0,0,sp(RZ,5,10,T32,1),null],
+["tubo20","Ml","TUBO PVC CORRUGADO DOBLE CAPA M20","Suministro e instalación de tubo corrugado de PVC de doble capa M20, empotrado o en superficie con abrazaderas, incluso accesorios.",0,0,sp(H07,0,1.5,T20,1),null],
+["tubo25","Ml","TUBO PVC CORRUGADO DOBLE CAPA M25","Suministro e instalación de tubo corrugado de PVC de doble capa M25, empotrado o en superficie con abrazaderas, incluso accesorios.",0,0,sp(H07,0,1.5,T25,1),null],
+["rej35","Ml","BANDEJA REJIBAND 35x60","Suministro e instalación de bandeja de rejilla de acero galvanizado de 35x60 mm tipo Rejiband, para montar en techo o pared, incluso soportes y accesorios.",0,0,sp(H07,0,1.5,"Bandeja rejiband 35x60",1),null],
+["rej60","Ml","BANDEJA REJIBAND 60x100","Suministro e instalación de bandeja de rejilla de acero galvanizado de 60x100 mm tipo Rejiband, para montar en techo o pared, incluso soportes y accesorios.",0,0,sp(H07,0,1.5,"Bandeja rejiband 60x100",1),null],
+["caja105","Ud","CAJA DE DISTRIBUCIÓN 105x105","Suministro e instalación de caja de distribución de superficie de 105x105 mm, IP55, con regletas de conexión.",9,.4,null,null],
+["estanca","Ud","TOMA ESTANCA IP55 SUPERFICIE","Suministro e instalación de base de enchufe 16 A 2P+T estanca IP55 en superficie, incluso conexión a línea existente.",14,.6,null,null],
+["campana","Ud","CAMPANA LED INDUSTRIAL 100 W","Suministro e instalación de campana LED industrial de 100 W, 4000° K, suspendida, incluso cadena de suspensión y conexión.",78,1,null,null],
+["pantalla","Ud","PANTALLA LED ESTANCA 60 W 1500 mm IP65","Suministro e instalación de pantalla LED estanca de 60 W, 1500 mm, IP65, en superficie, incluso conexión.",29,.6,null,null],
+["downl","Ud","DOWNLIGHT LED EMPOTRABLE 18 W","Suministro e instalación de luminaria downlight LED empotrable de 18 W, 4000° K, incluso conexión.",16,.5,null,null]
+];
+const CATL=CAT0.map(c=>({k:c[0],u:c[1],res:c[2],desc:c[3],mat:c[4],hor:c[5],sp:c[6],ej:c[7]}));
+const CAT_INIT=JSON.stringify(CATL.map(c=>[c.mat,c.hor]));
+
+const COND_I0="Presupuesto válido durante 30 días desde su fecha.\nLos precios incluyen suministro de material y mano de obra de cada partida. No incluyen IVA salvo que se indique.\nNo incluye tasas de legalización ni trabajos de albañilería, salvo que figuren como partida.";
+const si={obra:"",cli:"",dir:"",num:"",tar:31,mar:15,dto:0,iva:21,cond:COND_I0,l:[]};
+const KEYI="presupuestosIndustrial1";
+function saveI(){try{localStorage.setItem(KEYI,JSON.stringify({v:1,si,CP,cat:CATL.map(c=>[c.k,c.mat,c.hor])}));}catch(e){}}
+function loadI(s){try{if(!s)return;Object.assign(si,s.si);if(!Array.isArray(si.l))si.l=[];if(!si.cond)si.cond=COND_I0;
+ if(s.CP){Object.keys(s.CP.cab||{}).forEach(k=>{CP.cab[k]=s.CP.cab[k];});Object.keys(s.CP.tub||{}).forEach(k=>{CP.tub[k]=s.CP.tub[k];});}
+ (s.cat||[]).forEach(a=>{const c=CATL.find(x=>x.k===a[0]);if(c){c.mat=a[1];c.hor=a[2];}});}catch(e){}}
+try{loadI(JSON.parse(localStorage.getItem(KEYI)||"null"));}catch(e){}
+
+/* ---- cálculo ---- */
+const parcial=m=>{const n=+m.n||0,l=+m.l||0,a=+m.a||0,h=+m.h||0;if(!n&&!l&&!a&&!h)return 0;return (n||1)*(l||1)*(a||1)*(h||1);};
+function icalc(){
+ const f=1+(+si.mar||0)/100,caps=[];let cap=null;
+ si.l.forEach((l,idx)=>{
+  if(l.tipo==="cap"){cap={cod:l.cod,res:l.res,items:[],tot:0,idx};caps.push(cap);return;}
+  if(!cap){cap={cod:"",res:"",items:[],tot:0,idx:-1};caps.push(cap);}
+  const par=(l.med||[]).map(parcial),qa=par.reduce((a,b)=>a+b,0);
+  const hasQ=l.qm!==""&&l.qm!=null,q=hasQ?+l.qm||0:qa;
+  const pa=((+l.mat||0)+(+l.hor||0)*(+si.tar||0))*f;
+  const hasP=l.pm!==""&&l.pm!=null,pu=hasP?+l.pm||0:pa;
+  const it={l,idx,par,qa,q,pa,pu,imp:q*pu};
+  cap.items.push(it);cap.tot+=it.imp;
+ });
+ const sum=caps.reduce((a,c)=>a+c.tot,0),dto=-sum*(+si.dto||0)/100,base=sum+dto,iva=base*(+si.iva||0)/100;
+ return {caps,sum,dto,base,iva,total:base+iva};
+}
+const vis=it=>it.q>0&&it.pu>0.004;
+const blank=()=>({cod:"",u:"Ud",res:"",desc:"",sp:null,len:0,med:[{t:"",n:1,l:0,a:0,h:0}],qm:"",mat:0,hor:0,pm:"",open:true});
+function nextCod(){let cap="",n=0;for(const l of si.l){if(l.tipo==="cap"){cap=l.cod;n=0;}else n++;}return (cap||"01")+"."+String(n+1).padStart(2,"0");}
+function fromCat(c,q){const s=c.sp?JSON.parse(JSON.stringify(c.sp)):null;const r=s?specCalc(s):null;
+ return {cod:nextCod(),u:c.u,res:c.res,desc:c.desc,sp:s,med:[{t:"",n:q||1,l:0,a:0,h:0}],qm:"",mat:r?r.mat:c.mat,hor:r?r.hor:c.hor,pm:"",open:false,k:c.k};}
+
+/* ---- pantalla industrial ---- */
+function ibuild(){
+ $("#idatos").innerHTML=[["obra","Obra o proyecto (sale en el PDF)"],["cli","Cliente"],["dir","Dirección de la obra"],["num","Nº de presupuesto"]].map(([k,l])=>`<label class="f">${l}<input data-ik="${k}" value="${esc(si[k])}"></label>`).join("")+
+  `<details><summary>Datos de la empresa (PDF)</summary>${[["nom","Empresa"],["dir","Dirección"],["tel","Teléfono"],["mail","Correo"],["web","Web"],["cif","CIF"]].map(([k,l])=>`<label class="f">${l}<input data-co="${k}" value="${esc(CO[k])}"></label>`).join("")}</details>`;
+ $("#inums").innerHTML=[["mar","Margen (%)"],["tar","Mano de obra (€/h)"],["dto","Descuento (%)"]].map(([k,l])=>`<label>${l}${num("data-ik",si[k],k)}</label>`).join("");
+ seg("iva",[10,21],"data-ik");
+ $("#icond").value=si.cond;
+ $("#icp").innerHTML=Object.keys(CP.cab).map(t=>`<div class="pi"><b>${esc(t)}</b><div class="g3">${SECS.map(s=>`<label>${s} mm²${num("data-cp",CP.cab[t][s],"cab|"+t+"|"+s)}</label>`).join("")}</div></div>`).join("")+
+  `<div class="pi"><b>Tubos y bandejas</b><div class="g2">${Object.keys(CP.tub).filter(t=>t!=="Sin tubo").map(t=>`<label>${esc(t)}${num("data-cp",CP.tub[t],"tub|"+t)}</label>`).join("")}</div></div>`;
+ $("#icc").innerHTML=CATL.map((c,i)=>`<div class="pi"><b>${esc(c.res)}</b> <span class="mut">(${c.u})</span>${c.sp?`<p class="mut">Se calcula desde cable y tubo (${c.sp.len} m por unidad); aquí puedes forzar otros valores.</p>`:""}<div class="g4"><label>Material (€/${c.u})${num("data-cat",c.mat,i+".mat")}</label><label>Horas por ${c.u}${num("data-cat",c.hor,i+".hor")}</label></div></div>`).join("");
+ icatFill();irender();
+}
+function icatFill(){
+ const q=($("#catq").value||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+ const L=CATL.map((c,i)=>[c,i]).filter(([c])=>!q||(c.res+" "+c.desc).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").includes(q));
+ $("#catsel").innerHTML=L.map(([c,i])=>`<option value="${i}">${esc(c.res.length>70?c.res.slice(0,68)+"…":c.res)}</option>`).join("")||"<option value=''>Sin resultados</option>";
+}
+const specUI=(l,i)=>{const s=l.sp||{cab:Object.keys(CP.cab)[0],n:0,sec:2.5,tub:"Sin tubo",len:1};
+ return `<div class="card" style="margin:10px 0"><b style="font-size:.9rem">Características de cable y tubo</b><div class="g2" style="margin-top:8px"><label>Cable<select data-sp="${i}.cab">${Object.keys(CP.cab).map(t=>`<option${t===s.cab?" selected":""}>${esc(t)}</option>`).join("")}</select></label><label>Conductores${num("data-sp",s.n,i+".n")}</label><label>Sección (mm²)<select data-sp="${i}.sec">${SECS.map(x=>`<option${+x===+s.sec?" selected":""}>${x}</option>`).join("")}</select></label><label>Metros por unidad${num("data-sp",s.len,i+".len")}</label></div><label style="margin-top:8px">Tubo o bandeja<select data-sp="${i}.tub">${Object.keys(CP.tub).map(t=>`<option${t===s.tub?" selected":""}>${esc(t)}</option>`).join("")}</select></label><button type="button" class="s" style="width:100%;margin-top:8px" data-calc="${i}">Calcular material y horas</button></div>`;};
+const medUI=(m,i,j)=>`<div class="med"><label class="w">Medición (zona o concepto)<input data-md="${i}.${j}.t" value="${esc(m.t)}" placeholder="Planta baja, zona…"></label><label>Uds${num("data-md",m.n,i+"."+j+".n")}</label><label>Largo${num("data-md",m.l,i+"."+j+".l")}</label><label>Ancho${num("data-md",m.a,i+"."+j+".a")}</label><label>Alto${num("data-md",m.h,i+"."+j+".h")}</label><div class="pp"><span>Parcial: <b data-pp="${i}.${j}">0</b></span><button type="button" class="s" data-mdel="${i}.${j}">Quitar</button></div></div>`;
+function irender(){
+ const mv=(i)=>`<div class="g3" style="margin-top:8px"><button type="button" class="s" data-up="${i}">↑ Subir</button><button type="button" class="s" data-down="${i}">↓ Bajar</button><button type="button" class="s" data-dup="${i}">Duplicar</button></div><button type="button" class="s" style="width:100%;margin-top:8px" data-idel="${i}">Eliminar</button>`;
+ $("#il").innerHTML=si.l.length?si.l.map((l,i)=>l.tipo==="cap"?
+  `<div class="cap"><div style="display:flex;justify-content:space-between"><b>CAPÍTULO</b><b data-ct="${i}"></b></div><div class="g4"><label style="color:inherit">Código<input data-ind="${i}.cod" value="${esc(l.cod)}"></label><label style="color:inherit">Nombre<input data-ind="${i}.res" value="${esc(l.res)}"></label></div>${mv(i)}</div>`:
+  `<details class="pt" data-d="${i}"${l.open?" open":""}><summary><span class="pc" data-pcod="${i}">${esc(l.cod)}</span><span class="pr" data-pres="${i}">${esc(l.u)} · ${esc(l.res||"(sin resumen)")}</span><span class="pm" data-pimp="${i}"></span></summary><div class="pb">
+  <div class="g4"><label>Código<input data-ind="${i}.cod" value="${esc(l.cod)}"></label><label>Unidad<select data-ind="${i}.u">${["Ud","Ml","m²","m³","h","PA","kg"].map(u=>`<option${u===l.u?" selected":""}>${u}</option>`).join("")}</select></label></div>
+  <label class="f">Resumen<input data-ind="${i}.res" value="${esc(l.res)}"></label>
+  <label class="f">Descripción<textarea data-ind="${i}.desc" rows="5">${esc(l.desc)}</textarea></label>
+  ${specUI(l,i)}
+  <b style="font-size:.9rem">Mediciones</b>
+  ${(l.med||[]).map((m,j)=>medUI(m,i,j)).join("")}
+  <button type="button" class="s" style="width:100%;margin-top:8px" data-madd="${i}">+ Línea de medición</button>
+  <div class="g2" style="margin-top:12px"><label>Cantidad<input type="number" inputmode="decimal" step="any" data-ind="${i}.qm" value="${l.qm===""||l.qm==null?"":l.qm}" data-q="${i}" placeholder="auto"></label><label>Precio unitario (€)<input type="number" inputmode="decimal" step="any" data-ind="${i}.pm" value="${l.pm===""||l.pm==null?"":l.pm}" data-p2="${i}" placeholder="auto"></label><label>Material (€ por ${esc(l.u)})${num("data-ind",l.mat,i+".mat")}</label><label>Horas por ${esc(l.u)}${num("data-ind",l.hor,i+".hor")}</label></div>
+  <p class="mut">Cantidad y precio se rellenan solos (mediciones y material + horas). Escribe un valor para forzarlo; déjalo vacío para volver al automático.</p>
+  <div class="imp"><span>Importe</span><span data-iimp="${i}"></span></div><p class="tag" data-warn="${i}"></p>
+  ${mv(i)}</div></details>`).join(""):`<p class="mut">Aún no hay partidas. Añade un capítulo y partidas del catálogo, o carga el ejemplo.</p>`;
+ iupdate();
+}
+function iupdate(){
+ const c=icalc();
+ c.caps.forEach(cp=>{if(cp.idx>=0){const e=document.querySelector(`[data-ct="${cp.idx}"]`);if(e)e.textContent=eur(cp.tot);}
+  cp.items.forEach(it=>{const i=it.idx,g=s=>document.querySelector(s);
+   const set=(s,t)=>{const e=g(s);if(e)e.textContent=t;};
+   set(`[data-pimp="${i}"]`,eur(it.imp));set(`[data-iimp="${i}"]`,`${nf(it.q)} ${it.l.u} × ${eur(it.pu)} = ${eur(it.imp)}`);
+   set(`[data-pcod="${i}"]`,it.l.cod);set(`[data-pres="${i}"]`,`${it.l.u} · ${it.l.res||"(sin resumen)"}`);
+   (it.l.med||[]).forEach((m,j)=>set(`[data-pp="${i}.${j}"]`,nf(it.par[j])));
+   const q=g(`[data-q="${i}"]`),p=g(`[data-p2="${i}"]`);if(q)q.placeholder="auto: "+nf(it.qa);if(p)p.placeholder="auto: "+n2(it.pa);
+   set(`[data-warn="${i}"]`,!vis(it)?"Con cantidad o precio a 0 esta partida no sale en el presupuesto.":"");
+  });});
+ const row=(l,v)=>`<div class="ln"><span>${l}</span><b>${v}</b></div>`;
+ $("#ipl").innerHTML=c.caps.map(cp=>{const its=cp.items.filter(vis);return its.length?`<div class="sec">${esc(cp.cod)} ${esc(cp.res)}</div>${its.map(it=>`<div class="ln"><span>${esc(it.l.cod)} · ${esc(it.l.res)}<small>${nf(it.q)} ${esc(it.l.u)} × ${eur(it.pu)}</small></span><b>${eur(it.imp)}</b></div>`).join("")}<div class="sub"><span>Total capítulo</span><span>${eur(cp.tot)}</span></div>`:"";}).join("")||`<p class="mut">No hay partidas con cantidad y precio.</p>`;
+ $("#itot").innerHTML=`<div><span>Suma de capítulos</span><span>${eur(c.sum)}</span></div><div><span>Descuento (${nf(si.dto)} %)</span><span>${eur(c.dto)}</span></div><div><span>Base imponible</span><span>${eur(c.base)}</span></div><div><span>IVA (${si.iva} %)</span><span>${eur(c.iva)}</span></div><div class="g"><span>Total</span><span>${eur(c.total)}</span></div>`;
+ if(mode==="ind"){$("#b2").textContent=eur(c.total);$("#b3").textContent=c.caps.reduce((a,k)=>a+k.items.filter(vis).length,0)+" partidas";}
+ pdfViewInd(c);saveI();
+}
+function pdfViewInd(c){
+ $("#pdf").innerHTML=`<img src="${LOGO}" alt="${esc(CO.nom)}"><h2>PRESUPUESTO Y MEDICIONES</h2><p><b>${esc(si.obra)}</b></p>${si.cli?`<p>Cliente: ${esc(si.cli)}</p>`:""}${si.num?`<p>Nº ${esc(si.num)} · ${hoy()}</p>`:`<p>${hoy()}</p>`}<table><thead><tr><th>Código · Resumen</th><th>Ud</th><th>Cantidad</th><th>Precio</th><th>Importe</th></tr></thead><tbody>${c.caps.map(cp=>{const its=cp.items.filter(vis);return its.length?`<tr><td colspan="5"><b>${esc(cp.cod)} ${esc(cp.res)}</b></td></tr>`+its.map(it=>`<tr><td>${esc(it.l.cod)} ${esc(it.l.res)}<div class="sb">${esc(it.l.desc)}</div></td><td>${esc(it.l.u)}</td><td>${n2(it.q)}</td><td>${n2(it.pu)}</td><td>${n2(it.imp)}</td></tr>`).join("")+`<tr><td colspan="4"><b>Total capítulo ${esc(cp.cod)}</b></td><td><b>${n2(cp.tot)}</b></td></tr>`:"";}).join("")}</tbody></table><div class="tot"><div><span>Base imponible</span><span>${eur(c.base)}</span></div><div><span>IVA (${si.iva} %)</span><span>${eur(c.iva)}</span></div><div class="g"><span>Total</span><span>${eur(c.total)}</span></div></div>`;
+}
+function resumenInd(c){
+ const L=[CO.nom,"PRESUPUESTO Y MEDICIONES"];if(si.obra)L.push(si.obra);if(si.num)L.push("Nº "+si.num);if(si.cli)L.push("Cliente: "+si.cli);L.push("");
+ c.caps.forEach(cp=>{const its=cp.items.filter(vis);if(!its.length)return;L.push(`${cp.cod} ${cp.res}`.trim());its.forEach(it=>L.push(`${it.l.cod} ${it.l.res}: ${nf(it.q)} ${it.l.u} × ${eur(it.pu)} = ${eur(it.imp)}`));L.push(`Total capítulo: ${eur(cp.tot)}`,"");});
+ if(si.dto)L.push(`Descuento (${nf(si.dto)} %): ${eur(c.dto)}`);
+ L.push(`Base imponible: ${eur(c.base)}`,`IVA (${si.iva} %): ${eur(c.iva)}`,`Total: ${eur(c.total)}`);return L.join("\n");
+}
+
+/* ---- PDF industrial: formato "PRESUPUESTO Y MEDICIONES" ---- */
+function pdfInd(c){
+ const D=Doc(),X0=40,X1=555,K={cod:40,res:90,uds:270,lon:312,anc:350,alt:383,par:424,can:466,pre:506,imp:555};let y=0;
+ const heads=()=>{const o={b:1},z=6.5;D.T(K.cod,y,"CÓDIGO",z,o);D.T(K.res,y,"RESUMEN",z,o);D.T(K.uds,y,"UDS",z,{...o,r:1});D.T(K.lon,y,"LONGITUD",z,{...o,r:1});D.T(K.anc,y,"ANCHURA",z,{...o,r:1});D.T(K.alt,y,"ALTURA",z,{...o,r:1});D.T(K.par,y,"PARCIALES",z,{...o,r:1});D.T(K.can,y,"CANTIDAD",z,{...o,r:1});D.T(K.pre,y,"PRECIO",z,{...o,r:1});D.T(K.imp,y,"IMPORTE",z,{...o,r:1});y-=5;D.L(X0,y,X1,y,[0,0,0],.6);y-=13;};
+ const p1=()=>{
+  const lh=D.I(X0,842-26-150*LH/LW,150);
+  D.T(X1,806,CO.nom,9,{b:1,r:1,col:DGREEN});D.T(X1,794,CO.dir,8,{r:1,col:GRAY});D.T(X1,783,[CO.tel&&"Tel. "+CO.tel,CO.mail].filter(Boolean).join(" · "),8,{r:1,col:GRAY});
+  y=842-26-lh-18;
+  D.T(X0,y,"PRESUPUESTO Y MEDICIONES",13,{b:1});y-=17;
+  if(si.obra){D.wrap(si.obra.toUpperCase(),515,9,1).forEach(l=>{D.T(X0,y,l,9,{b:1});y-=12;});}
+  const info=[si.cli&&"Cliente: "+si.cli,si.dir&&"Obra: "+si.dir,si.num&&"Nº presupuesto: "+si.num].filter(Boolean);
+  info.forEach(t=>{D.T(X0,y,t,8.5);y-=11;});y-=6;heads();
+ };
+ const pN=()=>{D.np();D.T(X0,810,"PRESUPUESTO Y MEDICIONES",11,{b:1});D.I(X1-70,842-26-70*LH/LW+4,70);y=792;if(si.obra)D.T(X0,y,si.obra.toUpperCase(),8.5,{b:1});y-=20;heads();};
+ p1();
+ const par=D.wd.bind(D);
+ c.caps.forEach(cp=>{
+  const its=cp.items.filter(vis);if(!its.length)return;
+  if(y<130){pN();}
+  if(cp.res||cp.cod){D.R(X0,y-5,X1-X0,16,[.90,.90,.90]);D.T(X0+8,y,`CAPÍTULO ${cp.cod} ${cp.res}`.trim().toUpperCase(),8.5,{b:1});y-=22;}
+  its.forEach(it=>{
+   const l=it.l,tl=D.wrap(`${l.u}   ${l.res}`,345,8.5,1),dl=D.wrap(l.desc,345,8);
+   const meds=(l.med||[]).map((m,j)=>({m,p:it.par[j]})).filter(x=>x.p!==0);
+   const H=tl.length*11+dl.length*9.5+meds.length*10+40;
+   if(y-H<60&&y<740){pN();}
+   D.T(K.cod,y,l.cod,8.5);
+   tl.forEach((t,i)=>{D.T(K.res,y,t,8.5,{b:1});if(i<tl.length-1)y-=11;});y-=12;
+   dl.forEach(t=>{if(y<66){pN();}D.T(K.res+4,y,t,8);y-=9.5;});
+   y-=2;
+   meds.forEach(({m,p})=>{if(y<66){pN();}
+    if(m.t)D.T(K.res+4,y,m.t.slice(0,34),7.5);
+    if(+m.n)D.T(K.uds,y,n2(m.n),7.5,{r:1});if(+m.l)D.T(K.lon,y,n2(m.l),7.5,{r:1});if(+m.a)D.T(K.anc,y,n2(m.a),7.5,{r:1});if(+m.h)D.T(K.alt,y,n2(m.h),7.5,{r:1});
+    D.T(K.par,y,n2(p),7.5,{r:1});y-=9.5;});
+   y-=2;D.L(380,y+3,X1,y+3,[0,0,0],.5);y-=7;
+   D.T(K.can,y,n2(it.q),8,{r:1});D.T(K.pre,y,n2(it.pu),8,{r:1});D.T(K.imp,y,n2(it.imp),8,{r:1});
+   y-=18;
+  });
+  if(y<80)pN();
+  const tt=`TOTAL CAPÍTULO ${cp.cod} ${cp.res}`.trim().toUpperCase();
+  const w=D.T(X0+60,y,tt+" ",8.5,{b:1});
+  const dots=Math.max(0,Math.floor((505-(X0+60+w))/D.wd(".",8.5)));
+  D.T(X0+60+w,y,".".repeat(dots),8.5);
+  D.L(485,y+10,X1,y+10,[0,0,0],.5);D.T(K.imp,y,n2(cp.tot),9,{r:1});y-=28;
+ });
+ /* resumen final */
+ if(y<250)pN();
+ y-=6;D.R(X0,y-6,X1-X0,18,DGREEN);D.T(X0+8,y-1,"RESUMEN DEL PRESUPUESTO",9,{b:1,col:[1,1,1]});y-=26;
+ c.caps.forEach(cp=>{if(!cp.items.some(vis))return;D.T(X0+8,y,`${cp.cod} ${cp.res}`.trim().toUpperCase(),8.5);D.T(X1-8,y,eur(cp.tot),8.5,{r:1});y-=14;D.L(X0,y+6,X1,y+6);});
+ y-=4;
+ if(si.dto){D.T(X0+8,y,`Descuento (${nf(si.dto)} %)`,9,{col:GRAY});D.T(X1-8,y,eur(c.dto),9,{r:1});y-=15;}
+ D.T(X0+8,y,"Base imponible",9,{col:GRAY});D.T(X1-8,y,eur(c.base),9,{r:1});y-=15;
+ D.T(X0+8,y,`IVA (${si.iva} %)`,9,{col:GRAY});D.T(X1-8,y,eur(c.iva),9,{r:1});y-=10;
+ D.R(X0,y-22,X1-X0,26,DGREEN);D.T(X0+8,y-14,"TOTAL PRESUPUESTO",11,{b:1,col:[1,1,1]});D.T(X1-8,y-14,eur(c.total),11,{b:1,r:1,col:[1,1,1]});y-=48;
+ const cond=(si.cond||"").split("\n").filter(Boolean);
+ if(cond.length){if(y<90+cond.length*12)pN();D.T(X0,y,"CONDICIONES",7.5,{b:1,col:GREEN});y-=12;cond.forEach(t=>D.wrap(t,500,8).forEach((l,i)=>{D.T(X0+(i?8:0),y,(i?"":"· ")+l,8,{col:GRAY});y-=10;}));}
+ return D.build((i,n)=>{
+  D.L(X0,50,X1,50,[0,0,0],.5);
+  D.T(X0,38,hoyL(),8);D.T(300,38,CO.nom,8,{c:1,col:GRAY});D.T(X1,38,"Página "+(i+1),8,{r:1});
+ });
+}
+
+/* ================= IMPORTAR PARTIDAS PEGADAS ================= */
+const pn=s=>{s=String(s).trim();return /,/.test(s)?parseFloat(s.replace(/\./g,"").replace(",",".")):parseFloat(s);};
+const isNum=s=>/^-?\d{1,3}(?:\.\d{3})*(?:,\d+)?$|^-?\d+(?:[.,]\d+)?$/.test(s);
+const norm=s=>String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9,.x ]/g," ");
+const toks=s=>new Set(norm(s).split(/\s+/).filter(w=>w.length>=2));
+const jac=(a,b)=>{let i=0;a.forEach(x=>{if(b.has(x))i++;});return i/(a.size+b.size-i||1);};
+const HEAD=/^\s*([A-Za-z]{1,4}\d{2,3}[A-Za-z]?|\d{1,2}[.,]\d{2,3})\s+(Ud|Ml|ml|ud|m²|m2|m³|m3|PA|pa|h|kg|m)\.?\s+(\S.*)$/;
+const HEAD2=/^\s*(Ud|Ml|ml|ud|m²|m2|m³|m3|PA|pa|m)\.?\s+(\S.*)$/;
+const fixU=u=>({ud:"Ud",ml:"Ml",m2:"m²","m²":"m²",m3:"m³","m³":"m³",pa:"PA",h:"h",kg:"kg",m:"Ml"})[u.toLowerCase()]||"Ud";
+function detectSpec(txt,u){
+ const t=txt;let cab=null;
+ if(/RZ1-?K/i.test(t))cab=RZ;else if(/RV-?K/i.test(t))cab="RV-K 0,6/1 kV";else if(/H07Z1|libre de hal[oó]genos|libre hal/i.test(t))cab=H07;else if(/H07V|V-?750|VV[ -]?750/i.test(t))cab="H07V-K 450/750 V";
+ const m=t.match(/(\d)\s*[xX×G]\s*(\d+(?:[.,]\d+)?)\s*mm/);
+ let n=0,sec=0;if(m){n=+m[1];sec=pn(m[2]);sec=SECS.reduce((a,b)=>Math.abs(b-sec)<Math.abs(a-sec)?b:a,SECS[0]);}
+ let tub="Sin tubo";
+ const rj=t.match(/rejiband\s*(\d+)\s*x\s*(\d+)/i);
+ if(rj)tub=+rj[2]>=100||+rj[1]>=100?"Bandeja rejiband 60x100":"Bandeja rejiband 35x60";
+ else{const tm=t.match(/\bM\s?(16|20|25|32|40)\b/);if(tm){const rig=/r[ií]gido/i.test(t)&&(tm[1]==="20"||tm[1]==="25");tub=(rig?"Tubo PVC rígido M":"Tubo PVC corrugado doble capa M")+tm[1];}}
+ if(!cab||!n||!sec)return tub!=="Sin tubo"&&(u==="Ml")?{cab:H07,n:0,sec:1.5,tub,len:1}:null;
+ return {cab,n,sec,tub,len:u==="Ml"?1:15};
+}
+function matchCat(res,desc){
+ const a=toks(res),b=toks(res+" "+desc.slice(0,140));let best=null,bs=0;
+ CATL.forEach(c=>{const s=Math.max(jac(a,toks(c.res)),jac(b,toks(c.res+" "+c.desc.slice(0,140)))*.9);if(s>bs){bs=s;best=c;}});
+ return bs>=.5?best:null;
+}
+function parsePartidas(txt){
+ const lines=txt.replace(/\r/g,"").split("\n"),blocks=[];let cur=null;
+ lines.forEach(raw=>{const m=raw.match(HEAD);if(m){cur={cod:m[1].replace(",","."),u:fixU(m[2]),res:m[3].trim(),rest:[]};blocks.push(cur);}else if(cur)cur.rest.push(raw);});
+ if(!blocks.length){const ne=lines.map(x=>x.trim()).filter(Boolean);if(ne.length){const m=ne[0].match(HEAD2);blocks.push({cod:"",u:m?fixU(m[1]):"Ud",res:(m?m[2]:ne[0]).trim(),rest:ne.slice(1)});}}
+ const out=[],st2={n:0,cat:0,spec:0,sin:0};
+ blocks.forEach(b=>{
+  const desc=[],meds=[];let cant=null,precio=null,crit=false,lone=null;
+  b.rest.forEach(raw=>{
+   const s=raw.trim();if(!s)return;
+   if(/^(total|suma|pág|página)\b/i.test(s)&&!/^total (partida|cap)/i.test(s)){}
+   const mp=s.match(/^presupuestos anteriores\s*([\d.,]+)?/i);
+   if(mp){crit=false;if(mp[1]&&isNum(mp[1]))meds.push({t:"Presupuestos anteriores",n:pn(mp[1]),l:0,a:0,h:0});return;}
+   if(/^criterio de medici[oó]n/i.test(s)){crit=true;return;}
+   const tk=s.split(/\s+/);
+   if(tk.every(isNum)){crit=false;const v=tk.map(pn);
+    if(v.length===3&&Math.abs(v[0]*v[1]-v[2])<.02){cant=v[0];if(v[1]>0)precio=v[1];}
+    else if(v.length>=2){const f=v.slice(0,-1);meds.push({t:"",n:f[0]||0,l:f[1]||0,a:f[2]||0,h:f[3]||0});}
+    else lone=lone==null?v[0]:lone;
+    return;}
+   let tail=0;for(let i=tk.length-1;i>=0&&isNum(tk[i]);i--)tail++;
+   if(tail>=2&&tail<=5&&/^[^\d]/.test(s)&&desc.length){crit=false;const v=tk.slice(-tail).map(pn),f=v.slice(0,-1);meds.push({t:tk.slice(0,-tail).join(" "),n:f[0]||0,l:f[1]||0,a:f[2]||0,h:f[3]||0});return;}
+   if(!crit)desc.push(s);
+  });
+  const d=desc.join(" ").replace(/([a-záéíóúñ])-\s+([a-záéíóúñ])/g,"$1$2").replace(/\s+/g," ").trim();
+  let med=meds;
+  if(!med.length)med=[{t:"",n:cant!=null?cant:lone!=null?lone:1,l:0,a:0,h:0}];
+  const l={cod:b.cod||nextCod(),u:b.u,res:b.res,desc:d,sp:null,med,qm:"",mat:0,hor:0,pm:"",open:true};
+  const cat=matchCat(b.res,d),sp2=detectSpec(b.res+" "+d,b.u);
+  if(sp2&&(!cat||!cat.sp)&&(sp2.n>0||sp2.tub!=="Sin tubo")){l.sp=sp2;const r=specCalc(sp2);l.mat=r.mat;l.hor=r.hor;st2.spec++;l.aviso="spec";}
+  else if(cat){const f=fromCat(cat,1);l.sp=f.sp;l.mat=f.mat;l.hor=f.hor;l.k=cat.k;st2.cat++;}
+  else if(precio==null)st2.sin++;
+  if(precio!=null)l.pm=precio;
+  si.l.push(l);st2.n++;
+ });
+ return st2;
+}
+function cargarEj(){
+ if(si.l.length&&!confirm("Se sustituirán las partidas actuales por el ejemplo de local comercial. ¿Continuar?"))return;
+ si.obra=si.obra||"Reforma local comercial";si.l=[];
+ [["08","INSTALACION DE ELECTRICIDAD"],["09","TELECOMUNICACIONES"]].forEach(([cod,nom])=>{si.l.push({tipo:"cap",cod,res:nom});CATL.filter(c=>c.ej&&c.ej[1]===+cod).forEach(c=>si.l.push(fromCat(c,c.ej[0])));});
+ ibuild();
+}
+function nuevoInd(){Object.assign(si,{obra:"",cli:"",dir:"",num:"",dto:0,l:[]});ibuild();}
+function restInd(){Object.keys(CP0.cab).forEach(k=>CP.cab[k]=Object.assign({},CP0.cab[k]));Object.keys(CP0.tub).forEach(k=>CP.tub[k]=CP0.tub[k]);JSON.parse(CAT_INIT).forEach((a,i)=>{CATL[i].mat=a[0];CATL[i].hor=a[1];});ibuild();}
+
+/* ================= MODAL, COMPARTIR, PDF ================= */
+let mode="viv";try{mode=localStorage.getItem("dmfModo")==="ind"?"ind":"viv";}catch(e){}
+let tab=0;
+const openModal=h=>{$("#modc").innerHTML=h;$("#mod").hidden=false;};
+const closeModal=()=>{$("#mod").hidden=true;};
+const msgOf=m=>$(m==="viv"?"#msg":"#imsg");
+async function doPDF(m){
+ const me=msgOf(m);
+ try{
+  const b=m==="viv"?pdfViv(calc()):pdfInd(icalc()),num0=m==="viv"?st.num:si.num;
+  const n=(m==="viv"?"presupuesto-vivienda":"presupuesto-industrial")+(num0?"-"+String(num0).replace(/[^\w-]/g,""):"")+".pdf";
+  let f=null;try{f=new File([b],n,{type:"application/pdf"});}catch(e){}
+  if(f&&navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:"Presupuesto"});me.textContent="PDF compartido.";return;}catch(e){if(e.name==="AbortError")return;}}
+  const u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=n;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),6e4);
+  me.textContent="PDF generado. Si no se descarga, usa Compartir como texto.";
+ }catch(e){me.textContent="No se pudo crear el PDF: "+e.message;}
+}
+async function doShare(m){
+ const t=m==="viv"?resumenViv(calc()):resumenInd(icalc());msgOf(m).textContent="";
+ try{if(navigator.share){await navigator.share({title:"Presupuesto",text:t});return;}}catch(e){if(e.name==="AbortError")return;}
+ openModal(`<textarea id="mt" readonly>${esc(t)}</textarea><div class="act"><button data-act="copy" type="button">Copiar</button><button class="s" data-act="close" type="button">Cerrar</button></div>`);
+}
+function openPaste(){
+ openModal(`<b>Pegar partida</b><p class="mut">Pega el texto de una o varias partidas (código, unidad, resumen, descripción y mediciones). Se rellenan los campos y se valoran con el catálogo o con el cable y tubo que aparezcan. Si el PDF es una imagen escaneada, envíamelo en el chat y te lo paso a partidas.</p><textarea id="mt" placeholder="08.07 Ud LÍNEA REPARTIDORA 750V 3x2,5 mm2 TOMAS DE CORRIENTE&#10;Suministro e instalación de línea repartidora… bajo tubo PVC corrugado M20…&#10;Presupuestos anteriores 3,00"></textarea><p class="mut" id="pmsg"></p><div class="act"><button data-act="import" type="button">Valorar y añadir</button><button class="s" data-act="close" type="button">Cancelar</button></div>`);
+}
+function showTab(t){
+ tab=t;const p=mode==="viv"?"h":"i";
+ document.querySelectorAll(".v").forEach(s=>s.classList.toggle("on",s.id===p+t));
+ document.querySelectorAll("#nav button").forEach((n,i)=>n.classList.toggle("on",i===t));
+ window.scrollTo(0,0);
+}
+function setMode(m){
+ mode=m;try{localStorage.setItem("dmfModo",m);}catch(e){}
+ document.querySelectorAll("#mode button").forEach(b=>b.classList.toggle("on",b.dataset.mode===m));
+ $("#ttl").textContent="Presupuestos";
+ $("#nav button").textContent=m==="viv"?"Vivienda":"Partidas";
+ showTab(0);update();
+}
+function update(){
+ if(mode==="viv"){const c=calc();updateViv(c);pdfViewViv(c);save();document.querySelectorAll("[data-xi]").forEach(e=>{const x=st.ex[e.dataset.xi];if(x)e.textContent=eur((+x.q||0)*(+x.p||0));});}
+ else iupdate();
+}
+
+/* ================= EVENTOS ================= */
+const TXT=new Set(["cod","res","desc","u"]);
 document.addEventListener("input",e=>{
- const t=e.target,d=t.dataset,v=parseFloat(t.value)||0;
- if(d.k){st[d.k]=t.type==="number"?v:t.value;elevar(d.k);}
+ const t=e.target,d=t.dataset;if(t.tagName==="SELECT")return;const v=parseFloat(t.value)||0;
+ if(d.k!==undefined){st[d.k]=t.type==="number"?v:t.value;elevar(d.k);}
+ else if(d.co){CO[d.co]=t.value;saveCO();}
+ else if(d.ik){si[d.ik]=t.type==="number"?v:t.value;}
+ else if(d.ind){const [i,f]=d.ind.split(".");const l=si.l[i];if(f==="qm"||f==="pm")l[f]=t.value===""?"":v;else l[f]=TXT.has(f)?t.value:v;iupdate();return;}
+ else if(d.md){const [i,j,f]=d.md.split(".");si.l[i].med[j][f]=f==="t"?t.value:v;iupdate();return;}
+ else if(d.sp){const [i,f]=d.sp.split(".");const l=si.l[i];l.sp=l.sp||{cab:Object.keys(CP.cab)[0],n:0,sec:2.5,tub:"Sin tubo",len:1};l.sp[f]=v;return;}
+ else if(d.cp){const a=d.cp.split("|");if(a[0]==="cab")CP.cab[a[1]][a[2]]=v;else CP.tub[a[1]]=v;saveI();return;}
+ else if(d.cat){const [i,f]=d.cat.split(".");CATL[i][f]=v;saveI();return;}
  else if(d.r&&t.tagName==="INPUT"){const [i,f]=d.r.split(".");st.rooms[i][f]=v;}
- else if(d.x){const [i,f]=d.x.split(".");st.ex[i][f]=f==="d"?t.value:v;}
+ else if(d.x){const [i,f]=d.x.split(".");st.ex[i][f]=(f==="d"||f==="u")?t.value:v;}
  else if(d.p){const [i,j]=d.p.split(".");PR[i][j]=v;}
  else if(d.l){const [i,j]=d.l.split(".");LN[i][j]=v;}
  else if(d.c){const [i,j]=d.c.split(".");CF[i][j]=v;}
+ else if(t.id==="catq"){icatFill();return;}
  else return;
  update();
 });
 document.addEventListener("change",e=>{
  const t=e.target,d=t.dataset;
  if(d.r&&t.tagName==="SELECT"){const [i,f]=d.r.split(".");st.rooms[i].t=t.value;const df=DEF[t.value];if(t.value==="Pasillo"&&!st.rooms[i].l)st.rooms[i].l=df[1];rooms();update();}
+ else if(d.ind&&t.tagName==="SELECT"){const [i,f]=d.ind.split(".");si.l[i][f]=t.value;irender();}
+ else if(d.sp&&t.tagName==="SELECT"){const [i,f]=d.sp.split(".");const l=si.l[i];l.sp=l.sp||{cab:Object.keys(CP.cab)[0],n:0,sec:2.5,tub:"Sin tubo",len:1};l.sp[f]=f==="sec"?+t.value:t.value;}
 });
+document.addEventListener("toggle",e=>{const d=e.target;if(d.dataset&&d.dataset.d!==undefined){const l=si.l[+d.dataset.d];if(l){l.open=d.open;saveI();}}},true);
+const mv=(a,i,k)=>{const j=i+k;if(j<0||j>=a.length)return false;[a[i],a[j]]=[a[j],a[i]];return true;};
 document.addEventListener("click",e=>{
- const b=e.target.closest("button");if(!b)return;const d=b.dataset;
- if(d.tab!==undefined){document.querySelectorAll(".v").forEach((s,i)=>s.classList.toggle("on",i==d.tab));document.querySelectorAll("nav button").forEach(n=>n.classList.toggle("on",n===b));window.scrollTo(0,0);}
- else if(d.add){const df=DEF[d.add];st.rooms.push({t:d.add,s:df[0],l:df[1]});rooms();update();}
- else if(d.del!==undefined){st.rooms.splice(d.del,1);rooms();update();}
- else if(d.st){const [i,f,s]=d.st.split(".");const r=st.rooms[i];r[f]=Math.max(0,Math.round(((+r[f]||0)+(+s)*(f==="s"?1:.5))*10)/10);b.parentNode.querySelector("input").value=r[f];update();}
- else if(d.v){const k=b.parentNode.dataset.k;st[k]=k==="iva"?+d.v:d.v;b.parentNode.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));elevar(k);update();}
+ const b=e.target.closest("button");if(!b)return;const d=b.dataset,id=b.id;
+ if(d.mode){setMode(d.mode);return;}
+ if(d.tab!==undefined){showTab(+d.tab);return;}
+ if(d.act==="close"){closeModal();return;}
+ if(d.act==="copy"){const t=$("#mt");t.select();t.setSelectionRange(0,99999);let ok=false;try{ok=document.execCommand("copy");}catch(x){}if(!ok&&navigator.clipboard){navigator.clipboard.writeText(t.value).then(()=>{},()=>{});ok=true;}msgOf(mode).textContent=ok?"Resumen copiado.":"Selecciona el texto y cópialo a mano.";if(ok)closeModal();return;}
+ if(d.act==="import"){const t=$("#mt").value;if(!t.trim()){$("#pmsg").textContent="Pega primero el texto de la partida.";return;}
+  let r;try{if(/^\s*[\[{]/.test(t)){const j=JSON.parse(t);(Array.isArray(j)?j:[j]).forEach(x=>si.l.push(Object.assign(blank(),x)));r={n:Array.isArray(j)?j.length:1,cat:0,spec:0,sin:0};}else r=parsePartidas(t);}catch(x){$("#pmsg").textContent="No se pudo leer: "+x.message;return;}
+  closeModal();irender();msgOf("ind").textContent=`Añadidas ${r.n} partidas: ${r.cat} valoradas con el catálogo, ${r.spec} por cable y tubo, ${r.sin} sin precio (revísalas y pon material y horas).`;showTab(0);return;}
+ if(d.pdf){doPDF(d.pdf);return;}
+ if(d.share){doShare(d.share);return;}
+ if(d.print){try{window.print();}catch(x){}msgOf(d.print).textContent="Si no se abre la impresión, usa Guardar o compartir PDF.";return;}
+ /* vivienda */
+ if(d.add){const df=DEF[d.add];st.rooms.push({t:d.add,s:df[0],l:df[1]});rooms();update();return;}
+ if(d.del!==undefined){st.rooms.splice(d.del,1);rooms();update();return;}
+ if(d.st){const [i,f,s]=d.st.split(".");const r=st.rooms[i];r[f]=Math.max(0,Math.round(((+r[f]||0)+(+s)*(f==="s"?1:.5))*10)/10);b.parentNode.querySelector("input").value=r[f];update();return;}
+ if(d.v!==undefined){const p=b.parentNode;if(p.dataset.ik){si[p.dataset.ik]=+d.v;p.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));update();return;}
+  const k=p.dataset.k;st[k]=k==="iva"?+d.v:d.v;p.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));elevar(k);update();return;}
+ if(id==="usar"){if(st.usar!=="Sí"&&!(+st.m2t>0)){$("#qsub").textContent="Escribe primero los m² totales.";$("#m2t").focus();return;}st.usar=st.usar==="Sí"?"No":"Sí";update();return;}
+ if(id==="usarh"){const h=$("#qhelp");h.hidden=!h.hidden;return;}
+ if(id==="xadd"){st.ex.push({d:"",u:"Ud",q:1,p:0});xrender();update();return;}
+ if(id==="xdi"){st.ex.push({d:"Derivación individual",u:"Ud",q:1,p:0});xrender();update();return;}
+ if(d.xdel!==undefined){st.ex.splice(d.xdel,1);xrender();update();return;}
+ if(id==="nuevo"){if(confirm("¿Empezar un presupuesto de vivienda nuevo? Se borran las estancias y los datos del cliente, no los precios."))nuevoViv();return;}
+ if(id==="rest"){if(confirm("¿Restablecer los precios de partida de vivienda?"))restViv();return;}
+ /* industrial */
+ if(id==="icap"){si.l.push({tipo:"cap",cod:String(si.l.filter(x=>x.tipo==="cap").length+1).padStart(2,"0"),res:""});irender();return;}
+ if(id==="ibl"){si.l.push(Object.assign(blank(),{cod:nextCod()}));irender();return;}
+ if(id==="icat"){const i=+$("#catsel").value;if(isNaN(i)||!CATL[i])return;const l=fromCat(CATL[i],1);l.open=true;si.l.push(l);irender();return;}
+ if(id==="ipeg"){openPaste();return;}
+ if(id==="iej"){cargarEj();return;}
+ if(id==="inuevo"){if(confirm("¿Empezar un presupuesto industrial nuevo? Se borran las partidas y los datos del cliente, no los precios."))nuevoInd();return;}
+ if(id==="irest"){if(confirm("¿Restablecer cables, tubos y catálogo a los precios de partida?"))restInd();return;}
+ if(d.up!==undefined){if(mv(si.l,+d.up,-1))irender();return;}
+ if(d.down!==undefined){if(mv(si.l,+d.down,1))irender();return;}
+ if(d.dup!==undefined){const l=JSON.parse(JSON.stringify(si.l[+d.dup]));si.l.splice(+d.dup+1,0,l);irender();return;}
+ if(d.idel!==undefined){if(confirm("¿Eliminar esta línea?")){si.l.splice(+d.idel,1);irender();}return;}
+ if(d.madd!==undefined){si.l[+d.madd].med.push({t:"",n:1,l:0,a:0,h:0});irender();return;}
+ if(d.mdel!==undefined){const [i,j]=d.mdel.split(".");si.l[i].med.splice(j,1);irender();return;}
+ if(d.calc!==undefined){const l=si.l[+d.calc];if(!l.sp)l.sp={cab:Object.keys(CP.cab)[0],n:0,sec:2.5,tub:"Sin tubo",len:1};const r=specCalc(l.sp);l.mat=r.mat;l.hor=r.hor;irender();return;}
 });
-$("#nuevo").onclick=()=>{if(confirm("¿Empezar un presupuesto nuevo? Se borran las estancias y los datos del cliente, no los precios.")){Object.assign(st,{cli:"",dir:"",num:"",grado:"Básica",gama:"Básica",calef:"No",aa:"No",sec:"No",dom:"No",ve:"No",c12:0,dto:0,rooms:[],ex:[{d:"Sistema de alarma",q:1,p:0},{d:"",q:0,p:0},{d:"",q:0,p:0}]});build();update();}};
-$("#rest").onclick=()=>{if(confirm("¿Restablecer los precios de partida?")){const o=JSON.parse(INIT);o.PR.forEach((p,i)=>PR[i]=p);o.LN.forEach((p,i)=>LN[i]=p);o.CF.forEach((p,i)=>CF[i]=p);build();update();}};
-//PDF-START
-const LOGO="data:image/jpeg;base64,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eaX2YnFWoVZvmPnyhHZHRkbY6fOr/wByr+v6BqXhfU5bDVLSS0vIxlo2PX/4uvoT4Qfs5pBFa614riWackSw6Y4+WLP/AD1/vN7dK+bwOV4nHYj2FOPw/F/dOWlSnOXKeofCz4k2HxE8O288Msa6hHGourVW+aN8c8eldbfaha6XbtcXlxFawJ96WZwij8TXkXxD+AcNzO+u+DZW0LXo8yLHbv5ccrf+yn9PavnPxx478U+KTHp/iO7kmexZk+zzRLFtb/bVf4q/TMVnVfKKfssXTvL7Ml8MvXsepOs6MffR92W11DewJNbypNE4yro2QRUtfIP7PPxFu/Dni200OectpOoSGJIpP+WUv8DL7P8Adr6+r3MqzOGaUPbRVjajUVWPMgooor2jYKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA8p+NvwY/wCFjxW99p86WusWylFMgykqf3W9PrXhsX7NvjlpWVrC2VT/ABNdKV/KvrDxH4u0fwjZG71e/hsYN20NK2Nx9B6n6VY0LxBp3ibTYr/S7uO9s5OVliOQa+Tx2R5fmOI55u0/JnLOhTqS13PmHw78HPij4Evnu9DNrDIw2MsdwrJKv+0rpXS3fxI+MXhuN1vPC0F2qLnzIrdpv0jevomk61dLIlhocmGrSgONDk+GTPz98WeI9V8Wa7dahrMjPqDfIyOu3yv9jb/DWPX1j+0N8JG8VaaNe0i3DatZriWGNfmuI/8A4peor5Rr8rznL8Rl+Ikq0ubm+1/MePXpypSvIKKKERn+Vfv/AMNeElfQwPpH9lbwRGlleeJrmESTSSNbWrunCovDuv8AvN8v/AK+h65/wD4eh8K+D9K0uFlcW1usbuvRnx8x/E5Nb0kiQxs7sERRksegr+g8qwscFhIU12ufR04qEEh1FeDeNf2p9P0y4ktNA0/+1XXg3UsvlxZ/2f4m/AVzelftbaol4v8Aaeh2slt/EbWVldf++q4anEWW0qnspVdSHiKa0uavxx0mPUfjj4FgZFdbjyhKh7qk+7/4qvoivmQeM7H4mftD+FbjT3kks7ePYruNu5lWVm+WvpujJ5UqtTE16O0pfogpNScpIK+b/wBpb4WTvd/8JZpduZAV238UK/N8vKSj/wBBb2xX0hSEAjBGR716WY4ClmNB0KuzLq01Vjys+Hvgp4fufEfxI0ZbZWaKznS8mdPuKq/MP/iK+4qqWGkWWlmT7HaQ2vmHL+UgXcffFW64smypZTRdPm5m2TRpeyjyhRRRX0BuFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAfF/7QPiC71v4n6tBNK/2axdbWCI/dVNqbv8Avpq6L9lfX7u08bXOkqzvZXds8zxD7qSLty//ALLXU/Hz4Ian4j1xvEXh63F1POqreWpZUZmX5UZS3Fdb8Dfg63w8s5dR1Nlk1u7UB0Q5S3X+4p7+57mvzHD5Zj1nc6sl7vNzX/u9jzI0qnt+d7HrFFFNkkWJC7sEUclmOAK/Tj0xScAk9BXxlY+AX+LPxT1230Xy7TS/tckkt3tysce7+Ff9v5/lr2b4s/HrQbDw1f2GhajHqOrTqYF+z/OseRgtu+7x9ai/ZR02GDwLfXaoPPmvWVn9VVVC/pXw+YSw+c42lgItOMfel/kcVXlq1IwIdL/ZN8P20m6+1bUL5f8Anmu2Jf0Brc139mnwbqmneRZWsmk3CjCXMDszf8CDHDfjXq9Fe9HJcujHlVGNvQ39jT/lPmTS/E/i/wDZ21KLTNdt31jws7bIZox93/rm38P/AFyb/gFaXxu+Nmj+IvAC2nh3VhJNfSIk0KhllWL+NW/uc7V/GvfNY0Wx8QadNYajbR3lpMu2SGVcqw+lfJPxk+Bt58P531HTPNvPD7NneRue1/2W/wBn/ar5fNaGPy3Cyp4Z81H/AMmj/wAA5aqqUo2h8J5PRRT6/Jn5njnpv7N9r5/xa0xtv+qgnl/8d2/+zV9lMwVST0FfL37J/hu4n8RaprZUra28BtVc/wAcrMrN/wCOqP8AvuvXP2gdXvNF+FmrTWUjRSyGOBpF6qjsFY/ka/YuHr4LKJV5/wB6R7WG9yjzMpan+0h4O0zXxpj3E0yq/ly3sMZa3jb03fxf8BzXp1tcRXcCTQuJInG5WU5BFfnZX17+zLqF1qXwzgF1mRLS5lt7d3HJjU8flll/Cs8iz+tmOIlQrR2FQxEqsnFo9booor707wooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACvmH9pv4l3V1rLeErKRobK2VWvivWZmAZV/3Vxk19PV8mftNeA7rRvGL+IkiZtN1LaWljGBFOqbdjezhR/49XynE0sRHL5PD/wDb3p1OTFc/s3yHjVfQP7Jnikw32r+HpW+SRRew/XO1/wD2Svn6vbv2WfCd3eeLp9dKslhZwNB5v/PWVv4Poq/+y1+Z8PyqLMqfszzMNze0ifVVFFRzzpbQSTSsEjjUuzHsAMk1+77HvElRzwR3ULwzRrLE42sjjII9xXyn4n/ai8SXuqTHRUtbHTlb935sJklZP7zDtXZfCT9o+XxFrFtoniK2igubj5YLuA4V3/usp+6a+YpcRZfiK31eM9Tkjiac5ciZH4+/ZXt9Rumu/C93HYbzlrK63GL/AICw+ZfwrnPDP7KmtXF/G2vX9vZWQb5ls28yV/zTatfUgORmlp1OHcuq1fbOHy6fcV9Xp83NYzfDvh2w8K6Rb6bpluttZwLtSNe1O8QaFZ+JtGu9Lv4vOs7pDHIh7g1oUV9F7OHJ7O3u7WOi3Q+ZB+yXqA13Y+swnRt3EqK32jZ/d2/d3f7dfRXh7QLLwvo1rpenQi3s7ZAkca9hWjRXm4LK8Ll8pToRs5GcKUafwoKKKK9Y1CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKrajptrq9lNZ3tvHdWsylJIZVDKwPqDVmik0mrMDyp/2Z/A73wuBa3ix7t32ZbtxHn+f616RpGjWOgafDY6fax2lpCu2OKJdqqPQVdorjo4LDYZ81GmovyREYRjsgqhr+ntq2halYqdrXNtJCD6FlI/rV+iuyS5k0WfnZf6bc6RfXFjdwNbXUDeVLE/31aup+Ffg6+8Z+M7C3tklNvbzpcXNwn3I1V9wH+/X2drngfw/4lkWTVNGsr6VPuyTwKzD8SKvaToen6Dai202ygsYB0jt4wi/kK/OKPCCp4j2kqvunmrBpSvcvdKKKK/SD0gooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACsTxr4y0j4e+FNT8R69cmz0jTYTPcziNpCiDjO1QSeSOgrbrxL9tObyP2XfH7etnGv5zxj+tTJ8qbJk+VNml8NP2qfht8XfFC+HvC+uS3+qtA9wIXspohsXG75nQDuK9br8uP8AgnND537RxbbjytGvH/8AH4kr9R6xoVHVhzMww9R1Yc0goooroOkKKKKACvHPiv8AtbfDP4O382m61rhu9Zi/1ml6XEbidP8Afx8qf8CYV6Z4v1k+HfCet6svWwsZ7oZ/2I2b+lflT+yZ8BtP/ae8Z+JbfxHrOpWM0FqupNcWhjZ5ZZZfn3b1auerUlFqMVqzmrVJQajBas+nbr/gp94OjuNtv4N16eL/AJ6NLAh/75316l8C/wBtDwR8dfEi+HdPttS0fXHheeO21GNAsyr97YyOwJHpXmP/AA7C8Ef9Df4i/wC+bb/43Xd/Bf8AYY8H/Bbx5ZeLbHW9a1LU7JZFt0uXjWJN6FGyqoM/KzD8ayh9Y5vf2M4fWOb39j6RooortO0KKKKACiiigAooooAKKKKACiiigAooooAKy9e8UaN4Vt459a1ex0iCRtiS39ykCs3oCxAJrUr89v8AgqPqCzeJvh9prOrpHZ3s7RMc7d7xLv29+Fb8qyq1FTjzMxq1FSjzM/QdHWRQykMpGQQcginV5f8Asv6odY/Z5+Hlw0vnP/YltGzbt3KIE6/8Br1Cri+Z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",LW=640,LH=221;
-const CIR=["Circuito de alumbrado C1","Circuito de tomas de corriente de uso general C2","Circuito de cocina y horno C3","Circuito para lavadora, lavavajillas y termo eléctrico C4","Circuito para tomas de corriente de baños y auxiliares de cocina C5","Circuito adicional de alumbrado C6","Circuito adicional de tomas de corriente C7","Circuito de calefacción eléctrica C8","Circuito de aire acondicionado C9","Circuito de secadora independiente C10","Circuito de automatización y seguridad C11","Circuito adicional de cocina, lavado o baños C12","Circuito de recarga de vehículo eléctrico C13"];
-function nombres(){const k={},u={};st.rooms.forEach(r=>k[r.t]=(k[r.t]||0)+1);return st.rooms.map(r=>k[r.t]>1?r.t+" "+(u[r.t]=(u[r.t]||0)+1):r.t);}
-function detalle(c){
- const A=c.el_rows,B=c.te_rows,am=r=>r[2]*r[3],N=nombres();
- const por=f=>N.map((n,i)=>[n,f(c.R[i])]).filter(x=>x[1]>0).map(x=>`${x[0]}: ${nf(x[1])}`).join(" · ");
- const L=[];
- const add=(t,q,i,sub)=>{if(q>0)L.push({c:t,q,u:i/q,i,sub:sub||""});};
- add(`Equipo de protecciones de electrificación ${st.grado==="Elevada"?"elevada":"básica"}, con caja`,1,am(A[0])+am(A[1]),`${c.dif} ${c.dif>1?"diferenciales":"diferencial"} de 30 mA · ${c.nT} circuitos`);
- add("Punto de luz con interruptor o conmutador",A[3][2],am(A[3])+am(A[4]),por(r=>r.luz));
- add("Base de enchufe con toma de tierra",A[5][2]+A[6][2],am(A[5])+am(A[6]),por(r=>r.c2+r.c4+r.c5));
- add("Base de 25 A con toma de tierra para cocina y horno",A[7][2],am(A[7]));
- add("Pulsador de timbre",A[8][2],am(A[8]));
- add("Toma de calefacción eléctrica",A[9][2],am(A[9]),por(r=>r.c8));
- add("Toma de aire acondicionado",A[10][2],am(A[10]),por(r=>r.c9));
- add("Base de enchufe para secadora independiente",A[11][2],am(A[11]));
- CIR.forEach((t,i)=>add(t,c.n[i],c.metros[i]*c.euM[i]*c.f+c.n[i]*c.cu(PR[2])));
- add("Tramitación de boletines: certificado de instalación eléctrica",A[12][2],am(A[12]));
- add("Registro de terminación de red (RTR) equipado",B[0][2],am(B[0]));
- add("Toma de TV/FM",B[1][2],am(B[1]),por(r=>r.tv));
- add("Toma de datos RJ-45",B[2][2],am(B[2]),por(r=>r.tv));
- st.ex.filter(x=>+x.q>0&&+x.p>0).forEach(x=>L.push({c:x.d||"Otros trabajos",q:+x.q,u:+x.p,i:x.q*x.p,sub:""}));
- return L;
-}
-function resumen(c){
- const L=[st.emp||"Presupuesto","Instalación eléctrica y telecomunicaciones en vivienda"];
- if(st.num)L.push("Nº "+st.num);if(st.cli)L.push("Cliente: "+st.cli);if(st.dir)L.push("Vivienda: "+st.dir);
- L.push("");detalle(c).forEach(l=>{L.push(`${l.c}: ${nf(l.q)} × ${eur(l.u)} = ${eur(l.i)}`);if(l.sub)L.push("   "+l.sub);});
- if(st.dto)L.push(`Descuento (${nf(st.dto)} %): ${eur(c.dto)}`);
- L.push("",`Base imponible: ${eur(c.base)}`,`IVA (${st.iva} %): ${eur(c.iva)}`,`Total: ${eur(c.total)}`);
- return L.join("\n");
-}
-function makePDF(c){
- const WD={" ":278,".":278,",":278,"-":333,"%":889,"\x80":556};
- const enc=s=>String(s).replace(/€/g,"\x80").replace(/[–—]/g,"-").replace(/[’‘]/g,"'").replace(/[“”]/g,'"').replace(/[^\x00-\xFF]/g,"?");
- const wd=(s,z)=>[...s].reduce((a,ch)=>a+(WD[ch]||556),0)*z/1000;
- const pg=[""];let P=0,y=0;
- const T=(x,yy,s,z,b,r,g)=>{s=enc(s);pg[P]+=`${g?"0.4":"0"} g BT /${b?"F2":"F1"} ${z} Tf ${(r?x-wd(s,z):x).toFixed(1)} ${yy.toFixed(1)} Td (${s.replace(/[\\()]/g,"\\$&")}) Tj ET\n`;};
- const H=yy=>{pg[P]+=`0.7 G 0.5 w 50 ${yy.toFixed(1)} m 545 ${yy.toFixed(1)} l S\n`;};
- const wr=(s,n)=>{const r=[];let l="";s.split(" ").forEach(w=>{if((l+" "+w).trim().length>n){r.push(l);l=w;}else l=(l+" "+w).trim();});if(l)r.push(l);return r;};
- const cab=()=>{T(50,y,"Descripción",9,1);T(335,y,"Ud",9,1);T(395,y,"Cant.",9,1,1);T(465,y,"Precio unit.",9,1,1);T(545,y,"Importe",9,1,1);y-=6;H(y);y-=14;};
- const hoja=()=>{P++;pg[P]="";y=800;T(50,y,(st.emp||"Presupuesto")+(st.num?" · Nº "+st.num:""),10,1);y-=24;};
- const lw=170,lh=lw*LH/LW;
- pg[0]+=`q ${lw} 0 0 ${lh.toFixed(1)} 50 ${(812-lh).toFixed(1)} cm /Im1 Do Q\n`;
- T(545,800,st.num?"Nº "+st.num:"",10,0,1);T(545,786,new Date().toLocaleDateString("es-ES"),10,0,1);
- y=812-lh-22;
- T(50,y,"Presupuesto de instalación eléctrica y telecomunicaciones en vivienda",11,1);y-=18;
- if(st.cli){T(50,y,"Cliente: "+st.cli,10);y-=14;}
- if(st.dir){T(50,y,"Vivienda: "+st.dir,10);y-=14;}
- y-=10;cab();
- detalle(c).forEach(l=>{
-  const w=wr(l.c,56),sb=l.sub?wr(l.sub,105):[];
-  if(y-(w.length*12+sb.length*10+14)<70){hoja();cab();}
-  T(50,y,w[0],9);T(335,y,"Ud",9);T(395,y,nf(l.q),9,0,1);T(465,y,eur(l.u),9,0,1);T(545,y,eur(l.i),9,0,1);
-  w.slice(1).forEach(t=>{y-=12;T(50,y,t,9);});
-  sb.forEach(t=>{y-=10;T(58,y,t,8,0,0,1);});
-  y-=8;H(y);y-=14;
- });
- if(y<130)hoja();
- y-=6;
- if(st.dto){T(465,y,`Descuento (${nf(st.dto)} %)`,10,0,1);T(545,y,eur(c.dto),10,0,1);y-=15;}
- T(465,y,"Base imponible",10,0,1);T(545,y,eur(c.base),10,0,1);y-=15;
- T(465,y,`IVA (${st.iva} %)`,10,0,1);T(545,y,eur(c.iva),10,0,1);y-=20;
- T(465,y,"Total",13,1,1);T(545,y,eur(c.total),13,1,1);
- pg.forEach((_,i)=>{P=i;T(545,28,`Página ${i+1} de ${pg.length}`,8,0,1,1);});
- const jb=atob(LOGO.split(",")[1]);
- const ob=["<< /Type /Catalog /Pages 2 0 R >>",`<< /Type /Pages /Kids [${pg.map((_,i)=>`${6+2*i} 0 R`).join(" ")}] /Count ${pg.length} >>`,"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>","<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>",`<< /Type /XObject /Subtype /Image /Width ${LW} /Height ${LH} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jb.length} >>\nstream\n${jb}\nendstream`];
- pg.forEach((o,i)=>{ob.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> /XObject << /Im1 5 0 R >> >> /Contents ${7+2*i} 0 R >>`);ob.push(`<< /Length ${o.length} >>\nstream\n${o}endstream`);});
- let p="%PDF-1.4\n";const off=[];
- ob.forEach((x,i)=>{off.push(p.length);p+=`${i+1} 0 obj\n${x}\nendobj\n`;});
- const xr=p.length;
- p+=`xref\n0 ${ob.length+1}\n0000000000 65535 f \n`+off.map(n=>String(n).padStart(10,"0")+" 00000 n \n").join("")+`trailer\n<< /Size ${ob.length+1} /Root 1 0 R >>\nstartxref\n${xr}\n%%EOF`;
- return new Blob([Uint8Array.from(p,ch=>ch.charCodeAt(0)&255)],{type:"application/pdf"});
-}
-//PDF-END
-const msg=t=>{$("#msg").textContent=t;};
-function pdfView(c){
- const tot=`<div class="tot">${st.dto?`<div><span>Descuento (${nf(st.dto)} %)</span><span>${eur(c.dto)}</span></div>`:""}<div><span>Base imponible</span><span>${eur(c.base)}</span></div><div><span>IVA (${st.iva} %)</span><span>${eur(c.iva)}</span></div><div class="g"><span>Total</span><span>${eur(c.total)}</span></div></div>`;
- $("#pdf").innerHTML=`<img src="${LOGO}" alt="${esc(st.emp)}"><p><b>Presupuesto de instalación eléctrica y telecomunicaciones en vivienda</b>${st.num?" · Nº "+esc(st.num):""} · ${new Date().toLocaleDateString("es-ES")}</p>${st.cli?`<p>Cliente: ${esc(st.cli)}</p>`:""}${st.dir?`<p>Vivienda: ${esc(st.dir)}</p>`:""}<table><thead><tr><th>Descripción</th><th>Ud</th><th>Cant.</th><th>Precio unit.</th><th>Importe</th></tr></thead><tbody>${detalle(c).map(l=>`<tr><td>${esc(l.c)}${l.sub?`<div class="sb">${esc(l.sub)}</div>`:""}</td><td>Ud</td><td>${nf(l.q)}</td><td>${eur(l.u)}</td><td>${eur(l.i)}</td></tr>`).join("")}</tbody></table>${tot}`;
-}
-$("#pdfb").onclick=async()=>{
- try{
-  const b=makePDF(calc()),n="presupuesto"+(st.num?"-"+st.num.replace(/[^\w-]/g,""):"")+".pdf";
-  let f=null;try{f=new File([b],n,{type:"application/pdf"});}catch(e){}
-  if(f&&navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:"Presupuesto"});msg("PDF compartido.");return;}catch(e){if(e.name==="AbortError")return;}}
-  const u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=n;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),6e4);
-  msg("PDF generado. Si no se descarga, usa Compartir como texto.");
- }catch(e){msg("No se pudo crear el PDF: "+e.message);}
-};
-$("#share").onclick=async()=>{const t=resumen(calc());msg("");try{if(navigator.share){await navigator.share({title:"Presupuesto",text:t});return;}}catch(e){if(e.name==="AbortError")return;}$("#mt").value=t;$("#mod").hidden=false;};
-$("#mc").onclick=async()=>{const t=$("#mt");t.select();t.setSelectionRange(0,99999);let ok=false;try{ok=document.execCommand("copy");}catch(e){}if(!ok&&navigator.clipboard){try{await navigator.clipboard.writeText(t.value);ok=true;}catch(e){}}msg(ok?"Resumen copiado.":"Selecciona el texto y cópialo a mano.");if(ok)$("#mod").hidden=true;};
-$("#mx").onclick=()=>{$("#mod").hidden=true;};
-$("#pr").onclick=()=>{try{window.print();}catch(e){}msg("Si no se abre la impresión, usa Guardar o compartir PDF.");};
-function update(){
- const c=calc();
- document.querySelectorAll("#rl .pts").forEach((p,i)=>{const r=c.R[i];p.textContent=`${r.luz} luces · ${r.c2+r.c3+r.c4+r.c5} bases`+(r.tv?" · TV y datos":"")+(r.tim?" · timbre":"");});
- document.querySelectorAll("#cb .cn").forEach((p,i)=>p.textContent=`Circuitos: ${c.n[i]} · Metros: ${c.metros[i]}`);
- $("#rs").textContent=`${nf(c.S)} m² · ${c.R.reduce((a,r)=>a+r.luz,0)} puntos de luz · ${c.nT} circuitos · ${c.dif} diferenciales de 30 mA`;
- const a=$("#aviso");
- if(st.grado==="Básica"&&c.min==="Elevada"){a.className="warn";a.textContent="Con estas especificaciones la ITC-BT-25 exige electrificación elevada. Cambia el grado.";}
- else if(st.grado==="Elevada"&&c.min==="Básica"){a.className="mut";a.textContent="Elevada sin que se exija: válido si el cliente la solicita.";}
- else{a.className="ok";a.textContent="Grado compatible con las especificaciones.";}
- const row=r=>`<div class="ln"><span>${r[1]}<small>${nf(r[2])} × ${eur(r[3])}</small></span><b>${eur(r[2]*r[3])}</b></div>`;
- const sec=(t,rows,s)=>`<div class="sec">${t}</div>${rows.filter(r=>r[2]>0).map(row).join("")}<div class="sub"><span>Subtotal</span><span>${eur(s)}</span></div>`;
- $("#pl").innerHTML=sec("Instalación eléctrica",c.el_rows,c.sEl)+sec("Telecomunicaciones",c.te_rows,c.sTe);
- $("#tot").innerHTML=`<div><span>Suma de partidas</span><span>${eur(c.sum1)}</span></div><div><span>Descuento (${nf(st.dto)} %)</span><span>${eur(c.dto)}</span></div><div><span>Base imponible</span><span>${eur(c.base)}</span></div><div><span>IVA (${st.iva} %)</span><span>${eur(c.iva)}</span></div><div class="g"><span>Total</span><span>${eur(c.total)}</span></div>`;
- const rf=c.m2<c.ref[0]?"por debajo del":c.m2>c.ref[1]?"por encima del":"dentro del";
- $("#ref").textContent=`Eléctrico + ICT: ${eur(c.m2)}/m², ${rf} rango de referencia (${c.ref[0]}–${c.ref[1]} €/m², sin IVA).`;
- $("#b2").textContent=eur(c.total);$("#b3").textContent=eur(c.m2)+"/m²";
- pdfView(c);
- save();
-}
-build();update();
+
+/* ================= ARRANQUE ================= */
+build();ibuild();setMode(mode);
+
 </script>
 </body>
 </html>
