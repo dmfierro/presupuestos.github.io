@@ -592,6 +592,15 @@ const BASE0={
  f:{p1:.55,p3:.8,sup:1.45,sel:1.4,iga:1.15},
  fix:{caja:[55,.7],icp:[45,.2],acc:[14,.3],pp:[30,.5],mont:[0,1.2],sob:[90,.4],mt:[0,.12],dif:[0,.2],dl:[0,.35],toma:[12,.25],int:[14,.2],cruce:[19.3,.2],conm:[16.5,.2],pul:[15,.2],tv:[9,.3],dat:[8,.3],timb:[10,.3],cajam:[1.5,.1],ppm:[3,.15],reg:[2.5,.2]}};
 const BASE=JSON.parse(JSON.stringify(BASE0));
+/* Tarifa tipo CYPE (generadordeprecios.info): precio de partida con mano de obra incluida, material de marca. */
+const BASEC={
+ mt2:[[10,50],[16,52],[20,56],[25,60],[32,66],[40,75],[50,90],[63,105],[80,140],[100,170],[125,210]],
+ mt4:[[10,76],[16,78.6],[20,80],[25,82],[32,95],[40,110],[50,130],[63,150],[80,200],[100,250],[125,320]],
+ d2:[[25,150],[40,160],[63,200],[80,260]],
+ d4:[[25,269.47],[40,290],[63,340],[80,420],[100,520]],
+ f:{p1:.65,p3:.8,sup:1.5,sel:1.87,iga:1},
+ fix:{mt:[0,0],dif:[0,0],cruce:[19.26,.204],conm:[16.47,.2]}};
+function cargarBase(src){["mt2","mt4","d2","d4"].forEach(k=>{BASE[k]=JSON.parse(JSON.stringify(src[k]));});Object.assign(BASE.f,src.f);Object.keys(src.fix).forEach(k=>{BASE.fix[k]=src.fix[k].slice();});}
 const BNAME={mt2:"Magnetotérmico 2P, curva C 10 kA",mt4:"Magnetotérmico / IGA 4P, curva C 10 kA",d2:"Diferencial instantáneo 2P 30 mA (clase A)",d4:"Diferencial instantáneo 4P 30 mA (clase A)",led:"Downlight / panel LED 4000 K (por W)"};
 const FNAME={p1:"Magnetotérmico 1P = 2P ×",p3:"Magnetotérmico 3P = 4P ×",sup:"Recargo superinmunizado ×",sel:"Recargo selectivo ×",iga:"IGA = magnetotérmico ×"};
 const XNAME={caja:"Caja empotrable de cuadro con puerta",icp:"ICP (control de potencia)",acc:"Accesorios, regletas y fijación",pp:"Parte proporcional de cable y tubo",mont:"Replanteo, montaje, conexionado y pruebas",sob:"Protector contra sobretensiones",mt:"Montaje de un magnetotérmico",dif:"Montaje de un diferencial",dl:"Instalación de una luminaria",toma:"Base de toma de corriente",int:"Interruptor (con marco, sin caja)",cruce:"Conmutador de cruce",conm:"Conmutador",pul:"Pulsador",tv:"Toma de TV/FM",dat:"Toma de datos",timb:"Timbre o zumbador",cajam:"Caja de mecanismo",ppm:"Parte proporcional de tubo y línea de mecanismo",reg:"Caja de registro o derivación"};
@@ -717,7 +726,7 @@ function ibuild(){
  $("#icp").innerHTML=`<div class="pi"><b>Cable (mismos precios que Vivienda, para 3 conductores)</b>${LN.map((l,i)=>`<div class="g3"><label>${l[0]} mm² · €/m${num("data-lc",l[1],i+".1")}</label><label>h/m${num("data-lc",l[2],i+".2")}</label></div>`).join("")}<p class="mut">Con más de 3 conductores el precio sube proporcionalmente (n/3).</p></div>`+
   `<div class="pi"><b>Tubos y bandejas</b><div class="g2">${Object.keys(CP.tub).filter(t=>t!=="Sin tubo").map(t=>`<label>${esc(t)}${num("data-cp",CP.tub[t],"tub|"+t)}</label>`).join("")}</div></div>`;
  $("#icc").innerHTML=CATL.map((c,i)=>`<div class="pi"><b>${esc(c.res)}</b> <span class="mut">(${c.u})</span>${c.sp?`<p class="mut">Se calcula desde cable y tubo (${c.sp.len} m por unidad); aquí puedes forzar otros valores.</p>`:""}<div class="g4"><label>Material (€/${c.u})${num("data-cat",c.mat,i+".mat")}</label><label>Horas por ${c.u}${num("data-cat",c.hor,i+".hor")}</label></div></div>`).join("");
- $("#ibs").innerHTML=Object.keys(BNAME).map(k=>`<div class="pi"><b>${BNAME[k]}</b><div class="g3">${BASE[k].map((e,j)=>`<label>${e[0]} ${k==="led"?"W":"A"}${num("data-bs",e[1],k+"."+j+".1")}</label>`).join("")}</div></div>`).join("")+`<div class="pi"><b>Recargos</b><div class="g3">${Object.keys(FNAME).map(k=>`<label>${FNAME[k]}${num("data-bs",BASE.f[k],"f."+k)}</label>`).join("")}</div></div><div class="pi"><b>Otros componentes (material €, horas)</b>${Object.keys(XNAME).map(k=>`<div class="g3"><label>${XNAME[k]}${num("data-bs",BASE.fix[k][0],"fix."+k+".0")}</label><label>Horas${num("data-bs",BASE.fix[k][1],"fix."+k+".1")}</label></div>`).join("")}</div>`;
+ $("#ibs").innerHTML=`<div class="g2"><button type="button" class="s" id="bcype">Cargar tarifa tipo CYPE</button><button type="button" class="s" id="bdist">Cargar tarifa distribuidor</button></div><p class="mut">CYPE: precio de partida con mano de obra incluida (pon el margen a tu gusto). Distribuidor: material de tienda y horas aparte.</p>`+Object.keys(BNAME).map(k=>`<div class="pi"><b>${BNAME[k]}</b><div class="g3">${BASE[k].map((e,j)=>`<label>${e[0]} ${k==="led"?"W":"A"}${num("data-bs",e[1],k+"."+j+".1")}</label>`).join("")}</div></div>`).join("")+`<div class="pi"><b>Recargos</b><div class="g3">${Object.keys(FNAME).map(k=>`<label>${FNAME[k]}${num("data-bs",BASE.f[k],"f."+k)}</label>`).join("")}</div></div><div class="pi"><b>Otros componentes (material €, horas)</b>${Object.keys(XNAME).map(k=>`<div class="g3"><label>${XNAME[k]}${num("data-bs",BASE.fix[k][0],"fix."+k+".0")}</label><label>Horas${num("data-bs",BASE.fix[k][1],"fix."+k+".1")}</label></div>`).join("")}</div>`;
  irender();
 }
 const specUI=(l,i)=>{const s=l.sp||{cab:Object.keys(CP.cab)[0],n:0,sec:2.5,tub:"Sin tubo",len:1};
@@ -1144,6 +1153,7 @@ document.addEventListener("click",e=>{
  if(d.dgre!==undefined){const l=si.l[+d.dgre];l.dgm=false;const k=valorarPartida(l,true);irender();msgOf("ind").textContent=k==="dg"?"Texto releído y partida valorada por componentes.":k==="sin"?"No he reconocido componentes en el texto: añádelos a mano.":"Partida valorada.";return;}
  if(d.dgadd!==undefined){const l=si.l[+d.dgadd];l.dg=l.dg||[];l.dg.push({t:"",q:1,mat:0,hor:0});l.dgm=true;irender();return;}
  if(d.dgdel!==undefined){const [i,j]=d.dgdel.split(".");const l=si.l[i];l.dg.splice(j,1);l.dgm=true;applyDg(l);irender();return;}
+ if(id==="bcype"||id==="bdist"){cargarBase(id==="bcype"?BASEC:BASE0);saveI();ibuild();msgOf("ind").textContent=id==="bcype"?"Cargada la tarifa tipo CYPE. Pulsa «Calcular todo» para revalorar las partidas.":"Cargada la tarifa de distribuidor. Pulsa «Calcular todo» para revalorar las partidas.";return;}
  if(id==="icalcall"){const r=calcularTodo();msgOf("ind").textContent=`Calculado: ${r.dg} por componentes, ${r.spec} por cable y tubo, ${r.cat} con el catálogo, ${r.man} con precio manual, ${r.sin} sin reconocer.`;return;}
  if(d.calc!==undefined){const l=si.l[+d.calc];l.dg=[];if(!l.sp)l.sp={cab:Object.keys(CP.cab)[0],n:0,sec:2.5,tub:"Sin tubo",len:1};const r=specCalc(l.sp);l.mat=r.mat;l.hor=r.hor;irender();return;}
 });
