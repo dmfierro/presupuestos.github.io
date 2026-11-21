@@ -165,7 +165,7 @@ nav button.on{color:var(--acc)}
 <section class="v" id="i0">
 <p class="mut">Toca una partida (el círculo con flecha) para abrirla o cerrarla; la ✕ de la derecha la elimina. Cada partida lleva código, resumen, descripción, características, mediciones, cantidad, material y horas. Todo se puede editar a mano.</p>
 <div class="card"><b>Añadir partidas</b>
-<label class="fbtn">Adjuntar PDF o foto (lectura automática con OCR)<input type="file" id="ipdf" accept="application/pdf,image/*" class="vh"></label>
+<label class="fbtn">Adjuntar PDF, foto o Excel (.xlsx)<input type="file" id="ipdf" accept="application/pdf,image/*,.xlsx,.xls" class="vh"></label>
 <p class="mut">Sirve también con PDF escaneados o protegidos. La primera vez descarga el lector (hace falta internet).</p>
 <div class="row2"><button type="button" class="s" id="ipeg">Pegar partida</button><button type="button" id="ibl">+ Partida en blanco</button></div>
 <button type="button" class="s" id="icap" style="width:100%">+ Capítulo</button>
@@ -840,7 +840,7 @@ const ampDe=s=>{const m=s.match(/(\d+(?:[.,]\d+)?)\s*A\b/);return m?+m[1].replac
 const mtPrecio=(p,A)=>p>=3?pickA(BASE.mt4,A)*(p===3?BASE.f.p3:1):pickA(BASE.mt2,A)*(p===1?BASE.f.p1:1);
 function difPrecio(p,A,s){let v=pickA(p>=3?BASE.d4:BASE.d2,A);if(/superinmuniz|HPI|\bSI\b/i.test(s))v*=BASE.f.sup;if(/selectivo/i.test(s))v*=BASE.f.sel;return v;}
 function compDe(seg){
- const t=seg.replace(/\s+/g," ").trim(),p=polosDe(t),A=ampDe(t),mA=(t.match(/(\d+)\s*mA/i)||[])[1];
+ const t=seg.replace(/\s+/g," ").trim(),p=(t.match(/(?<![\d.,])([1-4])\s*[xX]\s*\d+\s*A\b/)||[])[1]?+t.match(/(?<![\d.,])([1-4])\s*[xX]\s*\d+\s*A\b/)[1]:polosDe(t),A=ampDe(t),mA=(t.match(/(\d+)\s*mA/i)||[])[1];
  const X=BASE.fix;
  if(/sobretensi/i.test(t)&&!/interruptor general/i.test(t))return {t:"Protector contra sobretensiones",q:1,mat:X.sob[0],hor:X.sob[1]};
  if(/diferencial/i.test(t)){const ex=(/selectivo/i.test(t)?" selectivo":"")+(/superinmuniz/i.test(t)?" superinmunizado":"");
@@ -865,12 +865,12 @@ function desglosar(l){
  const txt=((l.desc||"")+"").replace(/\s+/g," ").trim(),X=BASE.fix,items=[];
  const ti=txt.search(/Incluso elementos de fijaci|Incluso parte proporcional|Totalmente montado|Incluye:/i);
  const body=ti>=0?txt.slice(0,ti):txt,tail=ti>=0?txt.slice(ti):"";
- const parts=body.split(/\s-\s+(?=[A-ZÁÉÍÓÚÑ])/),intro=parts[0],bul=parts.slice(1);
+ const parts=body.split(/\s-\s*(?=\d+\s*ud|[A-ZÁÉÍÓÚÑ])/i),intro=parts[0],bul=parts.slice(1);
  let nDev=0;
  if(bul.length){
-  if(/caja|armario|envolvente|cuadro/i.test(intro))items.push({t:"Caja empotrable de cuadro con puerta y cerradura",q:1,mat:X.caja[0],hor:X.caja[1]});
+  if(/caja|armario|envolvente/i.test(intro))items.push({t:"Caja empotrable de cuadro con puerta y cerradura",q:1,mat:X.caja[0],hor:X.caja[1]});
   if(/\bICP\b/.test(intro)&&/incluido en este precio/i.test(intro)&&!/no incluido/i.test(intro))items.push({t:"ICP (control de potencia)",q:1,mat:X.icp[0],hor:X.icp[1]});
-  bul.forEach(b=>{const c=compDe(b);if(c){items.push(c);nDev++;}});
+  bul.forEach(b=>{const c=compDe(b);if(c){const qm=b.match(/^\s*(\d+)\s*ud/i);if(qm)c.q=+qm[1];items.push(c);nDev++;}});
  }
  if(nDev){
   if(/elementos de fijaci|regleta|accesorios/i.test(tail+body))items.push({t:"Accesorios, regletas y fijación",q:1,mat:X.acc[0],hor:X.acc[1]});
@@ -1148,8 +1148,46 @@ document.addEventListener("click",e=>{
  if(d.calc!==undefined){const l=si.l[+d.calc];l.dg=[];if(!l.sp)l.sp={cab:Object.keys(CP.cab)[0],n:0,sec:2.5,tub:"Sin tubo",len:1};const r=specCalc(l.sp);l.mat=r.mat;l.hor=r.hor;irender();return;}
 });
 
+
+/* ---- importar Excel de presupuesto (CÓDIGO, UD, RESUMEN, UDS, LONGITUD, ANCHURA, ALTURA, PARCIAL, CANTIDAD, PRECIO) ---- */
+const XLSXJS="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js";
+function importarFilas(aoa){
+ const st2={n:0,cap:0,dg:0,spec:0,cat:0,sin:0,pr:0};let cur=null,hd=false;
+ const num=v=>{if(v===""||v==null)return 0;const x=typeof v==="number"?v:parseFloat(String(v).replace(",","."));return isFinite(x)?x:0;};
+ const txt=v=>v==null?"":String(v).replace(/&nbsp;|\u00a0/g," ").trim();
+ aoa.forEach(r=>{
+  const c0=txt(r[0]),u=txt(r[1]),t=txt(r[2]),nm=[3,4,5,6].map(i=>num(r[i])),hasN=nm.some(x=>x);
+  if(!hd){if(/^c[oó]digo$/i.test(c0)&&/^ud/i.test(u))hd=true;return;}
+  if(/^\d+$/.test(c0)&&t&&!u){si.l.push({tipo:"cap",cod:c0,res:t});st2.cap++;cur=null;return;}
+  if(/^\d+(\.\d+)+$/.test(c0)||(/^\d+[.,]\d+$/.test(c0)&&t)){
+   cur=Object.assign(blank(),{cod:c0,u:fixU(u||"Ud"),res:t,desc:"",med:[],open:false});
+   const pr=num(r[9]);if(pr>0){cur.pm=pr;st2.pr++;}
+   si.l.push(cur);st2.n++;return;}
+  if(!cur)return;
+  if(/^total\b/i.test(t)){return;}
+  if(t&&!hasN){cur.desc+=(cur.desc?"\n":"")+t;return;}
+  if(hasN){cur.med.push({t:t,n:nm[0],l:nm[1],a:nm[2],h:nm[3]});}
+ });
+ si.l.forEach(l=>{if(l.tipo==="cap")return;if(!l.med.length)l.med=[{t:"",n:1,l:0,a:0,h:0}];
+  l.desc=l.desc.replace(/\n\s*-\s*/g," - ").replace(/\s*\n\s*/g," ").replace(/\s+/g," ").trim();
+  const k=valorarPartida(l,true);if(k==="dg")st2.dg++;else if(k==="spec")st2.spec++;else if(k==="cat")st2.cat++;else st2.sin++;});
+ return st2;
+}
+async function leerExcel(f){
+ if(busy)return;busy=true;
+ try{omsg("Abriendo "+f.name+"…");
+  if(!window.XLSX)await loadScript(XLSXJS);
+  const wb=XLSX.read(await f.arrayBuffer(),{type:"array"});
+  let best=null,bn=0;wb.SheetNames.forEach(n=>{const a=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:true,defval:""});if(a.length>bn&&a.some(r=>/^c[oó]digo$/i.test(String(r[0]).trim())))(best=a,bn=a.length);});
+  if(!best)throw new Error("No encuentro una hoja con las columnas CÓDIGO, UD, RESUMEN…");
+  const r=importarFilas(best);irender();
+  const m=`Excel leído: ${r.n} partidas y ${r.cap} capítulos. ${r.dg} valoradas por componentes, ${r.spec} por cable y tubo, ${r.cat} con el catálogo, ${r.sin} sin reconocer (ponles precio a mano).`;
+  omsg(m);msgOf("ind").textContent=m;
+ }catch(x){omsg("No se pudo leer el Excel: "+x.message);}
+ busy=false;
+}
 /* ================= ARRANQUE ================= */
-document.addEventListener("change",e=>{if(e.target.id==="ipdf"){const f=e.target.files[0];e.target.value="";if(f)leerArchivo(f);}});
+document.addEventListener("change",e=>{if(e.target.id==="ipdf"){const f=e.target.files[0];e.target.value="";if(f){if(/\.xlsx?$/i.test(f.name))leerExcel(f);else leerArchivo(f);}}});
 build();ibuild();setMode(mode);
 
 </script>
